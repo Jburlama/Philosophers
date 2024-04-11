@@ -6,13 +6,15 @@
 /*   By: jburlama <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/11 18:25:19 by jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/11 19:03:15 by jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
+	(void)argc;
+	(void)argv;
 	return (0);
 }
