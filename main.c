@@ -6,7 +6,7 @@
 /*   By: jburlama <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/11 19:03:15 by jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/11 19:26:03 by jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,19 @@
 
 int	main(int argc, char *argv[])
 {
-	(void)argc;
 	(void)argv;
+	if (argc != 5 && argc != 6)
+		return (invalid_args("invalid number of arguments\n"));
 	return (0);
+}
+
+int	invalid_args(char *err_msg)
+{
+	int	msg_len;
+
+	msg_len = 0;
+	while(err_msg[msg_len])
+		msg_len++;
+	write(2, err_msg, msg_len);
+	return (1);
 }
