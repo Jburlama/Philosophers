@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jburlama <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 18:19:12 by jburlama          #+#    #+#              #
-#    Updated: 2024/04/13 16:43:16 by jburlama         ###   ########.fr        #
+#    Updated: 2024/04/13 19:41:42 by Jburlama         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
-CFILES = main.c check_error.c
+CFILES = main.c check_error.c data_init.c
 
 all: ${NAME}
 

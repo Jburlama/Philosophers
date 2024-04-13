@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jburlama <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/13 17:17:22 by jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/13 19:40:51 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <pthread.h>
 # include <unistd.h>
 # include <stdbool.h>
+# include <string.h>
 
 # define MAX_PHILO 200
 
@@ -29,12 +30,13 @@ typedef struct s_args
 	long	times_must_eat;
 }				t_args;
 
-typedef struct s_data 
+typedef struct s_data
 {
 	t_args	args;
 }				t_data;
 
-void	set_data(int argc, char *argv[], t_data *data);
+// data_init.c
+int		set_data(int argc, char *argv[], t_data *data);
 long	atoul(char	*str);
 
 // check_error.c
