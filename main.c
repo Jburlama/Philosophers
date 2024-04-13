@@ -6,7 +6,7 @@
 /*   By: jburlama <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/13 17:26:53 by jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/13 17:46:29 by jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,7 @@ void	set_data(int argc, char *argv[], t_data *data)
 	data->args.time_sleep = atoul(argv[4]);
 	if (argc == 6)
 		data->args.times_must_eat = atoul(argv[5]);
-	
 
-	printf("%ld\n", data->args.philo_num);
-	printf("%ld\n", data->args.time_die);
-	printf("%ld\n", data->args.time_eat);
-	printf("%ld\n", data->args.time_sleep);
 	if (argc == 6)
 		printf("%ld\n", data->args.times_must_eat);
 }
