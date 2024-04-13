@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/13 19:40:51 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/13 20:24:47 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <string.h>
+# include <limits.h>
 
 # define MAX_PHILO 200
 
