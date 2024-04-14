@@ -6,7 +6,7 @@
 #    By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 18:19:12 by jburlama          #+#    #+#              #
-#    Updated: 2024/04/13 19:41:42 by Jburlama         ###   ########.fr        #
+#    Updated: 2024/04/14 16:16:17 by Jburlama         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,6 @@ clean:
 fclean: clean
 	rm -rf ${NAME}
 
-re:
-	make fclean
-	make ${NAME}
+re: fclean ${NAME}
 
 .PHONY: clean re fclean
