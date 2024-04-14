@@ -6,19 +6,20 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/13 20:24:47 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:12:11 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <stdio.h>
+# include <limits.h>
 # include <pthread.h>
-# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
 # include <stdbool.h>
 # include <string.h>
-# include <limits.h>
+# include <unistd.h>
 
 # define MAX_PHILO 200
 
@@ -33,8 +34,15 @@ typedef struct s_args
 
 typedef struct s_data
 {
-	t_args	args;
+	t_args			args;
+	int				philo_id;
+	pthread_t		*philo;
+	pthread_mutex_t	mutex_printf;
 }				t_data;
+
+int		start_diner(t_data *data);
+void	*philo(void *data);
+void	join_threads(t_data *data);
 
 // data_init.c
 int		set_data(int argc, char *argv[], t_data *data);

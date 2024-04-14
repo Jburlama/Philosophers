@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/13 20:24:52 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:12:08 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,43 @@ int	main(int argc, char *argv[])
 	if (!check_valid_args(argc, argv))
 		return (panic("invalid arguments\n"));
 	if (set_data(argc, argv, &data) == -1)
-		return (panic("philo number between 0-200\n"));
+		return (panic("philo number between 1-200\n"));
+	if (start_diner(&data) == -1)
+		return (panic("Error starting dinner!\n"));
 	return (0);
+}
+
+int	start_diner(t_data *data)
+{
+	pthread_mutex_init(&data->mutex_printf, NULL);
+	data->philo = malloc(sizeof(pthread_t) * data->args.philo_num);
+	if (data->philo == NULL)
+		return (-1);
+	data->philo_id = 1;
+	while (data->philo_id <= data->args.philo_num)
+	{
+		pthread_create(&data->philo[data->philo_id], NULL, philo, data);
+		join_threads(data);
+	}
+	return (0);
+}
+
+void	*philo(void *data)
+{
+	pthread_mutex_lock(&((t_data *)data)->mutex_printf);
+	printf("hello from thread id %i\n", ((t_data *)data)->philo_id);
+	((t_data *)data)->philo_id++;
+	pthread_mutex_unlock(&((t_data *)data)->mutex_printf);
+	return (NULL);
+}
+
+void	join_threads(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->args.philo_num)
+	{
+		pthread_join(data->philo[i], NULL);
+	}
 }
