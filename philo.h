@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/14 16:17:56 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:57:19 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,18 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <string.h>
+# include <sys/time.h>
 # include <unistd.h>
 
 # define MAX_PHILO 200
 
 typedef struct s_args
 {
-	long	philo_num;
-	long	time_die;
-	long	time_eat;
-	long	time_sleep;
-	long	times_must_eat;
+	size_t	philo_num;
+	size_t	time_die;
+	size_t	time_eat;
+	size_t	time_sleep;
+	size_t	times_must_eat;
 }				t_args;
 
 typedef struct s_data
@@ -37,6 +38,7 @@ typedef struct s_data
 	t_args			args;
 	int				philo_id;
 	pthread_t		*philo;
+	struct timeval	tv;
 	pthread_mutex_t	mutex_printf;
 }				t_data;
 

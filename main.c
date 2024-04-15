@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/14 16:17:58 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:59:24 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,19 @@ int	main(int argc, char *argv[])
 
 int	start_diner(t_data *data)
 {
+	size_t	i;
+
 	pthread_mutex_init(&data->mutex_printf, NULL);
 	data->philo = malloc(sizeof(pthread_t) * data->args.philo_num);
 	if (data->philo == NULL)
 		return (-1);
 	data->philo_id = 1;
-	while (data->philo_id <= data->args.philo_num)
+	i = -1;
+	while (++i < data->args.philo_num)
 	{
-		pthread_create(&data->philo[data->philo_id], NULL, philo, data);
-		join_threads(data);
+		pthread_create(&data->philo[i], NULL, philo, data);
 	}
+	join_threads(data);
 	return (0);
 }
 
@@ -52,7 +55,7 @@ void	*philo(void *data)
 
 void	join_threads(t_data *data)
 {
-	int	i;
+	size_t	i;
 
 	i = -1;
 	while (++i < data->args.philo_num)
