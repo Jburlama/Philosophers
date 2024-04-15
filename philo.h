@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/15 19:01:54 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/15 19:03:59 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	join_threads(t_data *data);
 
 // data_init.c
 int		set_data(int argc, char *argv[], t_data *data);
-long	atoul(char	*str);
+size_t	atoul(char	*str);
 
 // check_error.c
 int		panic(char *err_msg);

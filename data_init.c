@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:40:08 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/15 19:01:09 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/15 19:05:05 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	set_data(int argc, char *argv[], t_data *data)
 	return (0);
 }
 
-long	atoul(char	*str)
+size_t	atoul(char	*str)
 {
-	long	result;
+	size_t	result;
 	int		i;
 
 	result = 0;
