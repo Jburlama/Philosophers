@@ -6,13 +6,13 @@
 #    By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 18:19:12 by jburlama          #+#    #+#              #
-#    Updated: 2024/04/13 19:41:42 by Jburlama         ###   ########.fr        #
+#    Updated: 2024/04/14 16:28:53 by Jburlama         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
 CFILES = main.c check_error.c data_init.c
 
 all: ${NAME}
@@ -25,8 +25,6 @@ clean:
 fclean: clean
 	rm -rf ${NAME}
 
-re:
-	make fclean
-	make ${NAME}
+re: fclean ${NAME}
 
 .PHONY: clean re fclean
