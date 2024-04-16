@@ -3,39 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jburlama <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/13 17:17:22 by jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/15 19:09:59 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <stdio.h>
+# include <limits.h>
 # include <pthread.h>
-# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
 # include <stdbool.h>
+# include <string.h>
+# include <sys/time.h>
+# include <unistd.h>
 
 # define MAX_PHILO 200
 
 typedef struct s_args
 {
-	long	philo_num;
-	long	time_die;
-	long	time_eat;
-	long	time_sleep;
-	long	times_must_eat;
+	size_t	philo_num;
+	size_t	time_die;
+	size_t	time_eat;
+	size_t	time_sleep;
+	size_t	times_must_eat;
 }				t_args;
 
-typedef struct s_data 
+typedef struct s_data
 {
-	t_args	args;
+	t_args			args;
+	int				philo_id;
+	pthread_t		*philo;
+	struct timeval	tv;
+	pthread_mutex_t	mutex_printf;
 }				t_data;
 
-void	set_data(int argc, char *argv[], t_data *data);
-long	atoul(char	*str);
+int		start_diner(t_data *data);
+void	*philo(void *data);
+void	join_threads(t_data *data);
+
+// data_init.c
+int		set_data(int argc, char *argv[], t_data *data);
+size_t	atos_t(char	*str);
 
 // check_error.c
 int		panic(char *err_msg);

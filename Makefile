@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jburlama <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 18:19:12 by jburlama          #+#    #+#              #
-#    Updated: 2024/04/13 16:43:16 by jburlama         ###   ########.fr        #
+#    Updated: 2024/04/15 19:06:26 by Jburlama         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread
-CFILES = main.c check_error.c
+CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
+CFILES = main.c check_error.c data_init.c
 
 all: ${NAME}
 
@@ -25,8 +25,6 @@ clean:
 fclean: clean
 	rm -rf ${NAME}
 
-re:
-	make fclean
-	make ${NAME}
+re: fclean ${NAME}
 
 .PHONY: clean re fclean

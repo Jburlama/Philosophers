@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jburlama <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/13 17:46:29 by jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:18:39 by jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,64 @@
 
 int	main(int argc, char *argv[])
 {
-	t_data data;
+	t_data	data;
 
+	memset(&data, 0, sizeof(data));
 	if (!check_valid_args(argc, argv))
 		return (panic("invalid arguments\n"));
-	set_data(argc, argv, &data);
+	if (set_data(argc, argv, &data) == -1)
+		return (panic("philo number between 1-200\n"));
+	if (start_diner(&data) == -1)
+		return (panic("Error starting dinner!\n"));
 	return (0);
 }
 
-void	set_data(int argc, char *argv[], t_data *data)
+int	start_diner(t_data *data)
 {
-	data->args.philo_num = atoul(argv[1]);
-	data->args.time_die = atoul(argv[2]);
-	data->args.time_eat = atoul(argv[3]);
-	data->args.time_sleep = atoul(argv[4]);
+	data->args.philo_num = atos_t(argv[1]);
+	data->args.time_die = atos_t(argv[2]);
+	data->args.time_eat = atos_t(argv[3]);
+	data->args.time_sleep = atos_t(argv[4]);
 	if (argc == 6)
-		data->args.times_must_eat = atoul(argv[5]);
-
-	if (argc == 6)
-		printf("%ld\n", data->args.times_must_eat);
+		data->args.times_must_eat = atos_t(argv[5]);
 }
 
-long	atoul(char	*str)
+size_t	atos_t(char	*str)
 {
-	int	result;
-	int	i;
+	size_t	result;
+	size_t	i;
 
+	pthread_mutex_init(&data->mutex_printf, NULL);
+	data->philo = malloc(sizeof(pthread_t) * data->args.philo_num);
+	if (data->philo == NULL)
+		return (-1);
+	data->philo_id = 1;
 	result = 0;
 	i = -1;
-	if (str[0] == '+')
-		i++;
-	while (str[++i])
+	while (++i < data->args.philo_num)
 	{
-		result = (result * 10) + (str[i] - '0');
+		pthread_create(&data->philo[i], NULL, philo, data);
 	}
-	return (result);
+	join_threads(data);
+	return (0);
+}
+
+void	*philo(void *data)
+{
+	pthread_mutex_lock(&((t_data *)data)->mutex_printf);
+	printf("hello from thread id %i\n", ((t_data *)data)->philo_id);
+	((t_data *)data)->philo_id++;
+	pthread_mutex_unlock(&((t_data *)data)->mutex_printf);
+	return (NULL);
+}
+
+void	join_threads(t_data *data)
+{
+	size_t	i;
+
+	i = -1;
+	while (++i < data->args.philo_num)
+	{
+		pthread_join(data->philo[i], NULL);
+	}
 }
