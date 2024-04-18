@@ -6,11 +6,12 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/18 20:22:55 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/18 20:43:29 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <pthread.h>
 #include <sched.h>
 
 int	main(int argc, char *argv[])
@@ -34,8 +35,21 @@ int		start_diner(t_data *data)
 	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
 	if (data->philo == NULL)
 		return (-1);
+	data->mutex.fork = malloc(sizeof(*data->mutex.fork) * data->args.philo_num);
+	if (data->mutex.fork == NULL)
+	{
+		free(data->philo);
+		return (-1);
+	}
 	memset(data->philo, 0, sizeof(*data->philo));
+	memset(data->mutex.fork, 0, sizeof(*data->mutex.fork));
 	pthread_mutex_init(&data->mutex.printf, NULL);
+	i = 0;
+	while (i < data->args.philo_num)
+	{
+		pthread_mutex_init(&data->mutex.fork[i], NULL);
+ 		i++;
+	}
 	i = 0;
 	while (i < data->args.philo_num)
 	{
@@ -53,9 +67,35 @@ int		start_diner(t_data *data)
 void	*philo(void *data)
 {
 	t_philo	*philo = data;
-	pthread_mutex_lock(&philo->mutex->printf);
-	printf("hello from philo %zu\n", philo->philo_id);
-	pthread_mutex_unlock(&philo->mutex->printf);
+	
+
+	if (philo->philo_id % 2 == 0)
+	{
+		pthread_mutex_lock(&philo->mutex->fork[philo->philo_id]);
+		pthread_mutex_lock(&philo->mutex->fork[philo->philo_id + 1]);
+
+		pthread_mutex_lock(&philo->mutex->printf);
+		printf("philo %zu is eating\n", philo->philo_id);
+		pthread_mutex_unlock(&philo->mutex->printf);
+		
+		pthread_mutex_unlock(&philo->mutex->fork[philo->philo_id + 1]);
+		pthread_mutex_unlock(&philo->mutex->fork[philo->philo_id]);
+	}
+	else
+	{
+		pthread_mutex_lock(&philo->mutex->fork[philo->philo_id]);
+		if (philo->philo_id == 5)
+			pthread_mutex_lock(&philo->mutex->fork[0]);
+		pthread_mutex_lock(&philo->mutex->fork[philo->philo_id + 1]);
+
+		pthread_mutex_lock(&philo->mutex->printf);
+		printf("philo %zu is eating\n", philo->philo_id);
+		pthread_mutex_unlock(&philo->mutex->printf);
+		
+		pthread_mutex_unlock(&philo->mutex->fork[philo->philo_id + 1]);
+		pthread_mutex_unlock(&philo->mutex->fork[philo->philo_id]);
+	}
+
 	return (NULL);
 }
 
