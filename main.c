@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/18 18:03:35 by jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/18 19:55:30 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,8 @@ int		start_diner(t_data *data)
 		pthread_create(&data->philo[i].philo_pth, NULL, philo, &data->philo[i]);
 		i++;
 	}
-	i = 0;
-	while (i < data->args.philo_num)
-	{
-		join_threads(data);
-		i++;
-	}
+	join_threads(data);
+	free(data->philo);
 	return (0);
 }
 
