@@ -6,11 +6,12 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/18 20:02:49 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/18 20:22:55 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <sched.h>
 
 int	main(int argc, char *argv[])
 {
@@ -33,13 +34,15 @@ int		start_diner(t_data *data)
 	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
 	if (data->philo == NULL)
 		return (-1);
+	memset(data->philo, 0, sizeof(*data->philo));
 	pthread_mutex_init(&data->mutex.printf, NULL);
 	i = 0;
 	while (i < data->args.philo_num)
 	{
 		data->philo[i].mutex = &data->mutex;
 		data->philo[i].philo_id = i + 1;
-		pthread_create(&data->philo[i].philo_pth, NULL, philo, &data->philo[i]);
+		if (pthread_create(&data->philo[i].philo_pth, NULL, philo, &data->philo[i]) != 0)
+			return (clean_thread(data->philo));
 		i++;
 	}
 	join_threads(data);
@@ -66,4 +69,10 @@ void	join_threads(t_data *data)
 		pthread_join(data->philo[i].philo_pth, NULL);
 		i++;
 	}
+}
+
+int	clean_thread(t_philo *philo)
+{
+	free(philo);
+	return (-1);
 }
