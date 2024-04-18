@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/18 20:20:51 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/18 20:53:23 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct	s_philo
 	size_t			philo_id;
 	pthread_t		philo_pth;
 	t_mutex			*mutex;
+	bool			is_full;
+	bool			is_alive;
 }				t_philo;
 
 typedef struct s_data
