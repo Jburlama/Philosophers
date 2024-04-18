@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/15 19:09:59 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:46:48 by jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,24 @@ typedef struct s_args
 	size_t	times_must_eat;
 }				t_args;
 
+typedef struct	s_mutex
+{
+	pthread_mutex_t	printf;
+}				t_mutex;
+
+typedef struct	s_philo
+{
+	size_t			philo_id;
+	pthread_t		philo_pth;
+	t_mutex			*mutex;
+}				t_philo;
+
 typedef struct s_data
 {
 	t_args			args;
-	int				philo_id;
-	pthread_t		*philo;
+	t_philo			*philo;
+	t_mutex			mutex;
 	struct timeval	tv;
-	pthread_mutex_t	mutex_printf;
 }				t_data;
 
 int		start_diner(t_data *data);

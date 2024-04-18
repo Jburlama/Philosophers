@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/16 20:18:35 by jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/18 18:03:35 by jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,33 @@ int	main(int argc, char *argv[])
 
 int		start_diner(t_data *data)
 {
-	size_t	result;
-	size_t	i;
+	size_t i;
 
-	pthread_mutex_init(&data->mutex_printf, NULL);
-	data->philo = malloc(sizeof(pthread_t) * data->args.philo_num);
-	if (data->philo == NULL)
-		return (-1);
-	data->philo_id = 1;
-	result = 0;
-	i = -1;
-	while (++i < data->args.philo_num)
+	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
+	pthread_mutex_init(&data->mutex.printf, NULL);
+	i = 0;
+	while (i < data->args.philo_num)
 	{
-		pthread_create(&data->philo[i], NULL, philo, data);
+		data->philo[i].mutex = &data->mutex;
+		data->philo[i].philo_id = i + 1;
+		pthread_create(&data->philo[i].philo_pth, NULL, philo, &data->philo[i]);
+		i++;
 	}
-	join_threads(data);
+	i = 0;
+	while (i < data->args.philo_num)
+	{
+		join_threads(data);
+		i++;
+	}
 	return (0);
 }
 
 void	*philo(void *data)
 {
-	pthread_mutex_lock(&((t_data *)data)->mutex_printf);
-	printf("hello from thread id %i\n", ((t_data *)data)->philo_id);
-	((t_data *)data)->philo_id++;
-	pthread_mutex_unlock(&((t_data *)data)->mutex_printf);
+	t_philo	*philo = data;
+	pthread_mutex_lock(&philo->mutex->printf);
+	printf("hello from philo %zu\n", philo->philo_id);
+	pthread_mutex_unlock(&philo->mutex->printf);
 	return (NULL);
 }
 
@@ -58,9 +61,10 @@ void	join_threads(t_data *data)
 {
 	size_t	i;
 
-	i = -1;
-	while (++i < data->args.philo_num)
+	i = 0;
+	while (i < data->args.philo_num)
 	{
-		pthread_join(data->philo[i], NULL);
+		pthread_join(data->philo[i].philo_pth, NULL);
+		i++;
 	}
 }
