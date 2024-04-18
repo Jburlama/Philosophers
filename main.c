@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/18 19:55:30 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/18 20:02:49 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	main(int argc, char *argv[])
 		return (panic("invalid arguments\n"));
 	if (set_data(argc, argv, &data) == -1)
 		return (panic("philo number between 1-200\n"));
-	start_diner(&data);
+	if (start_diner(&data) == -1)
+		return (panic("Error starting dinner!\n"));
 	return (0);
 }
 
@@ -30,6 +31,8 @@ int		start_diner(t_data *data)
 	size_t i;
 
 	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
+	if (data->philo == NULL)
+		return (-1);
 	pthread_mutex_init(&data->mutex.printf, NULL);
 	i = 0;
 	while (i < data->args.philo_num)

@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/18 19:51:43 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/18 20:01:14 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <stdbool.h>
 # include <string.h>
+# include <stdbool.h>
 # include <sys/time.h>
 # include <unistd.h>
 
@@ -36,6 +36,7 @@ typedef struct s_args
 typedef struct	s_mutex
 {
 	pthread_mutex_t	printf;
+	pthread_mutex_t	*fork;
 }				t_mutex;
 
 typedef struct	s_philo
