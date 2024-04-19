@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/19 20:27:49 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/19 20:36:49 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	start_philos(t_data *data)
 	size_t i;
 
 	pthread_mutex_init(&data->printf, NULL);
+	pthread_mutex_init(&data->mtx_philo, NULL);
 	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
 	i = 0;
 	while (i < data->args.philo_num)
@@ -52,11 +53,15 @@ int	monitoring(t_data *data)
 	size_t	i;
 
 	i = 0;
+	pthread_mutex_lock(&data->mtx_philo);
 	data->ready = true;
+	pthread_mutex_unlock(&data->mtx_philo);
 	data->start = get_time();
 	while (i < data->args.philo_num)
 	{
+		pthread_mutex_lock(&data->mtx_philo);
 		data->philo[i].is_alive = false;
+		pthread_mutex_unlock(&data->mtx_philo);
 		usleep(2e6);
 		i++;
 	}
@@ -67,12 +72,25 @@ void	*philo(void *data)
 {
 	t_philo *philo = data;
 
-	while (philo->table->ready == false)
-		;
 	while (42)
 	{
-		if (philo->is_alive == false)
+		pthread_mutex_lock(&philo->table->mtx_philo);
+		if (philo->table->ready == false)
+		{
+			pthread_mutex_unlock(&philo->table->mtx_philo);
 			break ;
+		}
+		pthread_mutex_unlock(&philo->table->mtx_philo);
+	}
+	while (42)
+	{
+		pthread_mutex_lock(&philo->table->mtx_philo);
+		if (philo->is_alive == false)
+		{
+			pthread_mutex_unlock(&philo->table->mtx_philo);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->table->mtx_philo);
 	}
 
 	pthread_mutex_lock(&philo->table->printf);

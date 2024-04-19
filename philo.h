@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/19 20:27:37 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/19 20:29:52 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_data
 	bool			ready;
 	t_philo			*philo;
 	pthread_mutex_t	printf;
+	pthread_mutex_t	mtx_philo;
 	pthread_mutex_t	*fork;
 }				t_data;
 
