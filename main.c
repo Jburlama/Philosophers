@@ -6,12 +6,12 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/19 18:03:15 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:25:52 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <unistd.h>
+#include <pthread.h>
 
 int	main(int argc, char *argv[])
 {
@@ -22,88 +22,53 @@ int	main(int argc, char *argv[])
 		return (panic("invalid arguments\n"));
 	if (set_data(argc, argv, &data) == -1)
 		return (panic("philo number between 1-200\n"));
-	if (start_diner(&data) == -1)
-		return (panic("Error starting dinner!\n"));
+
+	start_philos(&data);
+	// monitoring(&data);
+	join_threads(&data);
+
 	return (0);
 }
 
-int		start_diner(t_data *data)
+int	start_philos(t_data *data)
 {
 	size_t i;
 
+	pthread_mutex_init(&data->mutex.printf, NULL);
 	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
-	if (data->philo == NULL)
-		return (-1);
-	memset(data->philo, 0, sizeof(*data->philo));
-	pthread_mutex_init(&(data->mutex.printf), NULL);
 	i = 0;
-	while (i < data->args.philo_num)
+	while (i < data->philo->philo_pth)
 	{
-		data->philo[i].mutex = &data->mutex;
-		data->philo[i].is_alive = true;
-		data->philo[i].is_full = true;
 		data->philo[i].philo_id = i + 1;
 		pthread_create(&data->philo[i].philo_pth, NULL, philo, &data->philo[i]);
 		i++;
 	}
-	monitoring(data);
-	join_threads(data);
-	free(data->philo);
-	return (0);
 	return (0);
 }
 
 int	monitoring(t_data *data)
 {
-	size_t	i;
-	int	flag;
-
-	i = 0;
-	flag = 1;
-	while (i < data->args.philo_num)
-	{
-		if (flag == 1)
-		{
-			if (data->philo[i].philo_id % 2 == 0)
-				data->philo[i].is_full = false;
-			else
-				data->philo[i].is_full = true;
-		}
-		if (flag == 0)
-		{
-			if (data->philo[i].philo_id % 2 == 0)
-				data->philo[i].is_full = true;
-			else
-				data->philo[i].is_full = false;
-		}
-		i++;
-		if (i == data->args.philo_num)
-		{
-			i = 0;
-			if (flag == 0)
-				flag = 1;
-			else
-				flag = 0;
-		}
-		usleep(2e6);
-	}
+	data->ready = true;
 	return (0);
 }
 
 void	*philo(void *data)
 {
-	t_philo	*philo = data;
-	
-	while (philo->is_alive)
-	{
-		if (philo->is_full == false)
-		{
-			pthread_mutex_lock(&philo->mutex->printf);
-			printf("philo %zu is eating\n", philo->philo_id);
-			pthread_mutex_unlock(&philo->mutex->printf);
-		}
-		usleep(2e6);
-	}
+	t_philo *philo = data;
+
+
+	pthread_mutex_lock(&philo->table->mutex.printf);
+	printf("hello from philo %zu!\n", philo->philo_id);
+	pthread_mutex_unlock(&philo->table->mutex.printf);
+	// while (philo->table->ready == false)
+	// {
+	// 	pthread_mutex_lock(&philo->table->mutex.printf);
+	// 	printf("wait!\n");
+	// 	pthread_mutex_unlock(&philo->table->mutex.printf);
+	// }
+	// pthread_mutex_lock(&philo->table->mutex.printf);
+	// printf("sucess!\n");
+	// pthread_mutex_unlock(&philo->table->mutex.printf);
 	return (NULL);
 }
 

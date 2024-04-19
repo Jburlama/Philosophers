@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/19 17:15:00 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:25:43 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <unistd.h>
 
 # define MAX_PHILO 200
+
+typedef struct s_data t_data;
 
 typedef struct s_args
 {
@@ -43,20 +45,21 @@ typedef struct	s_philo
 {
 	size_t			philo_id;
 	pthread_t		philo_pth;
-	t_mutex			*mutex;
 	bool			is_full;
 	bool			is_alive;
+	t_data			*table;
 }				t_philo;
 
 typedef struct s_data
 {
 	t_args			args;
+	bool			ready;
 	t_philo			*philo;
 	t_mutex			mutex;
 	struct timeval	tv;
 }				t_data;
 
-int		start_diner(t_data *data);
+int		start_philos(t_data *data);
 int		monitoring(t_data *data);
 void	*philo(void *data);
 void	join_threads(t_data *data);
