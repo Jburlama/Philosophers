@@ -6,13 +6,13 @@
 #    By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 18:19:12 by jburlama          #+#    #+#              #
-#    Updated: 2024/04/18 19:55:29 by Jburlama         ###   ########.fr        #
+#    Updated: 2024/04/19 16:35:48 by Jburlama         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread
 CFILES = main.c check_error.c data_init.c
 
 all: ${NAME}

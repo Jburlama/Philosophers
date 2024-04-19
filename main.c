@@ -6,11 +6,12 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/18 21:07:10 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/19 17:06:02 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <unistd.h>
 
 int	main(int argc, char *argv[])
 {
@@ -33,15 +34,8 @@ int		start_diner(t_data *data)
 	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
 	if (data->philo == NULL)
 		return (-1);
-	data->mutex.fork = malloc(sizeof(*data->mutex.fork) * data->args.philo_num);
-	if (data->mutex.fork == NULL)
-	{
-		free(data->philo);
-		return (-1);
-	}
 	memset(data->philo, 0, sizeof(*data->philo));
-	memset(data->mutex.fork, 0, sizeof(*data->mutex.fork));
-	pthread_mutex_init(&data->mutex.printf, NULL);
+	pthread_mutex_init(&(data->mutex.printf), NULL);
 	i = 0;
 	while (i < data->args.philo_num)
 	{
@@ -59,21 +53,25 @@ int		start_diner(t_data *data)
 			return (clean_thread(data->philo));
 		i++;
 	}
-	while (42)
-	{
-		i = 0;
-		while (i < data->args.philo_num)
-		{
-			if (data->philo->philo_id % 2 == 0)
-			{
-				data->philo[i].is_full = -(data->philo->is_full);
-			}
-			usleep(200);
-			i++;
-		}
-	}
+	monitoring(data);
 	join_threads(data);
 	free(data->philo);
+	return (0);
+}
+
+int	monitoring(t_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data->args.philo_num)
+	{
+		data->philo[i].is_full = -data->philo[i].is_full;
+		usleep(2e3);
+		i++;
+		if (i == data->args.philo_num)
+			i = 0;
+	}
 	return (0);
 }
 
@@ -85,16 +83,9 @@ void	*philo(void *data)
 	{
 		if (philo->is_full == false)
 		{
-			pthread_mutex_lock(&philo->mutex->fork[philo->philo_id]);
-			pthread_mutex_lock(&philo->mutex->fork[philo->philo_id + 1]);
-
 			pthread_mutex_lock(&philo->mutex->printf);
 			printf("philo %zu is eating\n", philo->philo_id);
 			pthread_mutex_unlock(&philo->mutex->printf);
-
-			pthread_mutex_unlock(&philo->mutex->fork[philo->philo_id + 1]);
-			pthread_mutex_unlock(&philo->mutex->fork[philo->philo_id]);
-			philo->is_full = true;
 		}
 	}
 
