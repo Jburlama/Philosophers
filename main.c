@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/19 17:06:02 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/19 18:03:15 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,38 +39,53 @@ int		start_diner(t_data *data)
 	i = 0;
 	while (i < data->args.philo_num)
 	{
-		pthread_mutex_init(&data->mutex.fork[i], NULL);
- 		i++;
-	}
-	i = 0;
-	while (i < data->args.philo_num)
-	{
 		data->philo[i].mutex = &data->mutex;
 		data->philo[i].is_alive = true;
 		data->philo[i].is_full = true;
 		data->philo[i].philo_id = i + 1;
-		if (pthread_create(&data->philo[i].philo_pth, NULL, philo, &data->philo[i]) != 0)
-			return (clean_thread(data->philo));
+		pthread_create(&data->philo[i].philo_pth, NULL, philo, &data->philo[i]);
 		i++;
 	}
 	monitoring(data);
 	join_threads(data);
 	free(data->philo);
 	return (0);
+	return (0);
 }
 
 int	monitoring(t_data *data)
 {
 	size_t	i;
+	int	flag;
 
 	i = 0;
+	flag = 1;
 	while (i < data->args.philo_num)
 	{
-		data->philo[i].is_full = -data->philo[i].is_full;
-		usleep(2e3);
+		if (flag == 1)
+		{
+			if (data->philo[i].philo_id % 2 == 0)
+				data->philo[i].is_full = false;
+			else
+				data->philo[i].is_full = true;
+		}
+		if (flag == 0)
+		{
+			if (data->philo[i].philo_id % 2 == 0)
+				data->philo[i].is_full = true;
+			else
+				data->philo[i].is_full = false;
+		}
 		i++;
 		if (i == data->args.philo_num)
+		{
 			i = 0;
+			if (flag == 0)
+				flag = 1;
+			else
+				flag = 0;
+		}
+		usleep(2e6);
 	}
 	return (0);
 }
@@ -87,8 +102,8 @@ void	*philo(void *data)
 			printf("philo %zu is eating\n", philo->philo_id);
 			pthread_mutex_unlock(&philo->mutex->printf);
 		}
+		usleep(2e6);
 	}
-
 	return (NULL);
 }
 
