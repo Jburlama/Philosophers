@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/20 17:05:28 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/20 17:19:27 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ int	start_philos(t_data *data)
 
 	pthread_mutex_init(&data->printf, NULL);
 	pthread_mutex_init(&data->mtx_philo, NULL);
+	data->fork = malloc(sizeof(*data->fork) * data->args.philo_num);
 	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
 	i = 0;
 	while (i < data->args.philo_num)
 	{
+		pthread_mutex_init(&data->fork[i], NULL);
 		data->philo[i].philo_id = i + 1;
 		data->philo[i].is_alive = true;
 		data->philo[i].data = data;
@@ -70,16 +72,7 @@ void	*philo(void *data)
 {
 	t_philo *philo = data;
 
-	while (42)
-	{
-		pthread_mutex_lock(&philo->data->mtx_philo);
-		if (philo->data->ready == false)
-		{
-			pthread_mutex_unlock(&philo->data->mtx_philo);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->data->mtx_philo);
-	}
+	wait_to_get_ready(philo);
 	while (42)
 	{
 		pthread_mutex_lock(&philo->data->mtx_philo);
@@ -96,33 +89,4 @@ void	*philo(void *data)
 	pthread_mutex_unlock(&philo->data->printf);
 
 	return (NULL);
-}
-
-size_t	get_time(void)
-{
-	size_t	time;
-	struct timeval	tv;
-	gettimeofday(&tv, NULL);
-
-	time = (tv.tv_sec * 1e6) + tv.tv_usec;
-	time = time / 1e3;
-	return (time);
-}
-
-void	join_threads(t_data *data)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < data->args.philo_num)
-	{
-		pthread_join(data->philo[i].philo_pth, NULL);
-		i++;
-	}
-}
-
-int	clean_thread(t_philo *philo)
-{
-	free(philo);
-	return (-1);
 }

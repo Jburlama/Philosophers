@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/20 17:04:39 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/20 17:18:48 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ typedef struct s_data
 int		start_philos(t_data *data);
 int		monitoring(t_data *data);
 void	*philo(void *data);
+
+// utils.c
+void	wait_to_get_ready(t_philo *philo);
 void	join_threads(t_data *data);
 int		clean_thread(t_philo *philo);
 size_t	get_time(void);
