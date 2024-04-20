@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/20 17:18:48 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/20 18:48:36 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct	s_philo
 	pthread_t		philo_pth;
 	bool			is_full;
 	bool			is_alive;
+	bool			is_last;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*rigth_fork;
 	t_data			*data;
