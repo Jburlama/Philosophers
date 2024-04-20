@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/19 20:36:49 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/20 17:05:28 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,10 @@ int	main(int argc, char *argv[])
 		return (panic("invalid arguments\n"));
 	if (set_data(argc, argv, &data) == -1)
 		return (panic("philo number between 1-200\n"));
-
 	start_philos(&data);
 	usleep(2e6);
 	monitoring(&data);
 	join_threads(&data);
-
 	return (0);
 }
 
@@ -41,7 +39,7 @@ int	start_philos(t_data *data)
 	{
 		data->philo[i].philo_id = i + 1;
 		data->philo[i].is_alive = true;
-		data->philo[i].table = data;
+		data->philo[i].data = data;
 		pthread_create(&data->philo[i].philo_pth, NULL, philo, &data->philo[i]);
 		i++;
 	}
@@ -74,28 +72,28 @@ void	*philo(void *data)
 
 	while (42)
 	{
-		pthread_mutex_lock(&philo->table->mtx_philo);
-		if (philo->table->ready == false)
+		pthread_mutex_lock(&philo->data->mtx_philo);
+		if (philo->data->ready == false)
 		{
-			pthread_mutex_unlock(&philo->table->mtx_philo);
+			pthread_mutex_unlock(&philo->data->mtx_philo);
 			break ;
 		}
-		pthread_mutex_unlock(&philo->table->mtx_philo);
+		pthread_mutex_unlock(&philo->data->mtx_philo);
 	}
 	while (42)
 	{
-		pthread_mutex_lock(&philo->table->mtx_philo);
+		pthread_mutex_lock(&philo->data->mtx_philo);
 		if (philo->is_alive == false)
 		{
-			pthread_mutex_unlock(&philo->table->mtx_philo);
+			pthread_mutex_unlock(&philo->data->mtx_philo);
 			break ;
 		}
-		pthread_mutex_unlock(&philo->table->mtx_philo);
+		pthread_mutex_unlock(&philo->data->mtx_philo);
 	}
 
-	pthread_mutex_lock(&philo->table->printf);
-	printf("%zu philo id %zu die\n", get_time() - philo->table->start, philo->philo_id);
-	pthread_mutex_unlock(&philo->table->printf);
+	pthread_mutex_lock(&philo->data->printf);
+	printf("%zu philo id %zu die\n", get_time() - philo->data->start, philo->philo_id);
+	pthread_mutex_unlock(&philo->data->printf);
 
 	return (NULL);
 }
