@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/22 17:12:11 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:02:14 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,35 +37,17 @@ typedef struct s_args
 
 typedef struct	s_philo
 {
-	size_t			philo_id;
-	pthread_t		philo_pth;
-	bool			is_last;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*rigth_fork;
 	t_data			*data;
 }				t_philo;
 
 typedef struct s_data
 {
 	t_args			args;
-	size_t			start;
-	bool			ready;
-	bool			last_is_ready;
 	t_philo			*philo;
-	pthread_t		monitoring;
-	pthread_mutex_t	printf;
-	pthread_mutex_t	mtx_general;
-	pthread_mutex_t	*fork;
 }				t_data;
 
-int		start_philos(t_data *data);
-void	*monitoring(void *data);
-void	*philo(void *data);
 
 // utils.c
-void	wait_to_get_ready(t_philo *philo);
-void	join_threads(t_data *data);
-int		clean_thread(t_philo *philo);
 size_t	get_time(void);
 
 // data_init.c
