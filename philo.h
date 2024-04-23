@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/23 20:04:39 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/23 20:08:37 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_data
 	t_args			args;
 	t_philo			*philo;
 	t_mutex			mutex;
-	bool			start;
+	bool			monitoring_is_ready;
 	bool			last_is_ready;
 	size_t			start_time;
 } t_data;
@@ -78,7 +78,8 @@ void	philo_even(t_philo *philo);
 void	philo_odd(t_philo *philo);
 
 // utils.c
-void	wait_to_get_ready(t_data *data);
+void	wait_for_monitoring(t_data *data);
+void	wait_last_thread(t_data *data);
 void	join_thread(t_data *data);
 size_t	get_time(t_data *data);
 
