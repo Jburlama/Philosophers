@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/23 18:33:29 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/23 19:37:27 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 # include <stdbool.h>
 # include <sys/time.h>
 # include <unistd.h>
+
+#define RED     "\x1b[31m"
+#define YELLOW  "\x1b[33m"
+#define GREEN   "\x1b[32m"
+#define BLUE    "\x1b[34m"
+#define RESET   "\x1b[0m"
 
 # define MAX_PHILO 200
 
@@ -37,14 +43,19 @@ typedef struct s_args
 
 typedef struct	s_philo
 {
-	pthread_t	tid;
-	size_t		philo_id;
-	t_data		*data;
+	pthread_t		tid;
+	size_t			philo_id;
+	t_data			*data;
+	bool			is_last;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*rigth_fork;
 }				t_philo;
 
 typedef	struct s_mutex
 {
 	pthread_mutex_t printf;
+	pthread_mutex_t global;
+	pthread_mutex_t *fork;
 } t_mutex;
 
 typedef struct s_data
@@ -52,11 +63,20 @@ typedef struct s_data
 	t_args			args;
 	t_philo			*philo;
 	t_mutex			mutex;
+	bool			start;
+	bool			last_is_ready;
 } t_data;
 
+void	monitoring(t_data *data);
+
+// philo.c
 void	*philo(void *arg);
+void	philo_last(t_philo *philo);
+void	philo_even(t_philo *philo);
+void	philo_odd(t_philo *philo);
 
 // utils.c
+void	wait_to_get_ready(t_data *data);
 void	join_thread(t_data *data);
 size_t	get_time(void);
 
