@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/23 19:37:27 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/23 20:04:39 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef	struct s_mutex
 {
 	pthread_mutex_t printf;
 	pthread_mutex_t global;
+	pthread_mutex_t time;
 	pthread_mutex_t *fork;
 } t_mutex;
 
@@ -65,6 +66,7 @@ typedef struct s_data
 	t_mutex			mutex;
 	bool			start;
 	bool			last_is_ready;
+	size_t			start_time;
 } t_data;
 
 void	monitoring(t_data *data);
@@ -78,7 +80,7 @@ void	philo_odd(t_philo *philo);
 // utils.c
 void	wait_to_get_ready(t_data *data);
 void	join_thread(t_data *data);
-size_t	get_time(void);
+size_t	get_time(t_data *data);
 
 // data_init.c
 void	mutex_init(t_data *data);
