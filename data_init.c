@@ -6,13 +6,35 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:40:08 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/19 19:06:13 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:33:47 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	set_data(int argc, char *argv[], t_data *data)
+void	mutex_init(t_data *data)
+{
+	pthread_mutex_init(&data->mutex.printf, NULL);
+}
+
+void	philos_init(t_data *data)
+{
+	size_t	i;
+
+	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
+	if (data->philo == NULL)
+		return ;
+	i = 0;
+	while (i < data->args.philo_num)
+	{
+		data->philo[i].philo_id = i + 1;
+		data->philo[i].data = data;
+		pthread_create(&data->philo[i].tid, NULL, philo, &data->philo[i]);
+		i++;
+	}
+}
+
+int	data_init(int argc, char *argv[], t_data *data)
 {
 	data->args.philo_num = atos_t(argv[1]);
 	if (data->args.philo_num > MAX_PHILO || data->args.philo_num == 0)

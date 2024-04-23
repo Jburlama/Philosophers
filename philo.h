@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/22 20:02:14 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:33:29 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,33 @@ typedef struct s_args
 
 typedef struct	s_philo
 {
-	t_data			*data;
+	pthread_t	tid;
+	size_t		philo_id;
+	t_data		*data;
 }				t_philo;
+
+typedef	struct s_mutex
+{
+	pthread_mutex_t printf;
+} t_mutex;
 
 typedef struct s_data
 {
 	t_args			args;
 	t_philo			*philo;
-}				t_data;
+	t_mutex			mutex;
+} t_data;
 
+void	*philo(void *arg);
 
 // utils.c
+void	join_thread(t_data *data);
 size_t	get_time(void);
 
 // data_init.c
-int		set_data(int argc, char *argv[], t_data *data);
+void	mutex_init(t_data *data);
+void	philos_init(t_data *data);
+int		data_init(int argc, char *argv[], t_data *data);
 size_t	atos_t(char	*str);
 
 // check_error.c
