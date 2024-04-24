@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:40:08 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/24 18:55:42 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:01:56 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	mutex_init(t_data *data)
 {
 	size_t	i;
 
+	data->interromp = false;
 	data->monitoring_is_ready = false;
 	data->last_is_ready = false;
 	pthread_mutex_init(&data->mutex.printf, NULL);

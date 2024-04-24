@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/24 18:55:56 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:12:39 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_data
 	t_mutex			mutex;
 	bool			monitoring_is_ready;
 	bool			last_is_ready;
+	bool			interromp;
 	size_t			start_time;
 } t_data;
 
@@ -75,8 +76,9 @@ void	monitoring(t_data *data);
 void	*philo(void *arg);
 void	*philo_die(t_philo *philo);
 bool	philo_is_alive(t_philo *philo);
+bool	philo_interomp(t_philo *philo);
 int		philo_spleeping(t_philo *philo);
-void	philo_eating(t_philo *philo);
+int		philo_eating(t_philo *philo);
 int		philo_even(t_philo *philo);
 int		philo_odd(t_philo *philo);
 void	philo_last(t_philo *philo);
