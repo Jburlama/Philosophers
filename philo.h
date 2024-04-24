@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/24 16:30:56 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:55:56 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct	s_philo
 {
 	pthread_t		tid;
 	size_t			philo_id;
+	size_t			die_count;
 	t_data			*data;
 	bool			is_last;
 	pthread_mutex_t	*left_fork;
@@ -72,9 +73,13 @@ void	monitoring(t_data *data);
 
 // philo.c
 void	*philo(void *arg);
+void	*philo_die(t_philo *philo);
+bool	philo_is_alive(t_philo *philo);
+int		philo_spleeping(t_philo *philo);
+void	philo_eating(t_philo *philo);
+int		philo_even(t_philo *philo);
+int		philo_odd(t_philo *philo);
 void	philo_last(t_philo *philo);
-void	philo_even(t_philo *philo);
-void	philo_odd(t_philo *philo);
 
 // utils.c
 void	wait_for_monitoring(t_data *data);
