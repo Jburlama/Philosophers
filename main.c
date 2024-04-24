@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/23 20:11:22 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:30:54 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,4 @@ int	main(int argc, char *argv[])
 void	monitoring(t_data *data)
 {
 	wait_last_thread(data);
-
-	pthread_mutex_lock(&data->mutex.global);
-	data->start_time = get_time(data);
-	pthread_mutex_unlock(&data->mutex.global);
 }
