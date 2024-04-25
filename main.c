@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 16:59:19 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:38:14 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,6 @@ int	main(int argc, char *argv[])
 	return (0);
 }
 
-void	destroy_mutex(t_data *data)
-{
-	size_t	i;
-
-	pthread_mutex_destroy(&data->mutex.global);
-	pthread_mutex_destroy(&data->mutex.printf);
-	i = 0;
-	while (i < data->args.philo_num)
-	{
-		pthread_mutex_destroy(&data->mutex.fork[i]);
-		i++;
-	}
-}
-
 void	monitoring(t_data *data)
 {
 	size_t	i;
@@ -65,6 +51,20 @@ void	monitoring(t_data *data)
 		pthread_mutex_lock(&data->mutex.global);
 		data->philo[i].interromp = true;
 		pthread_mutex_unlock(&data->mutex.global);
+		i++;
+	}
+}
+
+void	destroy_mutex(t_data *data)
+{
+	size_t	i;
+
+	pthread_mutex_destroy(&data->mutex.global);
+	pthread_mutex_destroy(&data->mutex.printf);
+	i = 0;
+	while (i < data->args.philo_num)
+	{
+		pthread_mutex_destroy(&data->mutex.fork[i]);
 		i++;
 	}
 }

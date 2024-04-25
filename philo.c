@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 16:49:18 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:47:11 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	philo_even(t_philo *philo)
 		return (-1);
 	}
 	pthread_mutex_lock(&philo->data->mutex.printf);
-	printf(YELLOW "%zu philo id %zu pick right fork\n" RESET,
+	printf(LIGHT_GRAY "%zu %zu has taken a fork\n" RESET,
 		get_time() - philo->data->start_time, philo->philo_id);
 	pthread_mutex_unlock(&philo->data->mutex.printf);
 	pthread_mutex_lock(philo->left_fork);
@@ -86,9 +86,9 @@ int	philo_even(t_philo *philo)
 		return (-1);
 	}
 	pthread_mutex_lock(&philo->data->mutex.printf);
-	printf(GREEN "%zu philo id %zu pick left fork\n", 
+	printf(DARK_GRAY "%zu %zu has taken a fork\n", 
 		get_time() - philo->data->start_time, philo->philo_id);
-	printf(BLUE "%zu philo id %zu is eating\n",
+	printf(GREEN "%zu %zu is eating\n",
 		get_time() - philo->data->start_time, philo->philo_id);
 	pthread_mutex_unlock(&philo->data->mutex.printf);
 	if (philo_eating(philo) == -2)
@@ -116,7 +116,7 @@ int	philo_odd(t_philo *philo)
 		return (-1);
 	}
 	pthread_mutex_lock(&philo->data->mutex.printf);
-	printf(GREEN "%zu philo id %zu pick left fork\n", 
+	printf(LIGHT_GRAY "%zu %zu has taken a fork\n", 
 		get_time() - philo->data->start_time, philo->philo_id);
 	pthread_mutex_unlock(&philo->data->mutex.printf);
 	pthread_mutex_lock(philo->rigth_fork);
@@ -133,9 +133,9 @@ int	philo_odd(t_philo *philo)
 		return (-1);
 	}
 	pthread_mutex_lock(&philo->data->mutex.printf);
-	printf(YELLOW "%zu philo id %zu pick right fork\n" RESET, 
+	printf(DARK_GRAY "%zu %zu has taken a fork\n" RESET, 
 		get_time() - philo->data->start_time, philo->philo_id);
-	printf(BLUE "%zu philo id %zu is eating\n", 
+	printf(GREEN "%zu %zu is eating\n", 
 		get_time() - philo->data->start_time, philo->philo_id);
 	pthread_mutex_unlock(&philo->data->mutex.printf);
 	if (philo_eating(philo) == -2)
@@ -154,67 +154,4 @@ bool philo_is_alive(t_philo *philo)
 	if (get_time() - philo->die_count >= philo->data->args.time_die)
 		return (false);
 	return (true);
-}
-
-int	philo_spleeping(t_philo *philo)
-{
-	size_t	spleep_count;
-
-	spleep_count = get_time();
-	while (get_time() - spleep_count < philo->data->args.time_sleep)
-	{
-		if (!philo_is_alive(philo))
-			return (-1);
-		if (philo_interomp(philo))
-			return (-2);
-	}
-	return (0);
-}
-
-int	philo_eating(t_philo *philo)
-{
-	size_t	eat_count;
-
-	eat_count = get_time();
-	while (get_time() - eat_count < philo->data->args.time_eat)
-	{
-		if (philo_interomp(philo))
-			return (-2);
-	}
-	philo->die_count = get_time();
-	return (0);
-}
-
-void	*philo_die(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->mutex.global);
-	philo->interromp = true;
-	pthread_mutex_unlock(&philo->data->mutex.global);
-	pthread_mutex_lock(&philo->data->mutex.printf);
-	printf(RED "%zu philo id %zu die\n" RESET,
-		get_time() - philo->data->start_time, philo->philo_id);
-	pthread_mutex_unlock(&philo->data->mutex.printf);
-	pthread_mutex_lock(&philo->data->mutex.global);
-	philo->data->stop = true;
-	pthread_mutex_unlock(&philo->data->mutex.global);
-	return (NULL);
-}
-
-bool	philo_interomp(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->mutex.global);
-	if (philo->data->philo->interromp)
-	{
-		pthread_mutex_unlock(&philo->data->mutex.global);
-		return (true);
-	}
-	pthread_mutex_unlock(&philo->data->mutex.global);
-	return (false);
-}
-
-void	philo_last(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->mutex.global);
-	philo->data->last_is_ready = true;
-	pthread_mutex_unlock(&philo->data->mutex.global);
 }
