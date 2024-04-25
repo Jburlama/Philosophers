@@ -5,72 +5,41 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/25 17:46:15 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 17:48:51 by Jburlama         ###   ########.fr       */
+/*   Created: 2024/04/25 18:31:28 by Jburlama          #+#    #+#             */
+/*   Updated: 2024/04/25 19:43:13 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	philo_spleeping(t_philo *philo)
+void	philo_eat_even(t_philo *philo)
 {
-	size_t	spleep_count;
+	size_t time_eat;
 
-	spleep_count = get_time();
-	while (get_time() - spleep_count < philo->data->args.time_sleep)
-	{
-		if (!philo_is_alive(philo))
-			return (-1);
-		if (philo_interomp(philo))
-			return (-2);
-	}
-	return (0);
+	pthread_mutex_lock(philo->left_fork);
+	mtx_printf("has taken a fork", philo, LEFT_FORK);
+	pthread_mutex_lock(philo->rigth_fork);
+	mtx_printf("has taken a fork", philo, RIGHT_FORK);
+	mtx_printf("is eating", philo, EAT);
+	time_eat = get_time();
+	while (get_time() - time_eat < philo->data->args.time_eat)
+		;
+	pthread_mutex_unlock(philo->rigth_fork);
+	pthread_mutex_unlock(philo->left_fork);
 }
 
-int	philo_eating(t_philo *philo)
+void	philo_eat_odd(t_philo *philo)
 {
-	size_t	eat_count;
+	size_t time_eat;
 
-	eat_count = get_time();
-	while (get_time() - eat_count < philo->data->args.time_eat)
-	{
-		if (philo_interomp(philo))
-			return (-2);
-	}
-	philo->die_count = get_time();
-	return (0);
-}
-
-void	*philo_die(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->mutex.global);
-	philo->interromp = true;
-	pthread_mutex_unlock(&philo->data->mutex.global);
-	pthread_mutex_lock(&philo->data->mutex.printf);
-	printf(RED "%zu %zu died\n" RESET,
-		get_time() - philo->data->start_time, philo->philo_id);
-	pthread_mutex_unlock(&philo->data->mutex.printf);
-	pthread_mutex_lock(&philo->data->mutex.global);
-	philo->data->stop = true;
-	pthread_mutex_unlock(&philo->data->mutex.global);
-	return (NULL);
-}
-
-bool	philo_interomp(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->mutex.global);
-	if (philo->data->philo->interromp)
-	{
-		pthread_mutex_unlock(&philo->data->mutex.global);
-		return (true);
-	}
-	pthread_mutex_unlock(&philo->data->mutex.global);
-	return (false);
-}
-
-void	philo_last(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->mutex.global);
-	philo->data->last_is_ready = true;
-	pthread_mutex_unlock(&philo->data->mutex.global);
+	pthread_mutex_lock(philo->rigth_fork);
+	mtx_printf("has taken a fork", philo, RIGHT_FORK);
+	pthread_mutex_lock(philo->left_fork);
+	mtx_printf("has taken a fork", philo, LEFT_FORK);
+	mtx_printf("is eating", philo, EAT);
+	time_eat = get_time();
+	while (get_time() - time_eat < philo->data->args.time_eat)
+		;
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->rigth_fork);
 }

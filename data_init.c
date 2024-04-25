@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:40:08 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 16:54:51 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:31:52 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	philos_init(t_data *data)
 	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
 	if (data->philo == NULL)
 		return ;
-	i = 0;
-	while (i < data->args.philo_num)
+	i = -1;
+	while (++i < data->args.philo_num)
 	{
 		data->philo[i].philo_id = i + 1;
 		data->philo[i].data = data;
@@ -58,7 +58,6 @@ void	philos_init(t_data *data)
 			data->philo[i].rigth_fork = &data->mutex.fork[i + 1];
 		}
 		pthread_create(&data->philo[i].tid, NULL, philo, &data->philo[i]);
-		i++;
 	}
 }
 

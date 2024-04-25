@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 17:38:14 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:41:19 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,27 +32,25 @@ int	main(int argc, char *argv[])
 
 void	monitoring(t_data *data)
 {
-	size_t	i;
-
 	wait_last_thread(data);
-	while (42)
-	{
-		pthread_mutex_lock(&data->mutex.global);
-		if (data->stop)
-		{
-			pthread_mutex_unlock(&data->mutex.global);
-			break ;
-		}
-		pthread_mutex_unlock(&data->mutex.global);
-	}
-	i = 0;
-	while (i < data->args.philo_num)
-	{
-		pthread_mutex_lock(&data->mutex.global);
-		data->philo[i].interromp = true;
-		pthread_mutex_unlock(&data->mutex.global);
-		i++;
-	}
+	// while (42)
+	// {
+	// 	pthread_mutex_lock(&data->mutex.global);
+	// 	if (data->stop)
+	// 	{
+	// 		pthread_mutex_unlock(&data->mutex.global);
+	// 		break ;
+	// 	}
+	// 	pthread_mutex_unlock(&data->mutex.global);
+	// }
+	// i = 0;
+	// while (i < data->args.philo_num)
+	// {
+	// 	pthread_mutex_lock(&data->mutex.global);
+	// 	data->philo[i].interromp = true;
+	// 	pthread_mutex_unlock(&data->mutex.global);
+	// 	i++;
+	// }
 }
 
 void	destroy_mutex(t_data *data)

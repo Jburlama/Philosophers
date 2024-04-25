@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:15:10 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 16:32:54 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:52:28 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	wait_for_monitoring(t_data *data)
 		}
 		pthread_mutex_unlock(&data->mutex.global);
 	}
+	usleep(1);
 }
 
 void	wait_last_thread(t_data *data)

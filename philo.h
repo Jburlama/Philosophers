@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 17:48:20 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:35:43 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@
 #define LIGHT_GRAY  "\x1b[37m"
 #define DARK_GRAY   "\x1b[90m"
 #define RESET   "\x1b[0m"
+
+enum collor_e
+{
+	LEFT_FORK,
+	RIGHT_FORK,
+	EAT
+};
 
 # define MAX_PHILO 200
 
@@ -78,16 +85,20 @@ void	destroy_mutex(t_data *data);
 
 // philo.c
 void	*philo(void *arg);
+void	philo_eat(t_philo *philo);
 bool	philo_is_alive(t_philo *philo);
-int		philo_even(t_philo *philo);
-int		philo_odd(t_philo *philo);
+int		philo_eating(t_philo *philo);
+void	philo_last(t_philo *philo);
 
 // philo_utils.c
-int		philo_spleeping(t_philo *philo);
-int		philo_eating(t_philo *philo);
-void	*philo_die(t_philo *philo);
-bool	philo_interomp(t_philo *philo);
-void	philo_last(t_philo *philo);
+void	philo_eat_even(t_philo *philo);
+void	philo_eat_odd(t_philo *philo);
+
+// printf.c
+void	mtx_printf(char *str, t_philo *philo, int collor);
+void	printf_light_gray(char *str, t_philo *philo);
+void	printf_dark_gray(char *str, t_philo *philo);
+void	printf_green(char *str, t_philo *philo);
 
 // utils.c
 void	wait_for_monitoring(t_data *data);
