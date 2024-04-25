@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:40:08 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 19:31:52 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:36:05 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	philos_init(t_data *data)
 		data->philo[i].philo_id = i + 1;
 		data->philo[i].data = data;
 		data->philo[i].is_last = false;
-		data->philo[i].interromp = false;
 		if (i == data->args.philo_num - 1)
 		{
 			data->philo[i].is_last = true;

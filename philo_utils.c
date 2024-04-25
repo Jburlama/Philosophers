@@ -6,13 +6,13 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:31:28 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 19:43:13 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:47:55 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	philo_eat_even(t_philo *philo)
+int	philo_eat_even(t_philo *philo)
 {
 	size_t time_eat;
 
@@ -26,9 +26,10 @@ void	philo_eat_even(t_philo *philo)
 		;
 	pthread_mutex_unlock(philo->rigth_fork);
 	pthread_mutex_unlock(philo->left_fork);
+	return (-1);
 }
 
-void	philo_eat_odd(t_philo *philo)
+int	philo_eat_odd(t_philo *philo)
 {
 	size_t time_eat;
 
@@ -42,4 +43,5 @@ void	philo_eat_odd(t_philo *philo)
 		;
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->rigth_fork);
+	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 19:35:43 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:53:54 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-#define RED     "\x1b[31m"
-#define YELLOW  "\x1b[33m"
-#define GREEN   "\x1b[32m"
-#define BLUE    "\x1b[34m"
-#define LIGHT_GRAY  "\x1b[37m"
-#define DARK_GRAY   "\x1b[90m"
-#define RESET   "\x1b[0m"
+# define RED 		"\x1b[31m"
+# define YELLOW 	"\x1b[33m"
+# define GREEN 		"\x1b[32m"
+# define BLUE 		"\x1b[34m"
+# define LIGHT_GRAY "\x1b[37m"
+# define DARK_GRAY  "\x1b[90m"
+# define RESET 		"\x1b[0m"
 
-enum collor_e
+enum e_collor
 {
 	LEFT_FORK,
 	RIGHT_FORK,
@@ -54,10 +54,8 @@ typedef struct	s_philo
 {
 	pthread_t		tid;
 	size_t			philo_id;
-	size_t			die_count;
 	t_data			*data;
 	bool			is_last;
-	bool			interromp;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*rigth_fork;
 }				t_philo;
@@ -85,14 +83,12 @@ void	destroy_mutex(t_data *data);
 
 // philo.c
 void	*philo(void *arg);
-void	philo_eat(t_philo *philo);
-bool	philo_is_alive(t_philo *philo);
-int		philo_eating(t_philo *philo);
+int		philo_eat(t_philo *philo);
 void	philo_last(t_philo *philo);
 
 // philo_utils.c
-void	philo_eat_even(t_philo *philo);
-void	philo_eat_odd(t_philo *philo);
+int	philo_eat_even(t_philo *philo);
+int	philo_eat_odd(t_philo *philo);
 
 // printf.c
 void	mtx_printf(char *str, t_philo *philo, int collor);
