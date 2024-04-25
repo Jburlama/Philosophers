@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/24 19:12:39 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:53:20 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct	s_philo
 	size_t			die_count;
 	t_data			*data;
 	bool			is_last;
+	bool			interromp;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*rigth_fork;
 }				t_philo;
@@ -66,11 +67,12 @@ typedef struct s_data
 	t_mutex			mutex;
 	bool			monitoring_is_ready;
 	bool			last_is_ready;
-	bool			interromp;
+	bool			stop;
 	size_t			start_time;
 } t_data;
 
 void	monitoring(t_data *data);
+void	destroy_mutex(t_data *data);
 
 // philo.c
 void	*philo(void *arg);

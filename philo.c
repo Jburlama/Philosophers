@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/24 19:35:40 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:49:18 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	*philo(void *arg)
 	t_philo	*philo;
 	int		interromp;
 
-	interromp = 0;
 	philo = arg;
+	interromp = 0;
 	if (philo->is_last)
 		philo_last(philo);
 	wait_for_monitoring(philo->data);
@@ -188,22 +188,23 @@ int	philo_eating(t_philo *philo)
 void	*philo_die(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->mutex.global);
-	philo->data->interromp = true;
+	philo->interromp = true;
 	pthread_mutex_unlock(&philo->data->mutex.global);
-
 	pthread_mutex_lock(&philo->data->mutex.printf);
 	printf(RED "%zu philo id %zu die\n" RESET,
 		get_time() - philo->data->start_time, philo->philo_id);
 	pthread_mutex_unlock(&philo->data->mutex.printf);
+	pthread_mutex_lock(&philo->data->mutex.global);
+	philo->data->stop = true;
+	pthread_mutex_unlock(&philo->data->mutex.global);
 	return (NULL);
 }
 
 bool	philo_interomp(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->mutex.global);
-	if (philo->data->interromp)
+	if (philo->data->philo->interromp)
 	{
-
 		pthread_mutex_unlock(&philo->data->mutex.global);
 		return (true);
 	}

@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:40:08 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/24 19:01:56 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:54:51 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	mutex_init(t_data *data)
 {
 	size_t	i;
 
-	data->interromp = false;
+	data->stop = false;
 	data->monitoring_is_ready = false;
 	data->last_is_ready = false;
 	pthread_mutex_init(&data->mutex.printf, NULL);
@@ -45,6 +45,7 @@ void	philos_init(t_data *data)
 		data->philo[i].philo_id = i + 1;
 		data->philo[i].data = data;
 		data->philo[i].is_last = false;
+		data->philo[i].interromp = false;
 		if (i == data->args.philo_num - 1)
 		{
 			data->philo[i].is_last = true;
