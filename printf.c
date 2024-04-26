@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:09:26 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 19:13:23 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/26 20:08:41 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	mtx_printf(char *str, t_philo *philo, int collor)
 		printf_dark_gray(str, philo);
 	else if (collor == EAT)
 		printf_green(str, philo);
+	else if (collor == DIE)
+		printf_red(str, philo);
 }
 
 void	printf_green(char *str, t_philo *philo)
@@ -46,3 +48,10 @@ void	printf_dark_gray(char *str, t_philo *philo)
 	pthread_mutex_unlock(&philo->data->mutex.printf);
 }
 
+void	printf_red(char *str, t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->mutex.printf);
+	printf(RED "%zu %zu %s\n" RESET, get_time() - philo->data->start_time, 
+		philo->philo_id, str);
+	pthread_mutex_unlock(&philo->data->mutex.printf);
+}
