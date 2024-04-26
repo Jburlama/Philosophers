@@ -6,13 +6,61 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:40:08 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/15 19:10:15 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:36:05 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	set_data(int argc, char *argv[], t_data *data)
+void	mutex_init(t_data *data)
+{
+	size_t	i;
+
+	data->stop = false;
+	data->monitoring_is_ready = false;
+	data->last_is_ready = false;
+	pthread_mutex_init(&data->mutex.printf, NULL);
+	pthread_mutex_init(&data->mutex.global, NULL);
+	i = 0;
+	data->mutex.fork = malloc(sizeof(*data->mutex.fork) * data->args.philo_num);
+	if (data->mutex.fork == NULL)
+		return ;
+	while (i < data->args.philo_num)
+	{
+		pthread_mutex_init(&data->mutex.fork[i], NULL);
+		i++;
+	}
+}
+
+void	philos_init(t_data *data)
+{
+	size_t	i;
+
+	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
+	if (data->philo == NULL)
+		return ;
+	i = -1;
+	while (++i < data->args.philo_num)
+	{
+		data->philo[i].philo_id = i + 1;
+		data->philo[i].data = data;
+		data->philo[i].is_last = false;
+		if (i == data->args.philo_num - 1)
+		{
+			data->philo[i].is_last = true;
+			data->philo[i].left_fork = &data->mutex.fork[i];
+			data->philo[i].rigth_fork = &data->mutex.fork[0];
+		}
+		else
+		{
+			data->philo[i].left_fork = &data->mutex.fork[i];
+			data->philo[i].rigth_fork = &data->mutex.fork[i + 1];
+		}
+		pthread_create(&data->philo[i].tid, NULL, philo, &data->philo[i]);
+	}
+}
+
+int	data_init(int argc, char *argv[], t_data *data)
 {
 	data->args.philo_num = atos_t(argv[1]);
 	if (data->args.philo_num > MAX_PHILO || data->args.philo_num == 0)

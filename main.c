@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/11 18:15:54 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/17 15:06:21 by Jburlama         ###   ########.fr       */
+/*   Created: 2024/04/25 22:58:42 by Jburlama          #+#    #+#             */
+/*   Updated: 2024/04/25 22:58:43 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,38 @@
 
 int	main(int argc, char *argv[])
 {
-	t_data	data;
+	static t_data	data;
 
-	memset(&data, 0, sizeof(data));
 	if (!check_valid_args(argc, argv))
 		return (panic("invalid arguments\n"));
-	if (set_data(argc, argv, &data) == -1)
+	if (data_init(argc, argv, &data) == -1)
 		return (panic("philo number between 1-200\n"));
-	start_diner(&data);
+	mutex_init(&data);
+	philos_init(&data);
+	monitoring(&data);
+	join_thread(&data);
+	destroy_mutex(&data);
+	free(data.mutex.fork);
+	free(data.philo);
 	return (0);
 }
 
-int		start_diner(t_data *data)
+void	monitoring(t_data *data)
 {
-	size_t	result;
-	size_t	i;
+	wait_last_thread(data);
 
-	pthread_mutex_init(&data->mutex_printf, NULL);
-	data->philo = malloc(sizeof(pthread_t) * data->args.philo_num);
-	if (data->philo == NULL)
-		return (-1);
-	data->philo_id = 1;
-	result = 0;
-	i = -1;
-	while (++i < data->args.philo_num)
-	{
-		pthread_create(&data->philo[i], NULL, philo, data);
-	}
-	join_threads(data);
-	return (0);
 }
 
-void	*philo(void *data)
-{
-	pthread_mutex_lock(&((t_data *)data)->mutex_printf);
-	printf("hello from thread id %i\n", ((t_data *)data)->philo_id);
-	((t_data *)data)->philo_id++;
-	pthread_mutex_unlock(&((t_data *)data)->mutex_printf);
-	return (NULL);
-}
-
-void	join_threads(t_data *data)
+void	destroy_mutex(t_data *data)
 {
 	size_t	i;
 
-	i = -1;
-	while (++i < data->args.philo_num)
+	pthread_mutex_destroy(&data->mutex.global);
+	pthread_mutex_destroy(&data->mutex.printf);
+	i = 0;
+	while (i < data->args.philo_num)
 	{
-		pthread_join(data->philo[i], NULL);
+		pthread_mutex_destroy(&data->mutex.fork[i]);
+		i++;
 	}
 }
