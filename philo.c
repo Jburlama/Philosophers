@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 20:41:22 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/26 21:42:28 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,22 @@ void	*philo(void *arg)
 	if (philo->is_last)
 		philo_last(philo);
 	wait_for_monitoring(philo->data);
-	while (42)
-	{
-		if (philo_eat(philo) == -1)
-			break ;
-	}
-	return (NULL);
-}
 
-int	philo_eat(t_philo *philo)
-{
-	if (philo->philo_id % 2 == 0)
+	while(42)
 	{
-		usleep(100);
-		philo_eat_even(philo);
+		if (philo->philo_id % 2 == 0)
+		{
+			usleep(4000);
+			philo_even(philo);
+		}
+		else
+		{
+			philo_odd(philo);
+			usleep(4000);
+		}
 	}
-	else
-	{
-		philo_eat_odd(philo);
-		usleep(100);
-	}
-	return (0);
+
+	return (NULL);
 }
 
 void	philo_last(t_philo *philo)
