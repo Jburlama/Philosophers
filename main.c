@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/29 21:53:39 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/29 22:01:36 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,19 @@ void	*grim_reaper(void *arg)
 
 	reaper = arg;
 	wait_for_monitoring(reaper->data);
-	pthread_mutex_lock(&reaper->data->mutex.kill[reaper->philo->philo_id - 1]);
+	pthread_mutex_lock(reaper->kill);
 	reaper->time_die = get_time();
-	pthread_mutex_unlock(&reaper->data->mutex.kill[reaper->philo->philo_id - 1]);
+	pthread_mutex_unlock(reaper->kill);
 	while (42)
 	{
-		pthread_mutex_lock(&reaper->data->mutex.kill[reaper->philo->philo_id - 1]);
+		pthread_mutex_lock(reaper->kill);
 		if (get_time() - reaper->time_die >= reaper->data->args.time_die)
 		{
 			time = get_time() - reaper->data->start_time;
-			pthread_mutex_unlock(&reaper->data->mutex.kill[reaper->philo->philo_id - 1]);
+			pthread_mutex_unlock(reaper->kill);
 			break ;
 		}
-		pthread_mutex_unlock(&reaper->data->mutex.kill[reaper->philo->philo_id - 1]);
+		pthread_mutex_unlock(reaper->kill);
 		pthread_mutex_lock(&reaper->mutex->global);
 		if (reaper->data->one_die)
 		{
