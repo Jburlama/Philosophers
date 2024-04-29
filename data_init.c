@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:40:08 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/29 21:28:01 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/29 21:55:55 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	reaper_init(t_data *data)
 		data->reaper[i].data = data;
 		data->reaper[i].mutex = &data->mutex;
 		data->reaper[i].philo = &data->philo[i];
+		data->reaper[i].kill = &data->mutex.kill[i];
 		pthread_create(&data->reaper[i].tid, NULL, grim_reaper, &data->reaper[i]);
 	}
 }
@@ -65,6 +66,7 @@ void	philos_init(t_data *data)
 		data->philo[i].data = data;
 		data->philo[i].is_last = false;
 		data->philo[i].is_death = false;
+		data->philo[i].kill = &data->mutex.kill[i];
 		data->philo[i].mutex = &data->mutex;
 		data->philo[i].reaper = &data->reaper[i];
 		data->philo[i].left_fork = &data->mutex.fork[i];
@@ -91,6 +93,7 @@ int	data_init(int argc, char *argv[], t_data *data)
 		data->args.times_must_eat = atos_t(argv[5]);
 	data->monitoring_is_ready = false;
 	data->last_is_ready = false;
+	data->one_die = false;
 	return (0);
 }
 
