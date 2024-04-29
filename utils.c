@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:15:10 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/29 17:42:46 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/29 21:18:51 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ void	join_thread(t_data *data, int join)
 			pthread_join(data->philo[i].tid, NULL);
 			i++;
 		}
+	}
+	if (join == RIPPER)
+	{
+		while (i < data->args.philo_num)
+		{
+			pthread_join(data->reaper[i].tid, NULL);
+			i++;
+		}
+
 	}
 }
 

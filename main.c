@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/29 20:15:16 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/29 21:24:50 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char *argv[])
 	destroy_mutex(&data);
 	free(data.mutex.fork);
 	free(data.philo);
+	free(data.reaper);
 	return (0);
 }
 
@@ -36,8 +37,36 @@ void	monitoring(t_data *data)
 	pthread_mutex_lock(&data->mutex.global);
 	data->start_time = get_time();
 	pthread_mutex_unlock(&data->mutex.global);
+	join_thread(data, RIPPER);
 }
 
+void	*grim_reaper(void *arg)
+{
+	t_reaper *reaper;
+	size_t   time;
+
+	reaper = arg;
+	wait_for_monitoring(reaper->data);
+	pthread_mutex_lock(&reaper->data->mutex.kill[reaper->philo->philo_id - 1]);
+	reaper->time_die = get_time();
+	pthread_mutex_unlock(&reaper->data->mutex.kill[reaper->philo->philo_id - 1]);
+	while (42)
+	{
+		pthread_mutex_lock(&reaper->data->mutex.kill[reaper->philo->philo_id - 1]);
+		if (get_time() - reaper->time_die >= reaper->data->args.time_die)
+		{
+			time = get_time() - reaper->data->start_time;
+			pthread_mutex_unlock(&reaper->data->mutex.kill[reaper->philo->philo_id - 1]);
+			break ;
+		}
+		pthread_mutex_unlock(&reaper->data->mutex.kill[reaper->philo->philo_id - 1]);
+	}
+	pthread_mutex_lock(&reaper->mutex->global);
+	reaper->data->one_die = true;
+	pthread_mutex_unlock(&reaper->mutex->global);
+	mtx_printf("die", time, reaper->philo, DIE);
+	return (NULL);
+}
 
 void	destroy_mutex(t_data *data)
 {
@@ -49,6 +78,7 @@ void	destroy_mutex(t_data *data)
 	while (i < data->args.philo_num)
 	{
 		pthread_mutex_destroy(&data->mutex.fork[i]);
+		pthread_mutex_destroy(&data->mutex.kill[i]);
 		i++;
 	}
 }
