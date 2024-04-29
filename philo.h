@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/26 20:52:54 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:14:28 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,16 @@ enum e_collor
 	LEFT_FORK,
 	RIGHT_FORK,
 	EAT,
-	DIE
+	DIE,
+	THINK,
+	SLEEP
 };
 
 enum e_join
 {
 	PHILO,
-	RIPPER
+	RIPPER,
+	WAITER
 };
 
 # define MAX_PHILO 200
@@ -57,68 +60,54 @@ typedef struct s_args
 	size_t	times_must_eat;
 }				t_args;
 
-typedef struct	s_philo
-{
-	pthread_t		tid;
-	size_t			philo_id;
-	size_t			die_time;
-	t_data			*data;
-	bool			is_last;
-	bool			is_death;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*rigth_fork;
-}				t_philo;
-
 typedef	struct s_mutex
 {
 	pthread_mutex_t printf;
 	pthread_mutex_t global;
-	pthread_mutex_t	kill;
 	pthread_mutex_t *fork;
 } t_mutex;
 
-typedef	struct s_riper
+typedef struct	s_philo
 {
-	pthread_t	th_ripper;
-	t_data		*data;
-	t_philo		*philo;
-
-} t_ripper;
+	pthread_t		tid;
+	size_t			philo_id;
+	t_data			*data;
+	t_mutex			*mutex;
+	bool			is_last;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*rigth_fork;
+}				t_philo;
 
 typedef struct s_data
 {
 	t_args			args;
 	t_philo			*philo;
-	t_ripper		*ripper;
 	t_mutex			mutex;
 	bool			monitoring_is_ready;
 	bool			last_is_ready;
-	bool			one_die;
 	size_t			start_time;
 } t_data;
 
 void	monitoring(t_data *data);
 void	destroy_mutex(t_data *data);
-void	*ripper(void *arg);
 
 // philo.c
 void	*philo(void *arg);
 void	philo_last(t_philo *philo);
-bool	philo_die(t_philo *philo);
-void	philo_can_eat(t_philo *philo);
+void	philo_sleep(t_philo *philo);
 
 // philo_utils.c
 int		philo_even(t_philo *philo);
 int		philo_odd(t_philo *philo);
-bool	philo_check_death(t_philo *philo);
-void	philo_reset_deth(t_philo *philo);
 
 // printf.c
-void	mtx_printf(char *str, t_philo *philo, int collor);
-void	printf_light_gray(char *str, t_philo *philo);
-void	printf_dark_gray(char *str, t_philo *philo);
-void	printf_green(char *str, t_philo *philo);
-void	printf_red(char *str, t_philo *philo);
+void	mtx_printf(char *str, size_t time, t_philo *philo, int collor);
+void	printf_light_gray(char *str, size_t time, t_philo *philo);
+void	printf_dark_gray(char *str, size_t time, t_philo *philo);
+void	printf_green(char *str, size_t time, t_philo *philo);
+void	printf_red(char *str, size_t time, t_philo *philo);
+void	printf_blue(char *str, size_t time, t_philo *philo);
+void	printf_yellow(char *str, size_t time, t_philo *philo);
 
 // utils.c
 void	wait_for_monitoring(t_data *data);

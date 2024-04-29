@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/26 21:42:28 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:20:57 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,29 @@ void	*philo(void *arg)
 	if (philo->is_last)
 		philo_last(philo);
 	wait_for_monitoring(philo->data);
-
-	while(42)
+	if (philo->philo_id % 2 == 0)
+		usleep(1e4);
+	while (42)
 	{
-		if (philo->philo_id % 2 == 0)
-		{
-			usleep(4000);
-			philo_even(philo);
-		}
-		else
-		{
+		if (philo->philo_id % 2 != 0)
 			philo_odd(philo);
-			usleep(4000);
-		}
+		else
+			philo_even(philo);
+		philo_sleep(philo);
 	}
-
 	return (NULL);
+}
+
+void	philo_sleep(t_philo *philo)
+{
+	size_t	time_sleep;
+	size_t	time;
+	
+	time = get_time() - philo->data->start_time;
+	mtx_printf("is sleeping", time, philo, SLEEP);
+	time_sleep = get_time();
+	while (get_time() - time_sleep <= philo->data->args.time_sleep)
+		;
 }
 
 void	philo_last(t_philo *philo)

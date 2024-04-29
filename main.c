@@ -6,12 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/26 21:20:24 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:15:16 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <pthread.h>
 
 int	main(int argc, char *argv[])
 {
@@ -33,38 +32,18 @@ int	main(int argc, char *argv[])
 
 void	monitoring(t_data *data)
 {
-	size_t	i;
-	
-	data->ripper = malloc(sizeof(*data->ripper) * data->args.philo_num);
-	if (data->ripper == NULL)
-		return ;
-	i = -1;
-	while (++i < data->args.philo_num)
-	{
-		data->ripper[i].philo = &data->philo[i];
-		data->ripper[i].data = data;
-		pthread_create(&data->ripper[i].th_ripper, NULL, ripper, &data->ripper[i]);
-	}
 	wait_last_thread(data);
-	join_thread(data, RIPPER);
+	pthread_mutex_lock(&data->mutex.global);
+	data->start_time = get_time();
+	pthread_mutex_unlock(&data->mutex.global);
 }
 
-void	*ripper(void *arg)
-{
-	t_ripper	*r;
-
-	r = arg;
-	wait_for_monitoring(r->data);
-
-	return (NULL);
-}
 
 void	destroy_mutex(t_data *data)
 {
 	size_t	i;
 
 	pthread_mutex_destroy(&data->mutex.global);
-	pthread_mutex_destroy(&data->mutex.kill);
 	pthread_mutex_destroy(&data->mutex.printf);
 	i = 0;
 	while (i < data->args.philo_num)
