@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:40:08 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/29 21:56:31 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:27:16 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ void	mutex_init(t_data *data)
 	data->mutex.fork = malloc(sizeof(*data->mutex.fork) * data->args.philo_num);
 	if (data->mutex.fork == NULL)
 		return ;
-	data->mutex.kill = malloc(sizeof(*data->mutex.kill) * data->args.philo_num);
-	if (data->mutex.kill == NULL)
+	memset(data->mutex.fork, 0, sizeof(*data->mutex.fork));
+	data->mutex.scythe = malloc(sizeof(*data->mutex.scythe) * data->args.philo_num);
+	if (data->mutex.scythe == NULL)
 		return ;
 	i = 0;
 	while (i < data->args.philo_num)
 	{
 		pthread_mutex_init(&data->mutex.fork[i], NULL);
-		pthread_mutex_init(&data->mutex.kill[i], NULL);
+		pthread_mutex_init(&data->mutex.scythe[i], NULL);
 		i++;
 	}
 }
@@ -46,7 +47,7 @@ void	reaper_init(t_data *data)
 		data->reaper[i].data = data;
 		data->reaper[i].mutex = &data->mutex;
 		data->reaper[i].philo = &data->philo[i];
-		data->reaper[i].kill = &data->mutex.kill[i];
+		data->reaper[i].scythe = &data->mutex.scythe[i];
 		pthread_create(&data->reaper[i].tid, NULL, grim_reaper, &data->reaper[i]);
 	}
 }
@@ -66,7 +67,7 @@ void	philos_init(t_data *data)
 		data->philo[i].data = data;
 		data->philo[i].is_last = false;
 		data->philo[i].is_death = false;
-		data->philo[i].kill = &data->mutex.kill[i];
+		data->philo[i].scythe = &data->mutex.scythe[i];
 		data->philo[i].mutex = &data->mutex;
 		data->philo[i].reaper = &data->reaper[i];
 		data->philo[i].left_fork = &data->mutex.fork[i];

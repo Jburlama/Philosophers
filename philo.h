@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/29 22:02:27 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:26:08 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef	struct s_mutex
 {
 	pthread_mutex_t printf;
 	pthread_mutex_t global;
-	pthread_mutex_t *kill;
+	pthread_mutex_t *scythe;
 	pthread_mutex_t *fork;
 } t_mutex;
 
@@ -76,7 +76,7 @@ typedef	struct s_reaper
 	t_data		*data;
 	t_mutex		*mutex;
 	t_philo		*philo;
-	pthread_mutex_t *kill;
+	pthread_mutex_t *scythe;
 } t_reaper;
 
 typedef struct	s_philo
@@ -88,7 +88,7 @@ typedef struct	s_philo
 	t_reaper		*reaper;
 	bool			is_last;
 	bool			is_death;
-	pthread_mutex_t *kill;
+	pthread_mutex_t *scythe;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*rigth_fork;
 }				t_philo;

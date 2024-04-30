@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/29 22:01:36 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:28:35 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int argc, char *argv[])
 		return (panic("invalid arguments\n"));
 	if (data_init(argc, argv, &data) == -1)
 		return (panic("philo number between 1-200\n"));
+	// memset(&data, 0, sizeof(data));
 	mutex_init(&data);
 	philos_init(&data);
 	monitoring(&data);
@@ -47,19 +48,19 @@ void	*grim_reaper(void *arg)
 
 	reaper = arg;
 	wait_for_monitoring(reaper->data);
-	pthread_mutex_lock(reaper->kill);
+	pthread_mutex_lock(reaper->scythe);
 	reaper->time_die = get_time();
-	pthread_mutex_unlock(reaper->kill);
+	pthread_mutex_unlock(reaper->scythe);
 	while (42)
 	{
-		pthread_mutex_lock(reaper->kill);
+		pthread_mutex_lock(reaper->scythe);
 		if (get_time() - reaper->time_die >= reaper->data->args.time_die)
 		{
 			time = get_time() - reaper->data->start_time;
-			pthread_mutex_unlock(reaper->kill);
+			pthread_mutex_unlock(reaper->scythe);
 			break ;
 		}
-		pthread_mutex_unlock(reaper->kill);
+		pthread_mutex_unlock(reaper->scythe);
 		pthread_mutex_lock(&reaper->mutex->global);
 		if (reaper->data->one_die)
 		{
@@ -85,7 +86,7 @@ void	destroy_mutex(t_data *data)
 	while (i < data->args.philo_num)
 	{
 		pthread_mutex_destroy(&data->mutex.fork[i]);
-		pthread_mutex_destroy(&data->mutex.kill[i]);
+		pthread_mutex_destroy(&data->mutex.scythe[i]);
 		i++;
 	}
 }

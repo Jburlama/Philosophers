@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 16:42:06 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/15 19:09:06 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:26:43 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,28 @@ int	panic(char *err_msg)
 	write(2, err_msg, msg_len);
 	return (1);
 }
+
+// void	panic_mtx(t_data *data)
+// {
+// 	size_t	i;
+
+// 	pthread_mutex_destroy(&data->mutex.printf);
+// 	pthread_mutex_destroy(&data->mutex.global);
+// 	i = -1;
+// 	if (data->mutex.fork)
+// 	{
+// 		while (data->mutex.fork[i])
+// 		{
+// 			pthread_mutex_destroy(&data->mutex.fork[i]);
+// 		}
+// 		free(data->mutex.fork);
+// 	}
+// 	if (data->mutex.scythe)
+// 	{
+// 		
+// 	}
+// 	return ;
+// }
 
 bool	check_valid_args(int argc, char *argv[])
 {
