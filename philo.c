@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/29 22:02:28 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/30 20:18:25 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,11 @@ void	*philo(void *arg)
 			if (philo_even(philo) == -1)
 				return (NULL);
 		}
+		if (one_die(philo))
+			return (NULL);
 		if (philo_sleep(philo) == -1)
+			return (NULL);
+		if (one_die(philo))
 			return (NULL);
 	}
 	return (NULL);
@@ -45,23 +49,21 @@ int	philo_sleep(t_philo *philo)
 	size_t	time_sleep;
 	size_t	time;
 	
+	if (one_die(philo))
+		return (-1);
 	time = get_time() - philo->data->start_time;
 	mtx_printf("is sleeping", time, philo, SLEEP);
 
 	time_sleep = get_time();
-	while (get_time() - time_sleep <= philo->data->args.time_sleep)
+	while (get_time() - time_sleep < philo->data->args.time_sleep)
 	{
 		if (one_die(philo))
 			return (-1);
+		// usleep(500);
 	}
+	if (one_die(philo))
+		return (-1);
 	return (0);
-}
-
-void	philo_last(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->mutex.global);
-	philo->data->last_is_ready = true;
-	pthread_mutex_unlock(&philo->data->mutex.global);
 }
 
 bool	one_die(t_philo *philo)
@@ -74,4 +76,11 @@ bool	one_die(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->mutex->global);
 	return (false);
+}
+
+void	philo_last(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->mutex.global);
+	philo->data->last_is_ready = true;
+	pthread_mutex_unlock(&philo->data->mutex.global);
 }
