@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 19:40:08 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/30 19:45:00 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/30 20:38:34 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,13 @@ void	philos_init(t_data *data)
 	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
 	if (data->philo == NULL)
 		return ;
+	memset(data->philo, 0, sizeof(*data->philo));
 	reaper_init(data);
 	i = -1;
 	while (++i < data->args.philo_num)
 	{
 		data->philo[i].philo_id = i + 1;
 		data->philo[i].data = data;
-		data->philo[i].is_last = false;
-		data->philo[i].is_death = false;
 		data->philo[i].scythe = &data->mutex.scythe[i];
 		data->philo[i].mutex = &data->mutex;
 		data->philo[i].reaper = &data->reaper[i];

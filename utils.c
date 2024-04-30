@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:15:10 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/30 17:10:12 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/30 20:38:22 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	join_thread(t_data *data, int join)
 			pthread_join(data->reaper[i].tid, NULL);
 			i++;
 		}
-
 	}
 }
 

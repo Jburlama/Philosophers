@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:31:28 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/30 20:17:37 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/30 21:07:37 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@ int	philo_even(t_philo *philo)
 	time = get_time() - philo->data->start_time;
 	mtx_printf("has taken a fork", time, philo, LEFT_FORK);
 	pthread_mutex_lock(philo->rigth_fork);
-	// if (one_die(philo))
-	// {
-	// 	pthread_mutex_unlock(philo->left_fork);
-	// 	pthread_mutex_unlock(philo->rigth_fork);
-	// 	return (-1);
-	// }
 	pthread_mutex_lock(philo->scythe);
 	philo->reaper->time_die = get_time();
 	pthread_mutex_unlock(philo->scythe);
@@ -51,12 +45,11 @@ int	philo_even(t_philo *philo)
 			return (-1);
 		}
 	}
-	// pthread_mutex_lock(philo->scythe);
-	// philo->reaper->time_die = get_time();
-	// pthread_mutex_unlock(philo->scythe);
+	pthread_mutex_lock(philo->scythe);
+	philo->reaper->time_die = get_time();
+	pthread_mutex_unlock(philo->scythe);
 	pthread_mutex_unlock(philo->rigth_fork);
 	pthread_mutex_unlock(philo->left_fork);
-
 	return (0);
 }
 
@@ -74,12 +67,6 @@ int	philo_odd(t_philo *philo)
 	time = get_time() - philo->data->start_time;
 	mtx_printf("has taken a fork", time, philo, RIGHT_FORK);
 	pthread_mutex_lock(philo->left_fork);
-	// if (one_die(philo))
-	// {
-	// 	pthread_mutex_unlock(philo->left_fork);
-	// 	pthread_mutex_unlock(philo->rigth_fork);
-	// 	return (-1);
-	// }
 	pthread_mutex_lock(philo->scythe);
 	philo->reaper->time_die = get_time();
 	pthread_mutex_unlock(philo->scythe);
@@ -99,9 +86,9 @@ int	philo_odd(t_philo *philo)
 			return (-1);
 		}
 	}
-	// pthread_mutex_lock(philo->scythe);
-	// philo->reaper->time_die = get_time();
-	// pthread_mutex_unlock(philo->scythe);
+	pthread_mutex_lock(philo->scythe);
+	philo->reaper->time_die = get_time();
+	pthread_mutex_unlock(philo->scythe);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->rigth_fork);
 	return (0);
