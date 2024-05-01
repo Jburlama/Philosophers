@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:16:38 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 17:17:52 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:24:19 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ void	*grim_reaper(void *arg)
 
 	reaper = arg;
 	wait_for_monitoring(reaper->data);
-	pthread_mutex_lock(reaper->scythe);
-	reaper->time_die = get_time();
-	pthread_mutex_unlock(reaper->scythe);
+	philo_update_time_die(reaper->philo);
 	while (42)
 	{
 		pthread_mutex_lock(reaper->scythe);
@@ -30,13 +28,8 @@ void	*grim_reaper(void *arg)
 			break ;
 		}
 		pthread_mutex_unlock(reaper->scythe);
-		pthread_mutex_lock(&reaper->mutex->global);
-		if (reaper->data->one_die)
-		{
-			pthread_mutex_unlock(&reaper->mutex->global);
+		if (one_die(reaper->philo))
 			return (NULL);
-		}
-		pthread_mutex_unlock(&reaper->mutex->global);
 	}
 	pthread_mutex_lock(&reaper->mutex->global);
 	reaper->data->one_die = true;
