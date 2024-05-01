@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 17:20:09 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:32:18 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,27 @@ typedef struct s_args
 	size_t	time_eat;
 	size_t	time_sleep;
 	size_t	times_must_eat;
-}				t_args;
+}	t_args;
 
-typedef	struct s_mutex
+typedef struct s_mutex
 {
-	pthread_mutex_t printf;
-	pthread_mutex_t global;
-	pthread_mutex_t *scythe;
-	pthread_mutex_t *fork;
-} t_mutex;
+	pthread_mutex_t	printf;
+	pthread_mutex_t	global;
+	pthread_mutex_t	*scythe;
+	pthread_mutex_t	*fork;
+}	t_mutex;
 
-typedef	struct s_reaper
+typedef struct s_reaper
 {
-	pthread_t	tid;
-	size_t		time_die;
-	t_data		*data;
-	t_mutex		*mutex;
-	t_philo		*philo;
-	pthread_mutex_t *scythe;
-} t_reaper;
+	pthread_t		tid;
+	size_t			time_die;
+	t_data			*data;
+	t_mutex			*mutex;
+	t_philo			*philo;
+	pthread_mutex_t	*scythe;
+}	t_reaper;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	pthread_t		tid;
 	size_t			philo_id;
@@ -88,10 +88,10 @@ typedef struct	s_philo
 	t_reaper		*reaper;
 	bool			is_last;
 	bool			is_death;
-	pthread_mutex_t *scythe;
+	pthread_mutex_t	*scythe;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*rigth_fork;
-}				t_philo;
+}	t_philo;
 
 typedef struct s_data
 {
@@ -103,7 +103,7 @@ typedef struct s_data
 	bool			last_is_ready;
 	bool			one_die;
 	size_t			start_time;
-} t_data;
+}	t_data;
 
 void	monitoring(t_data *data);
 void	destroy_mutex(t_data *data);

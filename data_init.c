@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:38:39 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 16:38:51 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:35:03 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	mutex_init(t_data *data)
 	if (data->mutex.fork == NULL)
 		return ;
 	memset(data->mutex.fork, 0, sizeof(*data->mutex.fork));
-	data->mutex.scythe = malloc(sizeof(*data->mutex.scythe) * data->args.philo_num);
+	data->mutex.scythe = malloc(sizeof(*data->mutex.scythe)
+			* data->args.philo_num);
 	if (data->mutex.scythe == NULL)
 		return ;
 	i = 0;
@@ -36,7 +37,7 @@ void	mutex_init(t_data *data)
 
 void	reaper_init(t_data *data)
 {
-	size_t i;
+	size_t	i;
 
 	data->reaper = malloc(sizeof(*data->reaper) * data->args.philo_num);
 	if (data->reaper == NULL)
@@ -48,7 +49,8 @@ void	reaper_init(t_data *data)
 		data->reaper[i].mutex = &data->mutex;
 		data->reaper[i].philo = &data->philo[i];
 		data->reaper[i].scythe = &data->mutex.scythe[i];
-		pthread_create(&data->reaper[i].tid, NULL, grim_reaper, &data->reaper[i]);
+		pthread_create(&data->reaper[i].tid, NULL,
+			grim_reaper, &data->reaper[i]);
 	}
 }
 
@@ -80,7 +82,7 @@ void	philos_init(t_data *data)
 		pthread_create(&data->philo[i].tid, NULL, philo, &data->philo[i]);
 	}
 }
-	
+
 int	data_init(int argc, char *argv[], t_data *data)
 {
 	data->args.philo_num = atos_t(argv[1]);

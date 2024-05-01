@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 17:23:06 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:32:46 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*philo(void *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = arg;
 	if (philo->is_last)
@@ -43,7 +43,7 @@ void	*philo(void *arg)
 int	philo_sleep(t_philo *philo)
 {
 	size_t	time_sleep;
-	
+
 	if (one_die(philo))
 		return (-1);
 	mtx_printf("is sleeping", philo, SLEEP);

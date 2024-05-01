@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:16:38 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 17:24:19 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:25:04 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*grim_reaper(void *arg)
 {
-	t_reaper *reaper;
+	t_reaper	*reaper;
 
 	reaper = arg;
 	wait_for_monitoring(reaper->data);
