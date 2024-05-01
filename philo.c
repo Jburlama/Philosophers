@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 17:49:10 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:58:48 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	*philo(void *arg)
 	wait_for_monitoring(philo->data);
 	if (philo->philo_id % 2 == 0)
 	{
-		mtx_printf("is thinking", philo, THINK);
 		usleep(1e4);
+		mtx_printf("is thinking", philo, THINK);
 	}
 	while (42)
 	{

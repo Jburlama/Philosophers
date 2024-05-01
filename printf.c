@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:09:26 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 17:27:29 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:56:45 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	mtx_printf(char *str, t_philo *philo, int collor)
 {
 	size_t	time;
 
+	pthread_mutex_lock(&philo->data->mutex.printf);
 	time = get_time() - philo->data->start_time;
+	pthread_mutex_unlock(&philo->data->mutex.printf);
 	if (collor == LEFT_FORK)
 		printf_light_gray(str, time, philo);
 	else if (collor == RIGHT_FORK)
