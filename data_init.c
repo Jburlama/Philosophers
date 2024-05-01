@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/13 19:40:08 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 20:36:05 by Jburlama         ###   ########.fr       */
+/*   Created: 2024/05/01 16:38:39 by Jburlama          #+#    #+#             */
+/*   Updated: 2024/05/01 17:35:53 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,41 @@ void	mutex_init(t_data *data)
 {
 	size_t	i;
 
-	data->stop = false;
-	data->monitoring_is_ready = false;
-	data->last_is_ready = false;
 	pthread_mutex_init(&data->mutex.printf, NULL);
 	pthread_mutex_init(&data->mutex.global, NULL);
-	i = 0;
 	data->mutex.fork = malloc(sizeof(*data->mutex.fork) * data->args.philo_num);
 	if (data->mutex.fork == NULL)
 		return ;
+	memset(data->mutex.fork, 0, sizeof(*data->mutex.fork));
+	data->mutex.scythe = malloc(sizeof(*data->mutex.scythe)
+			* data->args.philo_num);
+	if (data->mutex.scythe == NULL)
+		return ;
+	i = 0;
 	while (i < data->args.philo_num)
 	{
 		pthread_mutex_init(&data->mutex.fork[i], NULL);
+		pthread_mutex_init(&data->mutex.scythe[i], NULL);
 		i++;
+	}
+}
+
+void	reaper_init(t_data *data)
+{
+	size_t	i;
+
+	data->reaper = malloc(sizeof(*data->reaper) * data->args.philo_num);
+	if (data->reaper == NULL)
+		return ;
+	i = -1;
+	while (++i < data->args.philo_num)
+	{
+		data->reaper[i].data = data;
+		data->reaper[i].mutex = &data->mutex;
+		data->reaper[i].philo = &data->philo[i];
+		data->reaper[i].scythe = &data->mutex.scythe[i];
+		pthread_create(&data->reaper[i].tid, NULL,
+			grim_reaper, &data->reaper[i]);
 	}
 }
 
@@ -39,23 +61,24 @@ void	philos_init(t_data *data)
 	data->philo = malloc(sizeof(*data->philo) * data->args.philo_num);
 	if (data->philo == NULL)
 		return ;
+	memset(data->philo, 0, sizeof(*data->philo));
+	reaper_init(data);
 	i = -1;
 	while (++i < data->args.philo_num)
 	{
 		data->philo[i].philo_id = i + 1;
 		data->philo[i].data = data;
-		data->philo[i].is_last = false;
+		data->philo[i].scythe = &data->mutex.scythe[i];
+		data->philo[i].mutex = &data->mutex;
+		data->philo[i].reaper = &data->reaper[i];
+		data->philo[i].left_fork = &data->mutex.fork[i];
 		if (i == data->args.philo_num - 1)
 		{
 			data->philo[i].is_last = true;
-			data->philo[i].left_fork = &data->mutex.fork[i];
 			data->philo[i].rigth_fork = &data->mutex.fork[0];
 		}
 		else
-		{
-			data->philo[i].left_fork = &data->mutex.fork[i];
 			data->philo[i].rigth_fork = &data->mutex.fork[i + 1];
-		}
 		pthread_create(&data->philo[i].tid, NULL, philo, &data->philo[i]);
 	}
 }
@@ -70,6 +93,9 @@ int	data_init(int argc, char *argv[], t_data *data)
 	data->args.time_sleep = atos_t(argv[4]);
 	if (argc == 6)
 		data->args.times_must_eat = atos_t(argv[5]);
+	data->monitoring_is_ready = false;
+	data->last_is_ready = false;
+	data->one_die = false;
 	return (0);
 }
 

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/25 22:58:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/25 22:58:43 by Jburlama         ###   ########.fr       */
+/*   Created: 2024/05/01 17:50:25 by Jburlama          #+#    #+#             */
+/*   Updated: 2024/05/01 17:50:30 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,18 @@ int	main(int argc, char *argv[])
 	mutex_init(&data);
 	philos_init(&data);
 	monitoring(&data);
-	join_thread(&data);
+	join_thread(&data, PHILO);
 	destroy_mutex(&data);
-	free(data.mutex.fork);
-	free(data.philo);
 	return (0);
 }
 
 void	monitoring(t_data *data)
 {
 	wait_last_thread(data);
-
+	pthread_mutex_lock(&data->mutex.global);
+	data->start_time = get_time();
+	pthread_mutex_unlock(&data->mutex.global);
+	join_thread(data, RIPPER);
 }
 
 void	destroy_mutex(t_data *data)
@@ -46,6 +47,10 @@ void	destroy_mutex(t_data *data)
 	while (i < data->args.philo_num)
 	{
 		pthread_mutex_destroy(&data->mutex.fork[i]);
+		pthread_mutex_destroy(&data->mutex.scythe[i]);
 		i++;
 	}
+	free(data->mutex.fork);
+	free(data->philo);
+	free(data->reaper);
 }
