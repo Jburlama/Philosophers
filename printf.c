@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:09:26 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 18:45:49 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 22:37:40 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	mtx_printf(char *str, t_philo *philo, int collor)
 		printf_dark_gray(str, time, philo);
 	else if (collor == EAT)
 		printf_green(str, time, philo);
-	else if (collor == DIE)
-		printf_red(str, time, philo);
 	else if (collor == THINK)
 		printf_blue(str, time, philo);
 	else if (collor == SLEEP)

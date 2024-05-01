@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 22:23:34 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 22:36:46 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_data
 	size_t			start_time;
 	size_t			death_pid;
 	size_t			philos_full;
+	size_t			time_death;
 }	t_data;
 
 int		philo_one(t_philo *philo);
@@ -140,7 +141,7 @@ void	printf_magenta(char *str, size_t time, t_philo *philo);
 // printf2.c
 void	printf_light_gray(char *str, size_t time, t_philo *philo);
 void	printf_dark_gray(char *str, size_t time, t_philo *philo);
-void	printf_red(char *str, size_t time, t_philo *philo);
+void	mtx_printf_death(char *str, t_data *data);
 void	printf_blue(char *str, size_t time, t_philo *philo);
 void	printf_yellow(char *str, size_t time, t_philo *philo);
 
