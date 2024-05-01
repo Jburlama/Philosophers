@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 17:32:18 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:44:54 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	*grim_reaper(void *arg);
 
 // philo.c
 void	*philo(void *arg);
+int		philo_eat(t_philo *philo);
 void	philo_last(t_philo *philo);
 int		philo_sleep(t_philo *philo);
 bool	one_die(t_philo *philo);

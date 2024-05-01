@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 17:41:19 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:45:14 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,28 @@ void	*philo(void *arg)
 	}
 	while (42)
 	{
-		if (philo->philo_id % 2 != 0)
-		{
-			if (philo_odd(philo) == -1)
-				return (NULL);
-		}
-		else
-		{
-			if (philo_even(philo) == -1)
-				return (NULL);
-		}
+		if (philo_eat(philo) == -1)
+			return (NULL);
 		if (philo_sleep(philo) == -1)
 			return (NULL);
 		mtx_printf("is thinking", philo, THINK);
 	}
 	return (NULL);
+}
+
+int	philo_eat(t_philo *philo)
+{
+	if (philo->philo_id % 2 != 0)
+	{
+		if (philo_odd(philo) == -1)
+			return (-1);
+	}
+	else
+	{
+		if (philo_even(philo) == -1)
+			return (-1);
+	}
+	return (0);
 }
 
 int	philo_sleep(t_philo *philo)
