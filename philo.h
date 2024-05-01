@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 18:45:49 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 20:50:21 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_data
 	size_t			start_time;
 }	t_data;
 
+int		philo_one(t_philo *philo);
 void	monitoring(t_data *data);
 void	destroy_mutex(t_data *data);
 

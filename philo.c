@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 18:44:24 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 20:46:41 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	*philo(void *arg)
 
 int	philo_eat(t_philo *philo)
 {
+	if (philo->philo_id == 1 && philo->is_last)
+		return (philo_one(philo));
 	if (philo->philo_id % 2 != 0)
 	{
 		if (philo_odd(philo) == -1)

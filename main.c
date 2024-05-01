@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 18:06:40 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 20:52:47 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,19 @@ int	main(int argc, char *argv[])
 	join_thread(&data, PHILO);
 	destroy_mutex(&data);
 	return (0);
+}
+
+int	philo_one(t_philo *philo)
+{
+	pthread_mutex_lock(philo->left_fork);
+	mtx_printf("has taken a fork", philo, LEFT_FORK);
+	while (42)
+	{
+		if (one_die(philo))
+			break ;
+	}
+	pthread_mutex_unlock(philo->left_fork);
+	return (-1);
 }
 
 void	monitoring(t_data *data)
