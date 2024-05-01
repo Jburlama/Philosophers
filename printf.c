@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:09:26 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/26 20:08:41 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:44:47 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,61 @@
 
 void	mtx_printf(char *str, t_philo *philo, int collor)
 {
+	size_t	time;
+
+	time = get_time() - philo->data->start_time;
 	if (collor == LEFT_FORK)
-		printf_light_gray(str, philo);
+		printf_light_gray(str, time, philo);
 	else if(collor == RIGHT_FORK)
-		printf_dark_gray(str, philo);
+		printf_dark_gray(str, time, philo);
 	else if (collor == EAT)
-		printf_green(str, philo);
+		printf_green(str, time, philo);
 	else if (collor == DIE)
-		printf_red(str, philo);
+		printf_red(str, time, philo);
+	else if (collor == THINK)
+		printf_blue(str, time, philo);
+	else if (collor == SLEEP)
+		printf_yellow(str, time, philo);
 }
 
-void	printf_green(char *str, t_philo *philo)
+void	printf_green(char *str, size_t time, t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->mutex.printf);
-	printf(GREEN "%zu %zu %s\n" RESET, get_time() - philo->data->start_time, 
-		philo->philo_id, str);
+	printf(GREEN "%zu %zu %s\n" RESET, time, philo->philo_id, str);
 	pthread_mutex_unlock(&philo->data->mutex.printf);
 }
 
-void	printf_light_gray(char *str, t_philo *philo)
+void	printf_light_gray(char *str, size_t time, t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->mutex.printf);
-	printf(LIGHT_GRAY "%zu %zu %s\n" RESET, get_time() - philo->data->start_time, 
-		philo->philo_id, str);
+	printf(LIGHT_GRAY "%zu %zu %s\n" RESET, time, philo->philo_id, str);
 	pthread_mutex_unlock(&philo->data->mutex.printf);
 }
 
-void	printf_dark_gray(char *str, t_philo *philo)
+void	printf_dark_gray(char *str, size_t time, t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->mutex.printf);
-	printf(DARK_GRAY "%zu %zu %s\n" RESET, get_time() - philo->data->start_time, 
-		philo->philo_id, str);
+	printf(DARK_GRAY "%zu %zu %s\n" RESET, time, philo->philo_id, str);
 	pthread_mutex_unlock(&philo->data->mutex.printf);
 }
 
-void	printf_red(char *str, t_philo *philo)
+void	printf_red(char *str, size_t time, t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->mutex.printf);
-	printf(RED "%zu %zu %s\n" RESET, get_time() - philo->data->start_time, 
-		philo->philo_id, str);
+	printf(RED "%zu %zu %s\n" RESET, time, philo->philo_id, str);
+	pthread_mutex_unlock(&philo->data->mutex.printf);
+}
+
+void	printf_blue(char *str, size_t time, t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->mutex.printf);
+	printf(BLUE "%zu %zu %s\n" RESET, time, philo->philo_id, str);
+	pthread_mutex_unlock(&philo->data->mutex.printf);
+}
+
+void	printf_yellow(char *str, size_t time, t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->mutex.printf);
+	printf(YELLOW "%zu %zu %s\n" RESET, time, philo->philo_id, str);
 	pthread_mutex_unlock(&philo->data->mutex.printf);
 }

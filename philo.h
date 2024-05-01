@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/26 20:52:54 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:48:11 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,22 @@ enum e_collor
 	LEFT_FORK,
 	RIGHT_FORK,
 	EAT,
-	DIE
+	DIE,
+	THINK,
+	SLEEP
 };
 
 enum e_join
 {
 	PHILO,
-	RIPPER
+	RIPPER,
+	WAITER
 };
 
 # define MAX_PHILO 200
 
-typedef struct s_data t_data;
+typedef struct s_data	t_data;
+typedef struct s_philo	t_philo;
 
 typedef struct s_args
 {
@@ -57,39 +61,43 @@ typedef struct s_args
 	size_t	times_must_eat;
 }				t_args;
 
-typedef struct	s_philo
-{
-	pthread_t		tid;
-	size_t			philo_id;
-	size_t			die_time;
-	t_data			*data;
-	bool			is_last;
-	bool			is_death;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*rigth_fork;
-}				t_philo;
-
 typedef	struct s_mutex
 {
 	pthread_mutex_t printf;
 	pthread_mutex_t global;
-	pthread_mutex_t	kill;
+	pthread_mutex_t *scythe;
 	pthread_mutex_t *fork;
 } t_mutex;
 
-typedef	struct s_riper
+typedef	struct s_reaper
 {
-	pthread_t	th_ripper;
+	pthread_t	tid;
+	size_t		time_die;
 	t_data		*data;
+	t_mutex		*mutex;
 	t_philo		*philo;
+	pthread_mutex_t *scythe;
+} t_reaper;
 
-} t_ripper;
+typedef struct	s_philo
+{
+	pthread_t		tid;
+	size_t			philo_id;
+	t_data			*data;
+	t_mutex			*mutex;
+	t_reaper		*reaper;
+	bool			is_last;
+	bool			is_death;
+	pthread_mutex_t *scythe;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*rigth_fork;
+}				t_philo;
 
 typedef struct s_data
 {
 	t_args			args;
 	t_philo			*philo;
-	t_ripper		*ripper;
+	t_reaper		*reaper;
 	t_mutex			mutex;
 	bool			monitoring_is_ready;
 	bool			last_is_ready;
@@ -99,26 +107,26 @@ typedef struct s_data
 
 void	monitoring(t_data *data);
 void	destroy_mutex(t_data *data);
-void	*ripper(void *arg);
+void	*grim_reaper(void *arg);
 
 // philo.c
 void	*philo(void *arg);
 void	philo_last(t_philo *philo);
-bool	philo_die(t_philo *philo);
-void	philo_can_eat(t_philo *philo);
+int		philo_sleep(t_philo *philo);
+bool	one_die(t_philo *philo);
 
 // philo_utils.c
 int		philo_even(t_philo *philo);
 int		philo_odd(t_philo *philo);
-bool	philo_check_death(t_philo *philo);
-void	philo_reset_deth(t_philo *philo);
 
 // printf.c
 void	mtx_printf(char *str, t_philo *philo, int collor);
-void	printf_light_gray(char *str, t_philo *philo);
-void	printf_dark_gray(char *str, t_philo *philo);
-void	printf_green(char *str, t_philo *philo);
-void	printf_red(char *str, t_philo *philo);
+void	printf_light_gray(char *str, size_t time, t_philo *philo);
+void	printf_dark_gray(char *str, size_t time, t_philo *philo);
+void	printf_green(char *str, size_t time, t_philo *philo);
+void	printf_red(char *str, size_t time, t_philo *philo);
+void	printf_blue(char *str, size_t time, t_philo *philo);
+void	printf_yellow(char *str, size_t time, t_philo *philo);
 
 // utils.c
 void	wait_for_monitoring(t_data *data);
@@ -129,6 +137,7 @@ size_t	get_time(void);
 // data_init.c
 void	mutex_init(t_data *data);
 void	philos_init(t_data *data);
+void	reaper_init(t_data *data);
 int		data_init(int argc, char *argv[], t_data *data);
 size_t	atos_t(char	*str);
 

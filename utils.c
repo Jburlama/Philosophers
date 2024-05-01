@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:15:10 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/26 20:59:04 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/04/30 20:38:22 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ void	wait_last_thread(t_data *data)
 		if (data->last_is_ready)
 		{
 			data->monitoring_is_ready = true;
-			data->start_time = get_time();
 			pthread_mutex_unlock(&data->mutex.global);
 			break ;
 		}
 		pthread_mutex_unlock(&data->mutex.global);
 	}
+	pthread_mutex_lock(&data->mutex.global);
+	data->start_time = get_time();
+	pthread_mutex_unlock(&data->mutex.global);
 }
 
 void	join_thread(t_data *data, int join)
@@ -56,11 +58,11 @@ void	join_thread(t_data *data, int join)
 			i++;
 		}
 	}
-	else if (join == RIPPER)
+	if (join == RIPPER)
 	{
 		while (i < data->args.philo_num)
 		{
-			pthread_join(data->ripper[i].th_ripper, NULL);
+			pthread_join(data->reaper[i].tid, NULL);
 			i++;
 		}
 	}
@@ -68,7 +70,7 @@ void	join_thread(t_data *data, int join)
 
 size_t	get_time(void)
 {
-	size_t	time;
+	size_t			time;
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
