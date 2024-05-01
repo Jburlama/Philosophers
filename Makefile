@@ -6,7 +6,7 @@
 #    By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/25 17:49:02 by Jburlama          #+#    #+#              #
-#    Updated: 2024/04/30 20:05:32 by Jburlama         ###   ########.fr        #
+#    Updated: 2024/05/01 17:18:31 by Jburlama         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
 CFILES = main.c check_error.c data_init.c utils.c philo.c philo_utils.c \
-		 printf.c
+		 printf.c reaper.c
 
 all: ${NAME}
 

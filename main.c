@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 16:51:53 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:18:32 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ int	main(int argc, char *argv[])
 	monitoring(&data);
 	join_thread(&data, PHILO);
 	destroy_mutex(&data);
-	free(data.mutex.fork);
-	free(data.philo);
-	free(data.reaper);
 	return (0);
 }
 
@@ -38,39 +35,6 @@ void	monitoring(t_data *data)
 	data->start_time = get_time();
 	pthread_mutex_unlock(&data->mutex.global);
 	join_thread(data, RIPPER);
-}
-
-void	*grim_reaper(void *arg)
-{
-	t_reaper *reaper;
-
-	reaper = arg;
-	wait_for_monitoring(reaper->data);
-	pthread_mutex_lock(reaper->scythe);
-	reaper->time_die = get_time();
-	pthread_mutex_unlock(reaper->scythe);
-	while (42)
-	{
-		pthread_mutex_lock(reaper->scythe);
-		if (get_time() - reaper->time_die >= reaper->data->args.time_die)
-		{
-			pthread_mutex_unlock(reaper->scythe);
-			break ;
-		}
-		pthread_mutex_unlock(reaper->scythe);
-		pthread_mutex_lock(&reaper->mutex->global);
-		if (reaper->data->one_die)
-		{
-			pthread_mutex_unlock(&reaper->mutex->global);
-			return (NULL);
-		}
-		pthread_mutex_unlock(&reaper->mutex->global);
-	}
-	pthread_mutex_lock(&reaper->mutex->global);
-	reaper->data->one_die = true;
-	pthread_mutex_unlock(&reaper->mutex->global);
-	mtx_printf("die", reaper->philo, DIE);
-	return (NULL);
 }
 
 void	destroy_mutex(t_data *data)
@@ -86,4 +50,7 @@ void	destroy_mutex(t_data *data)
 		pthread_mutex_destroy(&data->mutex.scythe[i]);
 		i++;
 	}
+	free(data->mutex.fork);
+	free(data->philo);
+	free(data->reaper);
 }
