@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 17:58:48 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:48:28 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,14 @@ void	*philo(void *arg)
 	t_philo	*philo;
 
 	philo = arg;
+	pthread_mutex_lock(philo->scythe);
+	philo->times_eaten = 0;
+	pthread_mutex_unlock(philo->scythe);
 	if (philo->is_last)
 		philo_last(philo);
 	wait_for_monitoring(philo->data);
+	if (philo->data->args.times_must_eat == 0)
+		return (NULL);
 	if (philo->philo_id % 2 == 0)
 	{
 		usleep(1e4);
@@ -48,6 +53,15 @@ int	philo_eat(t_philo *philo)
 		if (philo_even(philo) == -1)
 			return (-1);
 	}
+	pthread_mutex_lock(philo->scythe);
+	philo->times_eaten++;
+	if (philo->times_eaten == philo->data->args.times_must_eat)
+	{
+		mtx_printf("is full", philo, FULL);
+		pthread_mutex_unlock(philo->scythe);
+		return (-1);
+	}
+	pthread_mutex_unlock(philo->scythe);
 	return (0);
 }
 

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 17:50:41 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 17:50:48 by Jburlama         ###   ########.fr       */
+/*   Created: 2024/05/01 18:48:35 by Jburlama          #+#    #+#             */
+/*   Updated: 2024/05/01 18:48:36 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define BLUE 		"\x1b[34m"
 # define LIGHT_GRAY "\x1b[37m"
 # define DARK_GRAY  "\x1b[90m"
+# define MAGENTA	"\033[1;35m"
 # define RESET 		"\x1b[0m"
 
 enum e_collor
@@ -37,7 +38,8 @@ enum e_collor
 	EAT,
 	DIE,
 	THINK,
-	SLEEP
+	SLEEP,
+	FULL
 };
 
 enum e_join
@@ -83,6 +85,7 @@ typedef struct s_philo
 {
 	pthread_t		tid;
 	size_t			philo_id;
+	size_t			times_eaten;
 	t_data			*data;
 	t_mutex			*mutex;
 	t_reaper		*reaper;
@@ -107,7 +110,10 @@ typedef struct s_data
 
 void	monitoring(t_data *data);
 void	destroy_mutex(t_data *data);
+
+// reaper.c
 void	*grim_reaper(void *arg);
+bool	is_full(t_philo *philo);
 
 // philo.c
 void	*philo(void *arg);
@@ -125,9 +131,12 @@ void	philo_drop_forks(t_philo *philo, int first);
 
 // printf.c
 void	mtx_printf(char *str, t_philo *philo, int collor);
+void	printf_green(char *str, size_t time, t_philo *philo);
+void	printf_magenta(char *str, size_t time, t_philo *philo);
+
+// printf2.c
 void	printf_light_gray(char *str, size_t time, t_philo *philo);
 void	printf_dark_gray(char *str, size_t time, t_philo *philo);
-void	printf_green(char *str, size_t time, t_philo *philo);
 void	printf_red(char *str, size_t time, t_philo *philo);
 void	printf_blue(char *str, size_t time, t_philo *philo);
 void	printf_yellow(char *str, size_t time, t_philo *philo);
