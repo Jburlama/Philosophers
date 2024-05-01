@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:38:39 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 22:14:23 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 22:25:33 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	data_init(int argc, char *argv[], t_data *data)
 	data->monitoring_is_ready = false;
 	data->last_is_ready = false;
 	data->one_die = false;
+	data->philos_full = 0;
 	return (0);
 }
 

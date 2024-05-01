@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 22:15:53 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 22:26:58 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,16 @@ void	monitoring(t_data *data)
 	while (42)
 	{
 		pthread_mutex_lock(&data->mutex.global);
-		if (data->one_die == true)
+		if (data->one_die)
 		{
-			mtx_printf("die", &data->philo[data->death_pid], DIE);
+			mtx_printf("die", &data->philo[data->death_pid - 1], DIE);
+			pthread_mutex_unlock(&data->mutex.global);
+			break ;
+		}
+		pthread_mutex_unlock(&data->mutex.global);
+		pthread_mutex_lock(&data->mutex.global);
+		if (data->philos_full == data->args.philo_num)
+		{
 			pthread_mutex_unlock(&data->mutex.global);
 			break ;
 		}

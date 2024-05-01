@@ -6,11 +6,12 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 22:14:39 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 22:25:32 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <pthread.h>
 
 void	*philo(void *arg)
 {
@@ -58,6 +59,9 @@ int	philo_eat(t_philo *philo)
 	if (philo->times_eaten == philo->data->args.times_must_eat)
 	{
 		mtx_printf("is full", philo, FULL);
+		pthread_mutex_lock(&philo->mutex->global);
+		philo->data->philos_full++;
+		pthread_mutex_unlock(&philo->mutex->global);
 		pthread_mutex_unlock(philo->scythe);
 		return (-1);
 	}
