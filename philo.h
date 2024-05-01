@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 16:48:11 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:12:45 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,9 @@ bool	one_die(t_philo *philo);
 // philo_utils.c
 int		philo_even(t_philo *philo);
 int		philo_odd(t_philo *philo);
+void	philo_update_time_die(t_philo *philo);
+int		philo_eating(t_philo *philo);
+void	philo_drop_forks(t_philo *philo, int first);
 
 // printf.c
 void	mtx_printf(char *str, t_philo *philo, int collor);
