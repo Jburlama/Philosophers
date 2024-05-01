@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:31:28 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 20:51:30 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 21:28:57 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	philo_even(t_philo *philo)
 {
-	pthread_mutex_lock(philo->left_fork);
 	philo_update_time_die(philo);
+	pthread_mutex_lock(philo->left_fork);
 	if (one_die(philo))
 	{
 		pthread_mutex_unlock(philo->left_fork);
@@ -42,13 +42,14 @@ int	philo_even(t_philo *philo)
 
 int	philo_odd(t_philo *philo)
 {
-	pthread_mutex_lock(philo->rigth_fork);
 	philo_update_time_die(philo);
+	pthread_mutex_lock(philo->rigth_fork);
 	if (one_die(philo))
 	{
 		pthread_mutex_unlock(philo->rigth_fork);
 		return (-1);
 	}
+	philo_update_time_die(philo);
 	mtx_printf("has taken a fork", philo, RIGHT_FORK);
 	pthread_mutex_lock(philo->left_fork);
 	if (one_die(philo))
@@ -75,7 +76,6 @@ int	philo_eating(t_philo *philo)
 	time_eat = get_time();
 	while (get_time() - time_eat < philo->data->args.time_eat)
 	{
-		philo_update_time_die(philo);
 		if (one_die(philo))
 			return (-1);
 	}

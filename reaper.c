@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:16:38 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 20:51:18 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 22:14:43 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	*grim_reaper(void *arg)
 	}
 	pthread_mutex_lock(&reaper->mutex->global);
 	reaper->data->one_die = true;
+	reaper->data->death_pid = reaper->philo->philo_id;
 	pthread_mutex_unlock(&reaper->mutex->global);
-	mtx_printf("die", reaper->philo, DIE);
 	return (NULL);
 }
 

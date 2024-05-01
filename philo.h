@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 20:50:21 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 22:14:44 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_data
 	bool			last_is_ready;
 	bool			one_die;
 	size_t			start_time;
+	size_t			death_pid;
 }	t_data;
 
 int		philo_one(t_philo *philo);

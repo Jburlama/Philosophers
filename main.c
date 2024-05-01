@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 20:52:47 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 22:15:18 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	main(int argc, char *argv[])
 		return (panic("invalid arguments\n"));
 	if (data_init(argc, argv, &data) == -1)
 		return (panic("philo number between 1-200\n"));
+	if (data.args.times_must_eat == 0)
+		return (0);
 	mutex_init(&data);
 	philos_init(&data);
 	monitoring(&data);
@@ -47,6 +49,17 @@ void	monitoring(t_data *data)
 	pthread_mutex_lock(&data->mutex.global);
 	data->start_time = get_time();
 	pthread_mutex_unlock(&data->mutex.global);
+	while (42)
+	{
+		pthread_mutex_lock(&data->mutex.global);
+		if (data->one_die == true)
+		{
+			mtx_printf("die", &data->philo[data->death_pid], DIE);
+			pthread_mutex_unlock(&data->mutex.global);
+			break ;
+		}
+		pthread_mutex_unlock(&data->mutex.global);
+	}
 	join_thread(data, RIPPER);
 }
 

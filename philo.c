@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 20:46:41 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/01 22:14:39 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	*philo(void *arg)
 	if (philo->is_last)
 		philo_last(philo);
 	wait_for_monitoring(philo->data);
-	if (philo->data->args.times_must_eat == 0)
-		return (NULL);
 	if (philo->philo_id % 2 == 0)
 	{
 		usleep(1e4);

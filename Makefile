@@ -23,7 +23,7 @@ OBJS_DIR = ./objs
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	@${CC} -o $@ $^
+	@${CC} -g -fsanitize=thread -o $@ $^
 
 ${OBJS_DIR}:
 	mkdir -p $@
