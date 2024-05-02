@@ -6,12 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 22:43:58 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:56:36 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <pthread.h>
 
 void	*philo(void *arg)
 {

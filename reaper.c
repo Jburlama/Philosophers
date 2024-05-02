@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:16:38 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 22:49:28 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:57:06 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*grim_reaper(void *arg)
 	while (42)
 	{
 		pthread_mutex_lock(reaper->scythe);
-		if (get_time() - reaper->time_die >= reaper->data->args.time_die)
+		if (get_time() - reaper->time_die > reaper->data->args.time_die)
 		{
 			pthread_mutex_lock(&reaper->mutex->global);
 			reaper->data->time_death = get_time() - reaper->data->start_time;
