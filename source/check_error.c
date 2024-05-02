@@ -6,11 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 16:42:06 by jburlama          #+#    #+#             */
-/*   Updated: 2024/04/30 20:38:17 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:52:00 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 int	panic(char *err_msg)
 {

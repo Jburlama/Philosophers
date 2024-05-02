@@ -6,11 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:38:39 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/02 16:56:46 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:52:04 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 void	mutex_init(t_data *data)
 {

@@ -6,11 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:26:49 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 22:38:51 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:52:24 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 void	printf_light_gray(char *str, size_t time, t_philo *philo)
 {

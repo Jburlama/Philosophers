@@ -6,11 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 18:31:28 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/02 17:02:09 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:52:15 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 int	philo_even(t_philo *philo)
 {

@@ -6,11 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:09:26 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/01 22:37:40 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:52:20 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 void	mtx_printf(char *str, t_philo *philo, int collor)
 {

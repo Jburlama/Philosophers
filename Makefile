@@ -16,20 +16,23 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
 CFILES = main.c check_error.c data_init.c utils.c philo.c philo_utils.c \
 		 printf.c printf2.c reaper.c
-OBJS = ${CFILES:.c=.o}
-OBJS_DIR = ./objs
+OBJS_DIR = ./objs/
+SRC_DIR = ./source/
+OBJS = ${addprefix ${OBJS_DIR}, ${CFILES:.c=.o}}
 
 
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	@${CC} -g -fsanitize=thread -o $@ $^
+	@${CC} ${CFLAGS} ${OBJS} -o $@
 
 ${OBJS_DIR}:
-	mkdir -p $@
+	@mkdir $@
 
-${OBJ}: ${CFILES} ${OBJS_DIR}
-	@${CC} ${CFILES} -c ${CFILES}
+${OBJS}: | ${OBJS_DIR}
+
+${OBJS_DIR}%.o: ${SRC_DIR}%.c
+	@${CC} ${CFLAGS} -c $^ -o $@
 
 clean:
 	@rm -rf ${OBJS}

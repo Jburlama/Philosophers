@@ -6,11 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:16:38 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/02 16:57:06 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:52:29 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 void	*grim_reaper(void *arg)
 {

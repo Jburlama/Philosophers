@@ -6,11 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:15:10 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/04/30 20:38:22 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:52:36 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 void	wait_for_monitoring(t_data *data)
 {
