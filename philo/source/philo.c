@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/06 19:03:34 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/06 20:01:10 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	*philo(void *arg)
 		philo_last(philo);
 	wait_for_monitoring(philo->data);
 	if (philo->philo_id % 2 == 0)
-	{
-		usleep(1e4);
+ 	{
+		usleep(philo->data->args.time_eat / 2e3);
 		mtx_printf("is thinking", philo, THINK);
 	}
 	while (42)
@@ -45,21 +45,21 @@ int	philo_eat(t_philo *philo)
 		return (philo_one(philo));
     if (philo->data->args.philo_num % 2 != 0)
     {
-		if (philo_even(philo) == -1)
+        if (philo_even(philo) == -1)
 			return (-1);
-        pthread_mutex_lock(philo->scythe);
-        philo->times_eaten++;
-        if (philo->times_eaten == philo->data->args.times_must_eat)
-        {
-            mtx_printf("is full", philo, FULL);
-            pthread_mutex_lock(&philo->mutex->global);
-            philo->data->philos_full++;
-            pthread_mutex_unlock(&philo->mutex->global);
-            pthread_mutex_unlock(philo->scythe);
-            return (-1);
-        }
-        pthread_mutex_unlock(philo->scythe);
-        return (0);
+	pthread_mutex_lock(philo->scythe);
+	philo->times_eaten++;
+	if (philo->times_eaten == philo->data->args.times_must_eat)
+	{
+		mtx_printf("is full", philo, FULL);
+		pthread_mutex_lock(&philo->mutex->global);
+		philo->data->philos_full++;
+		pthread_mutex_unlock(&philo->mutex->global);
+		pthread_mutex_unlock(philo->scythe);
+		return (-1);
+	}
+	pthread_mutex_unlock(philo->scythe);
+	return (0);
     }
 	if (philo->philo_id % 2 != 0)
 	{
@@ -68,7 +68,7 @@ int	philo_eat(t_philo *philo)
 	}
 	else
 	{
-		if (philo_even(philo) == -1)
+        if (philo_even(philo) == -1)
 			return (-1);
 	}
 	pthread_mutex_lock(philo->scythe);
