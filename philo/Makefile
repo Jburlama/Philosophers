@@ -13,7 +13,7 @@
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
 CFILES = main.c check_error.c data_init.c utils.c philo.c philo_utils.c \
 		 printf.c printf2.c reaper.c
 OBJS_DIR = ./objs/
