@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:15:10 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/02 17:52:36 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:07:06 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,16 @@ size_t	get_time(void)
 	time = (tv.tv_sec * 1e6) + tv.tv_usec;
 	time = time / 1e3;
 	return (time);
+}
+
+size_t	ft_strlen(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
 }

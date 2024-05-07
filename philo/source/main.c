@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/06 19:15:43 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:16:49 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char *argv[])
 	if (!check_valid_args(argc, argv))
 		return (panic("invalid arguments\n"));
 	if (data_init(argc, argv, &data) == -1)
-		return (panic("philo number between 1-200\n"));
+		return (panic("invalid arguments\n"));
 	if (data.args.times_must_eat == 0)
 		return (0);
 	mutex_init(&data);
@@ -86,4 +86,19 @@ void	destroy_mutex(t_data *data)
 	free(data->mutex.fork);
 	free(data->philo);
 	free(data->reaper);
+}
+
+void	philo_think(t_philo *philo)
+{
+	size_t	time_to_think;
+
+	if (philo->data->args.philo_num % 2 == 0)
+	{
+		mtx_printf("is thinking", philo, THINK);
+		return ;
+	}
+	time_to_think = get_time();
+	while (get_time() - time_to_think
+		< (philo->data->args.time_eat * 2) - philo->data->args.time_sleep)
+		usleep(500);
 }

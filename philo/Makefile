@@ -11,6 +11,11 @@
 # **************************************************************************** #
 
 
+
+BLUE = \033[34m
+GREEN = \033[32m
+RESET = \033[0m
+
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
@@ -25,6 +30,7 @@ all: ${NAME}
 
 ${NAME}: ${OBJS}
 	@${CC} ${CFLAGS} ${OBJS} -o $@
+	@echo "${GREEN} ${NAME} done ${RESET}"
 
 ${OBJS_DIR}:
 	@mkdir $@
@@ -33,6 +39,7 @@ ${OBJS}: | ${OBJS_DIR}
 
 ${OBJS_DIR}%.o: ${SRC_DIR}%.c
 	@${CC} ${CFLAGS} -c $^ -o $@
+	@echo "${BLUE} compiling ... ${RESET}"
 
 clean:
 	@rm -rf ${OBJS}

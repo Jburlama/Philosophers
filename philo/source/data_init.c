@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:38:39 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/06 19:15:57 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:08:30 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,14 @@ int	data_init(int argc, char *argv[], t_data *data)
 	if (data->args.philo_num > MAX_PHILO || data->args.philo_num == 0)
 		return (-1);
 	data->args.time_die = atos_t(argv[2]);
+	if (data->args.time_die < 60)
+		return (-1);
 	data->args.time_eat = atos_t(argv[3]);
+	if (data->args.time_eat < 60)
+		return (-1);
 	data->args.time_sleep = atos_t(argv[4]);
+	if (data->args.time_sleep < 60)
+		return (-1);
 	if (argc == 6)
 		data->args.times_must_eat = atos_t(argv[5]);
 	else
@@ -102,6 +108,7 @@ int	data_init(int argc, char *argv[], t_data *data)
 	return (0);
 }
 
+// 4294967295
 size_t	atos_t(char	*str)
 {
 	size_t	result;
