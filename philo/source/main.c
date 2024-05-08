@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/08 15:55:16 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:56:33 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ int	philo_think(t_philo *philo)
 		< (philo->data->args.time_eat * 2) - philo->data->args.time_sleep
 		&& philo->data->args.time_eat >= philo->data->args.time_sleep)
 	{
-
 		if (one_die(philo))
 			return (-1);
 	}
