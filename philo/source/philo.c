@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:54:42 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/07 17:39:13 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:47:57 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	*philo(void *arg)
 			return (NULL);
 		if (philo_sleep(philo) == -1)
 			return (NULL);
-		philo_think(philo);
+		if (philo_think(philo) == -1)
+			return (NULL);
 	}
 	return (NULL);
 }

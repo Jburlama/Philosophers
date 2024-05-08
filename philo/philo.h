@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/05/07 17:39:14 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:47:23 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ typedef struct s_data
 int		philo_one(t_philo *philo);
 void	monitoring(t_data *data);
 void	destroy_mutex(t_data *data);
-void	philo_think(t_philo *philo);
+int		philo_think(t_philo *philo);
 
 // reaper.c
 void	*grim_reaper(void *arg);

@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/07 17:16:49 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:55:16 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,17 +88,23 @@ void	destroy_mutex(t_data *data)
 	free(data->reaper);
 }
 
-void	philo_think(t_philo *philo)
+int	philo_think(t_philo *philo)
 {
 	size_t	time_to_think;
 
 	if (philo->data->args.philo_num % 2 == 0)
 	{
 		mtx_printf("is thinking", philo, THINK);
-		return ;
+		return (0);
 	}
 	time_to_think = get_time();
 	while (get_time() - time_to_think
-		< (philo->data->args.time_eat * 2) - philo->data->args.time_sleep)
-		usleep(500);
+		< (philo->data->args.time_eat * 2) - philo->data->args.time_sleep
+		&& philo->data->args.time_eat >= philo->data->args.time_sleep)
+	{
+
+		if (one_die(philo))
+			return (-1);
+	}
+	return (0);
 }
