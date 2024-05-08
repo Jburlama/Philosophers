@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/08 15:55:41 by Jburlama          #+#    #+#              #
-#    Updated: 2024/05/08 18:53:33 by Jburlama         ###   ########.fr        #
+#    Created: 2024/05/08 18:56:44 by Jburlama          #+#    #+#              #
+#    Updated: 2024/05/08 18:59:08 by Jburlama         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,10 @@ BLUE = \033[34m
 GREEN = \033[32m
 RESET = \033[0m
 
-NAME = philo
+NAME = philo_bonus
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
-CFILES = main.c check_error.c data_init.c utils.c philo.c philo_utils.c \
-		 printf.c printf2.c reaper.c
+CFILES = main.c
 OBJS_DIR = ./objs/
 SRC_DIR = ./source/
 OBJS = ${addprefix ${OBJS_DIR}, ${CFILES:.c=.o}}

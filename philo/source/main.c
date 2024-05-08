@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:28:04 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/08 15:56:33 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/08 19:03:16 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int	philo_one(t_philo *philo)
 	while (42)
 	{
 		if (one_die(philo))
+		{
 			break ;
+		}
 	}
 	pthread_mutex_unlock(philo->left_fork);
 	return (-1);
