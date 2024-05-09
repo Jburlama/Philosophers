@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/09 17:43:42 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:32:04 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ typedef struct s_data
 	t_args	args;
 	t_philo	*philo;
 	sem_t	*sem;
+	sem_t	*ready;
 }	t_data;
 
 
 void	philo_init(t_data *data);
+void	monitoring(t_data *data);
 void	philo_runtime(t_philo *philo);
 
 // data_init.c
