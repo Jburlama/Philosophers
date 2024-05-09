@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:52:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/09 17:10:33 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:20:00 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int argc, char *argv[])
 {
 	t_data	data;
-	int status;
+	int		status;
 
 	check_valid_args(argc, argv);
 	data_init(argc, argv, &data);
@@ -23,27 +23,6 @@ int	main(int argc, char *argv[])
 
 	while (waitpid(-1, &status, 0) > 0)
 		;
-}
-
-void	philo_init(t_data *data)
-{
-	size_t	i;
-	pid_t pid;
-
-	i = 0;
-	while (i < data->args.num_philo)
-	{
-		data->philo[i].philo_id = i + 1;
-		data->philo[i].data = data;
-		pid = fork();
-		if (pid == -1)
-			exit (1);
-		if (pid == 0)
-		{
-			philo_runtime(&data->philo[i]);
-		}
-		i++;
-	}
 }
 
 void	philo_runtime(t_philo *philo)

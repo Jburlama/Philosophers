@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/09 17:09:35 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/09 17:43:42 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,14 @@ void	philo_runtime(t_philo *philo);
 
 // data_init.c
 void	data_init(int argc, char *argv[], t_data *data);
+void	data_fill(t_data *data);
 size_t	atos_t(char	*str);
 
 // check_arguments.c
 void	check_valid_args(int argc, char *argv[]);
 bool	is_digit(char c);
-void	panic(char *err_msg);
+void	erro_msg(char *err_msg);
+void	panic(char	*err_msg, void *str);
 int		ft_strlen(char *str);
 
 #endif
