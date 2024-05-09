@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:17:10 by jburlama          #+#    #+#             */
-/*   Updated: 2024/05/08 19:00:36 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:51:29 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_args
 	size_t	time_die;
 	size_t	time_eat;
 	size_t	time_sleep;
-	size_t	times_must_eat;
+	int		times_must_eat;
 }	t_args;
 
 typedef struct s_mutex
@@ -85,7 +85,7 @@ typedef struct s_philo
 {
 	pthread_t		tid;
 	size_t			philo_id;
-	size_t			times_eaten;
+	int				times_eaten;
 	t_data			*data;
 	t_mutex			*mutex;
 	t_reaper		*reaper;

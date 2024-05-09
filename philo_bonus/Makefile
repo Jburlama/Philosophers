@@ -6,7 +6,7 @@
 #    By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 18:56:44 by Jburlama          #+#    #+#              #
-#    Updated: 2024/05/08 18:59:08 by Jburlama         ###   ########.fr        #
+#    Updated: 2024/05/09 15:34:54 by Jburlama         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ RESET = \033[0m
 NAME = philo_bonus
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
-CFILES = main.c
+CFILES = main.c check_arguments.c
 OBJS_DIR = ./objs/
 SRC_DIR = ./source/
 OBJS = ${addprefix ${OBJS_DIR}, ${CFILES:.c=.o}}
