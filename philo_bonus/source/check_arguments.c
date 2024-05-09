@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:32:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/09 18:25:51 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/09 19:02:44 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,14 @@ void	erro_msg(char *err_msg)
 	exit (errno);
 }
 
-void	panic(char	*err_msg, void *str)
+void	panic(char	*err_msg, t_data *data)
 {
-	if (str)
-		free(str);
+	if (data->philo)
+		free(data->philo);
+	if (data->sem)
+		sem_close(data->sem);
+	if (data->ready)
+		sem_close(data->ready);
 	erro_msg(err_msg);
 }
 

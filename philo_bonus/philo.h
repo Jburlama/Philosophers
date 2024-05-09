@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/09 18:32:04 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/09 19:02:07 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdbool.h>
+# include <string.h>
 # include <semaphore.h>
 # include <stdlib.h>
 # include <sys/stat.h>
@@ -65,7 +66,7 @@ size_t	atos_t(char	*str);
 void	check_valid_args(int argc, char *argv[]);
 bool	is_digit(char c);
 void	erro_msg(char *err_msg);
-void	panic(char	*err_msg, void *str);
+void	panic(char	*err_msg, t_data *data);
 int		ft_strlen(char *str);
 
 #endif

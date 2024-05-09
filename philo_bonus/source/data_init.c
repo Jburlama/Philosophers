@@ -6,12 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/09 18:52:22 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/09 19:04:41 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-#include <stdio.h>
 
 void	philo_init(t_data *data)
 {
@@ -61,19 +60,16 @@ void	data_fill(t_data *data)
 	if (data->philo == NULL)
 		panic("malloc failed for philos\n", NULL);
 	if (sem_unlink("semaphore") == -1)
-	{
-		perror("erro: \n");
-		panic("error calling sem_unlink semaphore\n", data->philo);
-	}
+		panic("error calling sem_unlink semaphore\n", data);
 	if (sem_unlink("ready") == -1)
-		panic("error calling sem_unlink ready\n", data->philo);
+		panic("error calling sem_unlink ready\n", data);
 	data->sem = sem_open("semaphore", O_CREAT | O_EXCL, S_IRUSR | S_IWUSR,
 					  data->args.num_philo);
 	if (data->sem == SEM_FAILED)
-		panic("error calling sem_open\n", data->philo);
+		panic("error calling sem_open\n", data);
 	data->ready = sem_open("ready", O_CREAT | O_EXCL, S_IRUSR | S_IWUSR, 0);
 	if (data->ready == SEM_FAILED)
-		panic("error calling sem_open\n", data->philo);
+		panic("error calling sem_open\n", data);
 }
 
 size_t	atos_t(char	*str)
