@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/09 16:09:35 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/09 17:01:37 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ void	data_init(int argc, char *argv[], t_data *data)
 	data->philo = malloc(data->args.num_philo * sizeof(*data->philo));
 	if (data->philo == NULL)
 		exit (1);
+	sem_unlink("semaphore");
+	data->sem = sem_open("semaphore", O_CREAT | O_EXCL, S_IRUSR | S_IWUSR, data->args.num_philo);
+	if (data->sem == SEM_FAILED)
+	{
+		printf("sem fail");
+		exit(errno);
+	}
 }
 
 size_t	atos_t(char	*str)
