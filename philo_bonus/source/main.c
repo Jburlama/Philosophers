@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:52:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/09 15:47:09 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/09 16:18:47 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,46 +18,32 @@ int	main(int argc, char *argv[])
 
 	check_valid_args(argc, argv);
 	data_init(argc, argv, &data);
+	philo_init(&data);
 
-	printf("%zu\n", data.args.num_philo);
-	printf("%zu\n", data.args.time_to_die);
-	printf("%zu\n", data.args.time_to_eat);
-	printf("%zu\n", data.args.time_to_sleep);
-	printf("%zu\n", data.args.times_must_eat);
 }
 
-void	data_init(int argc, char *argv[], t_data *data)
+void	philo_init(t_data *data)
 {
-	data->args.num_philo = atos_t(argv[1]);
-	if (data->args.num_philo > MAX_PHILO || data->args.num_philo == 0)
-		panic("invalid arguments");
-	data->args.time_to_die = atos_t(argv[2]);
-	if (data->args.time_to_die < 60)
-		panic("invalid arguments");
-	data->args.time_to_eat = atos_t(argv[3]);
-	if (data->args.time_to_eat < 60)
-		panic("invalid arguments");
-	data->args.time_to_sleep = atos_t(argv[4]);
-	if (data->args.time_to_sleep < 60)
-		panic("invalid arguments");
-	if (argc == 6)
-		data->args.times_must_eat = atos_t(argv[5]);
-	else
-		data->args.times_must_eat = -1;
-}
+	size_t	i;
+	pid_t pid;
 
-size_t	atos_t(char	*str)
-{
-	size_t	result;
-	int		i;
-
-	result = 0;
-	i = -1;
-	if (str[0] == '+')
-		i++;
-	while (str[++i])
+	i = 0;
+	while (i < data->args.num_philo)
 	{
-		result = (result * 10) + (str[i] - '0');
+		data->philo[i].philo_id = i + 1;
+		pid = fork();
+		if (pid == -1)
+			exit (1);
+		if (pid == 0)
+		{
+			philo_runtime(&data->philo[i]);
+		}
+		i++;
 	}
-	return (result);
+}
+
+void	philo_runtime(t_philo *philo)
+{
+	printf("hello from philo %zu\n", philo->philo_id);
+	exit(1);
 }
