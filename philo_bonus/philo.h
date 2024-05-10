@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 17:57:58 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:45:23 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <errno.h>
 # include <fcntl.h>
+# include <pthread.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdbool.h>
 # include <string.h>
@@ -49,6 +51,7 @@ enum e_collor
 # define MAX_PHILO 200
 
 typedef struct s_data t_data;
+typedef struct s_philo t_philo;
 
 typedef struct s_args
 {
@@ -59,6 +62,13 @@ typedef struct s_args
 	int		times_must_eat;
 }	t_args;
 
+typedef	struct s_reaper
+{
+	t_philo	*philo;
+	t_data	*data;
+	pid_t 	 pid;
+}	t_reaper;
+
 typedef struct s_philo
 {
 	size_t	philo_id;
@@ -68,18 +78,22 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	size_t	start_time;
-	t_args	args;
-	t_philo	*philo;
-	sem_t	*forks;
-	sem_t	*ready;
-	pid_t		*pid;
+	size_t 		start_time;
+	t_args 		args;
+	t_philo		*philo;
+	t_reaper	*reaper;
+	sem_t  		*forks;
+	sem_t  		*ready;
+	pid_t 	 	*philo_pid;
+	pthread_t	*reaper_tid;
 }	t_data;
 
 
 void	philo_init(t_data *data);
 void	monitoring(t_data *data);
+void	*grim_reaper(void *arg);
 size_t	get_time(void);
+size_t	atos_t(char	*str);
 
 // philo.c
 void	philo_runtime(t_philo *philo);
@@ -89,7 +103,7 @@ void	philo_sleep(t_philo *philo);
 // data_init.c
 void	data_init(int argc, char *argv[], t_data *data);
 void	data_fill(t_data *data);
-size_t	atos_t(char	*str);
+void	reaper_init(t_data *data, size_t i);
 
 // check_arguments.c
 void	check_valid_args(int argc, char *argv[]);

@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:32:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 18:01:06 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:16:46 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ void	panic(char	*err_msg, t_data *data)
 {
 	if (data->philo)
 		free(data->philo);
-	if (data->pid)
-		free(data->pid);
+	if (data->philo_pid)
+		free(data->philo_pid);
+	if (data->reaper_tid)
+		free(data->reaper_tid);
 	if (data->forks)
 		sem_close(data->forks);
 	if (data->ready)

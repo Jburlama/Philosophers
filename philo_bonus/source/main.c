@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:52:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 17:52:42 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:44:50 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,25 @@
 int	main(int argc, char *argv[])
 {
 	t_data	data;
-	int		status;
+	int		wstatus;
+	size_t	i;
 
 	memset(&data, 0, sizeof(data));
 	check_valid_args(argc, argv);
 	data_init(argc, argv, &data);
 	philo_init(&data);
 	monitoring(&data);
-
-	while (waitpid(-1, &status, 0) > 0)
-		;
-
+	i = -1;
+	while (waitpid(-1, &wstatus, 0) > 0)
+	{
+		if (WIFEXITED(wstatus))
+		{
+			while (++i < data.args.num_philo)
+			{
+				kill(data.philo_pid[i], SIGKILL);
+			}
+		}
+	}
 	sem_close(data.forks);
 	sem_close(data.ready);
 }
@@ -42,6 +50,20 @@ void	monitoring(t_data *data)
 	data->start_time = get_time();
 }
 
+void	*grim_reaper(void *arg)
+{
+	t_reaper	*reaper;
+	size_t		time;
+
+	reaper = arg;
+	sem_wait(reaper->data->ready);
+	time = get_time();
+	while (get_time() - time < reaper->data->args.time_to_die)
+		;
+	kill(reaper->pid, SIGKILL);
+	return (NULL);
+}
+
 size_t	get_time(void)
 {
 	size_t			time;
@@ -51,4 +73,20 @@ size_t	get_time(void)
 	time = (tv.tv_sec * 1e6) + tv.tv_usec;
 	time = time / 1e3;
 	return (time);
+}
+
+size_t	atos_t(char	*str)
+{
+	size_t	result;
+	int		i;
+
+	result = 0;
+	i = -1;
+	if (str[0] == '+')
+		i++;
+	while (str[++i])
+	{
+		result = (result * 10) + (str[i] - '0');
+	}
+	return (result);
 }
