@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 17:00:29 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:45:19 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <semaphore.h>
 # include <stdlib.h>
 # include <sys/stat.h>
+# include <sys/time.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -61,11 +62,13 @@ typedef struct s_args
 typedef struct s_philo
 {
 	size_t	philo_id;
+	size_t	start_time;
 	t_data	*data;
 }	t_philo;
 
 typedef struct s_data
 {
+	size_t	start_time;
 	t_args	args;
 	t_philo	*philo;
 	sem_t	*forks;
@@ -75,7 +78,12 @@ typedef struct s_data
 
 void	philo_init(t_data *data);
 void	monitoring(t_data *data);
+size_t	get_time(void);
+
+// philo.c
 void	philo_runtime(t_philo *philo);
+void	philo_eat(t_philo *philo);
+void	philo_sleep(t_philo *philo);
 
 // data_init.c
 void	data_init(int argc, char *argv[], t_data *data);

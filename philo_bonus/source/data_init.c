@@ -6,12 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 16:55:04 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:23:45 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-#include <semaphore.h>
 
 void	philo_init(t_data *data)
 {

@@ -6,12 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:52:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 17:01:17 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:44:50 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-#include <semaphore.h>
 
 int	main(int argc, char *argv[])
 {
@@ -34,28 +33,22 @@ int	main(int argc, char *argv[])
 void	monitoring(t_data *data)
 {
 	size_t	i;
-	
 	i = 0;
 	while (i < data->args.num_philo)
 	{
 		sem_post(data->ready);
 		i++;
 	}
+	data->start_time = get_time();
 }
 
-void	philo_runtime(t_philo *philo)
+size_t	get_time(void)
 {
-	sem_wait(philo->data->ready);
+	size_t			time;
+	struct timeval	tv;
 
-	while (42)
-	{
-		sem_wait(philo->data->forks);
-		sem_wait(philo->data->forks);
-		printf(GREEN "%zu is eating\n" RESET, philo->philo_id);
-		sleep(2);
-		sem_post(philo->data->forks);
-		sem_post(philo->data->forks);
-		sleep(2);
-	}
-	exit(1);
+	gettimeofday(&tv, NULL);
+	time = (tv.tv_sec * 1e6) + tv.tv_usec;
+	time = time / 1e3;
+	return (time);
 }
