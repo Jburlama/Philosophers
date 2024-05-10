@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/09 19:04:41 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 15:53:30 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,11 @@ void	data_fill(t_data *data)
 	data->philo = malloc(data->args.num_philo * sizeof(*data->philo));
 	if (data->philo == NULL)
 		panic("malloc failed for philos\n", NULL);
-	if (sem_unlink("semaphore") == -1)
-		panic("error calling sem_unlink semaphore\n", data);
-	if (sem_unlink("ready") == -1)
-		panic("error calling sem_unlink ready\n", data);
-	data->sem = sem_open("semaphore", O_CREAT | O_EXCL, S_IRUSR | S_IWUSR,
+	data->sem = sem_open("semaphore", O_CREAT, S_IRUSR | S_IWUSR,
 					  data->args.num_philo);
 	if (data->sem == SEM_FAILED)
 		panic("error calling sem_open\n", data);
-	data->ready = sem_open("ready", O_CREAT | O_EXCL, S_IRUSR | S_IWUSR, 0);
+	data->ready = sem_open("ready", O_CREAT, S_IRUSR | S_IWUSR, 0);
 	if (data->ready == SEM_FAILED)
 		panic("error calling sem_open\n", data);
 }
