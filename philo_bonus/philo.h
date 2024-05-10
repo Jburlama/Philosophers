@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 17:45:19 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:57:58 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_data
 	t_philo	*philo;
 	sem_t	*forks;
 	sem_t	*ready;
+	pid_t		*pid;
 }	t_data;
 
 

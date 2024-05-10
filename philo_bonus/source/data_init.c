@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 17:23:45 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:03:47 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,17 @@
 void	philo_init(t_data *data)
 {
 	size_t	i;
-	pid_t pid;
 
 	i = -1;
 	while (++i < data->args.num_philo)
 	{
 		data->philo[i].philo_id = i + 1;
 		data->philo[i].data = data;
-		pid = fork();
-		if (pid == -1)
+		data->pid[i] = fork();
+		if (data->pid[i] == -1)
 			exit(1);
-		if (pid == 0)
-		{
+		if (data->pid[i] == 0)
 			philo_runtime(&data->philo[i]);
-		}
 	}
 }
 
@@ -57,7 +54,10 @@ void	data_fill(t_data *data)
 {
 	data->philo = malloc(data->args.num_philo * sizeof(*data->philo));
 	if (data->philo == NULL)
-		panic("malloc failed for philos\n", NULL);
+		panic("malloc failed for philos\n", data);
+	data->pid = malloc(data->args.num_philo * sizeof(*data->pid));
+	if (data->pid == NULL)
+		panic("malloc failed for pid", data);
 	sem_unlink("forks");
 	sem_unlink("ready");
 	data->forks = sem_open("forks", O_CREAT, S_IRUSR | S_IWUSR,
