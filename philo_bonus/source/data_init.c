@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 19:45:22 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 20:34:13 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ void	data_init(int argc, char *argv[], t_data *data)
 void	reaper_init(t_data *data, size_t i)
 {
 	data->reaper[i].philo = &data->philo[i];
-	// data->reaper[i].data = data;
-	// data->reaper[i].pid = data->philo_pid[i];
+	data->reaper[i].data = data;
+	data->reaper[i].philo_pid = data->philo_pid[i];
 
-	// pthread_create(&data->reaper_tid[i], NULL, grim_reaper, &data->reaper[i]);
+	pthread_create(&data->reaper_tid[i], NULL, grim_reaper, &data->reaper[i]);
 	return ;
 }
 
@@ -69,9 +69,12 @@ void	data_fill(t_data *data)
 	data->philo_pid = malloc(data->args.num_philo * sizeof(*data->philo_pid));
 	if (data->philo_pid == NULL)
 		panic("malloc failed for pid\n", data);
-	data->reaper = malloc(data->args.num_philo * sizeof(*data->reaper_tid));
+	data->reaper = malloc(data->args.num_philo * sizeof(*data->reaper));
 	if (data->reaper == NULL)
-		panic("malloc failed for tid\n", data);
+		panic("malloc failed for reaper\n", data);
+	data->reaper_tid = malloc(data->args.num_philo * sizeof(*data->reaper_tid));
+	if (data->reaper_tid == NULL)
+		panic("malloc failed for reaper_tid\n", data);
 	sem_unlink("forks");
 	sem_unlink("ready");
 	data->forks = sem_open("forks", O_CREAT, S_IRUSR | S_IWUSR,

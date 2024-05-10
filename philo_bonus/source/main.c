@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:52:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 19:44:50 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 20:38:33 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ int	main(int argc, char *argv[])
 		if (WIFEXITED(wstatus))
 		{
 			while (++i < data.args.num_philo)
-			{
-				kill(data.philo_pid[i], SIGKILL);
-			}
+				kill(data.philo_pid[i], SIGINT);
 		}
 	}
 	sem_close(data.forks);
@@ -41,6 +39,7 @@ int	main(int argc, char *argv[])
 void	monitoring(t_data *data)
 {
 	size_t	i;
+
 	i = 0;
 	while (i < data->args.num_philo)
 	{
@@ -60,7 +59,8 @@ void	*grim_reaper(void *arg)
 	time = get_time();
 	while (get_time() - time < reaper->data->args.time_to_die)
 		;
-	kill(reaper->pid, SIGKILL);
+	kill(reaper->philo_pid, SIGINT);
+	printf(RED "%zu die\n" RESET, reaper->philo->philo_id);
 	return (NULL);
 }
 

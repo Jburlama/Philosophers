@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 19:45:23 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 20:38:23 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef	struct s_reaper
 {
 	t_philo	*philo;
 	t_data	*data;
-	pid_t 	 pid;
+	pid_t 	 philo_pid;
 }	t_reaper;
 
 typedef struct s_philo
@@ -82,10 +82,10 @@ typedef struct s_data
 	t_args 		args;
 	t_philo		*philo;
 	t_reaper	*reaper;
+	pthread_t	*reaper_tid;
 	sem_t  		*forks;
 	sem_t  		*ready;
 	pid_t 	 	*philo_pid;
-	pthread_t	*reaper_tid;
 }	t_data;
 
 

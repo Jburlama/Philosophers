@@ -61,6 +61,8 @@ void	panic(char	*err_msg, t_data *data)
 		free(data->philo);
 	if (data->philo_pid)
 		free(data->philo_pid);
+	if (data->reaper)
+		free(data->reaper);
 	if (data->reaper_tid)
 		free(data->reaper_tid);
 	if (data->forks)
