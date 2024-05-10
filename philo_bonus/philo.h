@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/09 19:05:20 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:00:29 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,26 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+# define RED 		"\x1b[31m"
+# define YELLOW 	"\x1b[33m"
+# define GREEN 		"\x1b[32m"
+# define BLUE 		"\x1b[34m"
+# define LIGHT_GRAY "\x1b[37m"
+# define DARK_GRAY  "\x1b[90m"
+# define MAGENTA	"\033[1;35m"
+# define RESET 		"\x1b[0m"
+
+enum e_collor
+{
+	LEFT_FORK,
+	RIGHT_FORK,
+	EAT,
+	DIE,
+	THINK,
+	SLEEP,
+	FULL
+};
+
 # define MAX_PHILO 200
 
 typedef struct s_data t_data;
@@ -36,19 +56,19 @@ typedef struct s_args
 	size_t	time_to_eat;
 	size_t	time_to_sleep;
 	int		times_must_eat;
-} t_args;
+}	t_args;
 
 typedef struct s_philo
 {
 	size_t	philo_id;
 	t_data	*data;
-} t_philo;
+}	t_philo;
 
 typedef struct s_data
 {
 	t_args	args;
 	t_philo	*philo;
-	sem_t	*sem;
+	sem_t	*forks;
 	sem_t	*ready;
 }	t_data;
 

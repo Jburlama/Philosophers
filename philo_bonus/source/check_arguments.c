@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:32:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/09 19:02:44 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:10:23 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	erro_msg(char *err_msg)
 {
 	int	msg_len;
 
-	msg_len = 0;
+		msg_len = 0;
 	while (err_msg[msg_len])
 		msg_len++;
 	write(2, err_msg, msg_len);
@@ -59,8 +59,8 @@ void	panic(char	*err_msg, t_data *data)
 {
 	if (data->philo)
 		free(data->philo);
-	if (data->sem)
-		sem_close(data->sem);
+	if (data->forks)
+		sem_close(data->forks);
 	if (data->ready)
 		sem_close(data->ready);
 	erro_msg(err_msg);

@@ -6,19 +6,20 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 15:53:30 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:55:04 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+#include <semaphore.h>
 
 void	philo_init(t_data *data)
 {
 	size_t	i;
 	pid_t pid;
 
-	i = 0;
-	while (i < data->args.num_philo)
+	i = -1;
+	while (++i < data->args.num_philo)
 	{
 		data->philo[i].philo_id = i + 1;
 		data->philo[i].data = data;
@@ -29,7 +30,6 @@ void	philo_init(t_data *data)
 		{
 			philo_runtime(&data->philo[i]);
 		}
-		i++;
 	}
 }
 
@@ -59,13 +59,15 @@ void	data_fill(t_data *data)
 	data->philo = malloc(data->args.num_philo * sizeof(*data->philo));
 	if (data->philo == NULL)
 		panic("malloc failed for philos\n", NULL);
-	data->sem = sem_open("semaphore", O_CREAT, S_IRUSR | S_IWUSR,
+	sem_unlink("forks");
+	sem_unlink("ready");
+	data->forks = sem_open("forks", O_CREAT, S_IRUSR | S_IWUSR,
 					  data->args.num_philo);
-	if (data->sem == SEM_FAILED)
-		panic("error calling sem_open\n", data);
+	if (data->forks == SEM_FAILED)
+		panic("error calling sem_open for forks\n", data);
 	data->ready = sem_open("ready", O_CREAT, S_IRUSR | S_IWUSR, 0);
 	if (data->ready == SEM_FAILED)
-		panic("error calling sem_open\n", data);
+		panic("error calling sem_open for ready\n", data);
 }
 
 size_t	atos_t(char	*str)
