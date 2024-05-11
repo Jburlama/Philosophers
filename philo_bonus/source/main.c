@@ -6,12 +6,11 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:52:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 20:47:36 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 20:58:41 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-#include <pthread.h>
 
 int	main(int argc, char *argv[])
 {

@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 20:47:29 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/10 21:01:24 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	philo_init(t_data *data)
 			exit(1);
 		if (data->philo_pid[i] == 0)
 			philo_runtime(&data->philo[i]);
-		reaper_init(data, i);
+		// reaper_init(data, i);
 	}
 }
 
