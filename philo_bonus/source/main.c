@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:52:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/11 17:13:59 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/11 19:18:41 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(int argc, char *argv[])
 	memset(&data, 0, sizeof(data));
 	check_valid_args(argc, argv);
 	data_init(argc, argv, &data);
+	return (0);
 	philo_init(&data);
 	monitoring(&data);
 	i = -1;
@@ -57,10 +58,10 @@ void	*grim_reaper(void *arg)
 	while (42)
 	{
 		sem_wait(philo->data->kill);
-		if (get_time() - philo->die_time < philo->data->args.time_to_die)
+		if (get_time() - philo->die_time > philo->data->args.time_to_die)
 		{
 			philo->is_dead = true;
-			sem_printf("die", philo, philo->die_time - get_time(), DIE);
+			sem_printf("die", philo, get_time() - philo->die_time, DIE);
 			sem_post(philo->data->kill);
 			break ;
 		}

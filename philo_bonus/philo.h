@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/11 17:13:58 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/11 19:19:11 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_args
 
 typedef struct s_philo
 {
-	size_t		philo_id;
+	int		philo_id;
 	size_t		start_time;
 	size_t		die_time;
 	pthread_t	reaper_tid;
@@ -83,6 +83,7 @@ typedef struct s_data
 	size_t 		start_time;
 	t_args 		args;
 	t_philo		philo;
+	char		**philo_sem;
 	sem_t  		*forks;
 	sem_t  		*ready;
 	sem_t		*printf;
@@ -96,9 +97,10 @@ void	*grim_reaper(void *arg);
 
 // philo.c
 void	philo_runtime(t_philo *philo);
-void	philo_eat(t_philo *philo);
-void	philo_sleep(t_philo *philo);
-void	philo_forks(t_philo *philo, int action);
+int		philo_eat(t_philo *philo);
+int		philo_sleep(t_philo *philo);
+int		philo_forks(t_philo *philo, int action);
+bool	check_philo_is_dead(t_philo *philo);
 
 // data_init.c
 void	reaper_init(t_philo *philo);
@@ -125,5 +127,11 @@ void	printf_red(char *str, t_philo *philo, size_t time);
 void	printf_green(char *str, t_philo *philo, size_t time);
 void	printf_light_grey(char *str, t_philo *philo, size_t time);
 void	printf_dark_gray(char *str, t_philo *philo, size_t time);
+
+// parce_sem.c
+void	parse_sem(t_data *data);
+char	*parse(char *name, int id);
+char	*itos(int id);
+int		int_len(int id);
 
 #endif

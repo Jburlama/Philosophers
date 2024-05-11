@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 16:52:46 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/11 17:17:12 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/11 19:24:39 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,41 +31,41 @@ void	sem_printf(char *str, t_philo *philo, size_t time, int collor)
 void	printf_yellow(char *str, t_philo *philo, size_t time)
 {
 	sem_wait(philo->data->printf);
-	printf(YELLOW "%zu %zu %s\n" RESET, time, philo->philo_id, str);
+	printf(YELLOW "%zu %i %s\n" RESET, time, philo->philo_id, str);
 	sem_post(philo->data->printf);
 }
 
 void	printf_blue(char *str, t_philo *philo, size_t time)
 {
 	sem_wait(philo->data->printf);
-	printf(BLUE "%zu %zu %s\n" RESET, time, philo->philo_id, str);
+	printf(BLUE "%zu %i %s\n" RESET, time, philo->philo_id, str);
 	sem_post(philo->data->printf);
 }
 
 void	printf_red(char *str, t_philo *philo, size_t time)
 {
 	sem_wait(philo->data->printf);
-	printf(RED "%zu %zu %s\n" RESET, time, philo->philo_id, str);
+	printf(RED "%zu %i %s\n" RESET, time, philo->philo_id, str);
 	sem_post(philo->data->printf);
 }
 
 void	printf_green(char *str, t_philo *philo, size_t time)
 {
 	sem_wait(philo->data->printf);
-	printf(GREEN "%zu %zu %s\n" RESET, time, philo->philo_id, str);
+	printf(GREEN "%zu %i %s\n" RESET, time, philo->philo_id, str);
 	sem_post(philo->data->printf);
 }
 
 void	printf_light_grey(char *str, t_philo *philo, size_t time)
 {
 	sem_wait(philo->data->printf);
-	printf(LIGHT_GRAY "%zu %zu %s\n" RESET, time, philo->philo_id, str);
+	printf(LIGHT_GRAY "%zu %i %s\n" RESET, time, philo->philo_id, str);
 	sem_post(philo->data->printf);
 }
 
 void	printf_dark_gray(char *str, t_philo *philo, size_t time)
 {
 	sem_wait(philo->data->printf);
-	printf(DARK_GRAY "%zu %zu %s\n" RESET, time, philo->philo_id, str);
+	printf(DARK_GRAY "%zu %i %s\n" RESET, time, philo->philo_id, str);
 	sem_post(philo->data->printf);
 }

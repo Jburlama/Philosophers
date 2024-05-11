@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/11 16:43:07 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/11 19:27:07 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	philo_init(t_data *data)
 	size_t	i;
 
 	data->philo.data = data;
+	data->philo.is_dead = false;
 	i = -1;
 	while (++i < data->args.num_philo)
 	{
 		data->philo.philo_id = i + 1;
-		data->philo.is_dead = false;
 		data->philo_pid[i] = fork();
 		if (data->philo_pid[i] == -1)
 			exit(1);
@@ -61,6 +61,7 @@ void	data_fill(t_data *data)
 	data->philo_pid = malloc(data->args.num_philo * sizeof(*data->philo_pid));
 	if (data->philo_pid == NULL)
 		panic("malloc failed for pid\n", data);
+	parse_sem(data);
 	sem_unlink("forks");
 	sem_unlink("ready");
 	sem_unlink("printf");
