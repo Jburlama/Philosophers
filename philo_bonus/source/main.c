@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:52:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 20:58:41 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/11 17:13:59 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ int	main(int argc, char *argv[])
 	}
 	sem_close(data.forks);
 	sem_close(data.ready);
-	i = -1;
-	while (++i < data.args.num_philo)
-	{
-		pthread_join(data.reaper_tid[i], NULL);
-	}
 }
 
 void	monitoring(t_data *data)
@@ -56,42 +51,20 @@ void	monitoring(t_data *data)
 
 void	*grim_reaper(void *arg)
 {
-	t_reaper	*reaper;
-	size_t		time;
+	t_philo		*philo;
 
-	reaper = arg;
-	sem_wait(reaper->data->ready);
-	time = get_time();
-	while (get_time() - time < reaper->data->args.time_to_die)
-		;
-	kill(reaper->philo_pid, SIGINT);
-	printf(RED "%zu die\n" RESET, reaper->philo->philo_id);
-	return (NULL);
-}
-
-size_t	get_time(void)
-{
-	size_t			time;
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	time = (tv.tv_sec * 1e6) + tv.tv_usec;
-	time = time / 1e3;
-	return (time);
-}
-
-size_t	atos_t(char	*str)
-{
-	size_t	result;
-	int		i;
-
-	result = 0;
-	i = -1;
-	if (str[0] == '+')
-		i++;
-	while (str[++i])
+	philo = arg;
+	while (42)
 	{
-		result = (result * 10) + (str[i] - '0');
+		sem_wait(philo->data->kill);
+		if (get_time() - philo->die_time < philo->data->args.time_to_die)
+		{
+			philo->is_dead = true;
+			sem_printf("die", philo, philo->die_time - get_time(), DIE);
+			sem_post(philo->data->kill);
+			break ;
+		}
+		sem_post(philo->data->kill);
 	}
-	return (result);
+	return (NULL);
 }

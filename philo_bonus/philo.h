@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 20:53:24 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/11 17:13:58 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@ enum e_collor
 	FULL
 };
 
+enum e_action
+{
+	PICK,
+	DROP
+};
+
 # define MAX_PHILO 200
 
 typedef struct s_data t_data;
@@ -62,54 +68,62 @@ typedef struct s_args
 	int		times_must_eat;
 }	t_args;
 
-typedef	struct s_reaper
-{
-	t_philo	*philo;
-	t_data	*data;
-	pid_t 	 philo_pid;
-}	t_reaper;
-
 typedef struct s_philo
 {
-	size_t	philo_id;
-	size_t	start_time;
-	t_data	*data;
+	size_t		philo_id;
+	size_t		start_time;
+	size_t		die_time;
+	pthread_t	reaper_tid;
+	bool 		is_dead;
+	t_data		*data;
 }	t_philo;
 
 typedef struct s_data
 {
 	size_t 		start_time;
 	t_args 		args;
-	t_philo		*philo;
-	t_reaper	*reaper;
-	pthread_t	*reaper_tid;
+	t_philo		philo;
 	sem_t  		*forks;
 	sem_t  		*ready;
+	sem_t		*printf;
+	sem_t		*kill;
 	pid_t 	 	*philo_pid;
 }	t_data;
 
 
-void	philo_init(t_data *data);
 void	monitoring(t_data *data);
 void	*grim_reaper(void *arg);
-size_t	get_time(void);
-size_t	atos_t(char	*str);
 
 // philo.c
 void	philo_runtime(t_philo *philo);
 void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
+void	philo_forks(t_philo *philo, int action);
 
 // data_init.c
+void	reaper_init(t_philo *philo);
+void	philo_init(t_data *data);
 void	data_init(int argc, char *argv[], t_data *data);
 void	data_fill(t_data *data);
-void	reaper_init(t_data *data, size_t i);
 
 // check_arguments.c
 void	check_valid_args(int argc, char *argv[]);
-bool	is_digit(char c);
 void	erro_msg(char *err_msg);
 void	panic(char	*err_msg, t_data *data);
+
+// utils.c
+size_t	get_time(void);
+size_t	atos_t(char	*str);
+bool	is_digit(char c);
 int		ft_strlen(char *str);
+
+// printf.c
+void	sem_printf(char *str, t_philo *philo, size_t time, int collor);
+void	printf_yellow(char *str, t_philo *philo, size_t time);
+void	printf_blue(char *str, t_philo *philo, size_t time);
+void	printf_red(char *str, t_philo *philo, size_t time);
+void	printf_green(char *str, t_philo *philo, size_t time);
+void	printf_light_grey(char *str, t_philo *philo, size_t time);
+void	printf_dark_gray(char *str, t_philo *philo, size_t time);
 
 #endif

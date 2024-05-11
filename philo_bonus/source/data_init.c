@@ -6,27 +6,32 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/10 21:01:24 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/11 16:43:07 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
+void	reaper_init(t_philo *philo)
+{
+	pthread_create(&philo->reaper_tid, NULL, grim_reaper, philo);
+}
+
 void	philo_init(t_data *data)
 {
 	size_t	i;
 
+	data->philo.data = data;
 	i = -1;
 	while (++i < data->args.num_philo)
 	{
-		data->philo[i].philo_id = i + 1;
-		data->philo[i].data = data;
+		data->philo.philo_id = i + 1;
+		data->philo.is_dead = false;
 		data->philo_pid[i] = fork();
 		if (data->philo_pid[i] == -1)
 			exit(1);
 		if (data->philo_pid[i] == 0)
-			philo_runtime(&data->philo[i]);
-		// reaper_init(data, i);
+			philo_runtime(&data->philo);
 	}
 }
 
@@ -51,32 +56,15 @@ void	data_init(int argc, char *argv[], t_data *data)
 	data_fill(data);
 }
 
-void	reaper_init(t_data *data, size_t i)
-{
-	data->reaper[i].philo = &data->philo[i];
-	data->reaper[i].data = data;
-	data->reaper[i].philo_pid = data->philo_pid[i];
-
-	pthread_create(&data->reaper_tid[i], NULL, grim_reaper, &data->reaper[i]);
-	return ;
-}
-
 void	data_fill(t_data *data)
 {
-	data->philo = malloc(data->args.num_philo * sizeof(*data->philo));
-	if (data->philo == NULL)
-		panic("malloc failed for philos\n", data);
 	data->philo_pid = malloc(data->args.num_philo * sizeof(*data->philo_pid));
 	if (data->philo_pid == NULL)
 		panic("malloc failed for pid\n", data);
-	data->reaper = malloc(data->args.num_philo * sizeof(*data->reaper));
-	if (data->reaper == NULL)
-		panic("malloc failed for reaper\n", data);
-	data->reaper_tid = malloc(data->args.num_philo * sizeof(*data->reaper_tid));
-	if (data->reaper_tid == NULL)
-		panic("malloc failed for reaper_tid\n", data);
 	sem_unlink("forks");
 	sem_unlink("ready");
+	sem_unlink("printf");
+	sem_unlink("kill");
 	data->forks = sem_open("forks", O_CREAT, S_IRUSR | S_IWUSR,
 					  data->args.num_philo);
 	if (data->forks == SEM_FAILED)
@@ -84,4 +72,10 @@ void	data_fill(t_data *data)
 	data->ready = sem_open("ready", O_CREAT, S_IRUSR | S_IWUSR, 0);
 	if (data->ready == SEM_FAILED)
 		panic("error calling sem_open for ready\n", data);
+	data->printf = sem_open("printf", O_CREAT, S_IRUSR | S_IWUSR, 1);
+	if (data->printf == SEM_FAILED)
+		panic("error calling sem_open for printf\n", data);
+	data->kill = sem_open("kill", O_CREAT, S_IRUSR | S_IWUSR, 1);
+	if (data->kill == SEM_FAILED)
+		panic("error calling sem_open for kill\n", data);
 }

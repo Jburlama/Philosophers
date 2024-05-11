@@ -37,13 +37,6 @@ void	check_valid_args(int argc, char *argv[])
 	}
 }
 
-bool	is_digit(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (true);
-	return (false);
-}
-
 void	erro_msg(char *err_msg)
 {
 	int	msg_len;
@@ -57,27 +50,11 @@ void	erro_msg(char *err_msg)
 
 void	panic(char	*err_msg, t_data *data)
 {
-	if (data->philo)
-		free(data->philo);
 	if (data->philo_pid)
 		free(data->philo_pid);
-	if (data->reaper)
-		free(data->reaper);
-	if (data->reaper_tid)
-		free(data->reaper_tid);
 	if (data->forks)
 		sem_close(data->forks);
 	if (data->ready)
 		sem_close(data->ready);
 	erro_msg(err_msg);
-}
-
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
 }

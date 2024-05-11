@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 15:52:45 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/11 15:53:00 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/11 16:11:11 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,21 @@ size_t	atos_t(char	*str)
 		result = (result * 10) + (str[i] - '0');
 	}
 	return (result);
+}
+
+bool	is_digit(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (true);
+	return (false);
+}
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
