@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/12 16:35:27 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:44:36 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int		philo_eat(t_philo *philo);
 int		philo_sleep(t_philo *philo);
 int		philo_forks(t_philo *philo, int action);
 bool	check_philo_is_dead(t_philo *philo);
+int		philo_think(t_philo *philo);
 
 // data_init.c
 void	reaper_init(t_philo *philo);

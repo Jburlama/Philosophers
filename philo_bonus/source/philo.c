@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:02:13 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/12 16:35:28 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:47:46 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,17 @@ void	philo_runtime(t_philo *philo)
 	reaper_init(philo);
 	if (philo->philo_id % 2 == 0)
 	{
-		usleep(1e6);
+		usleep(1e4);
+		if (philo_think(philo) == -1)
+			exit (0);
 	}
 	while (42)
 	{
 		if (philo_eat(philo) == -1)
 			exit (0);
 		if (philo_sleep(philo) == -1)
+			exit (0);
+		if (philo_think(philo) == -1)
 			exit (0);
 	}
 	exit(1);
@@ -100,4 +104,15 @@ bool	check_philo_is_dead(t_philo *philo)
 	}
 	sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 	return (false);
+}
+
+int	philo_think(t_philo *philo)
+{
+	size_t	time;
+
+	time = get_time();
+	sem_printf("is thinking", philo, time - philo->start_time, THINK);
+	if (check_philo_is_dead(philo))
+		return (-1);
+	return (0);
 }
