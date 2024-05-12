@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:58:36 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/11 19:27:01 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:02:01 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,40 +16,31 @@ void	parse_sem(t_data *data)
 {
 	size_t		id;
 
-	data->philo_sem = malloc(data->args.num_philo * sizeof(*data->philo_sem) + 1);
-	if (data->philo_sem == NULL)
-		panic("mallco failed for philo_sem\n", data);
 	id = 0;
 	while (id < data->args.num_philo)
 	{
-		data->philo_sem[id] = parse("philo", id + 1);
-		if (data->philo_sem[id] == NULL)
-			panic("error calling data->philo_sem[id]\n", data);
+		parse(data->philo_sem_name[id], "philo", id);
 		id++;
 	}
-	data->philo_sem[id] = NULL;
 }
-
-char	*parse(char *name, int id)
+void	parse(char *sem_array, char *name, int id)
 {
-	char	*str;
 	char	*number;
 	int		i;
 	int		j;
 	
-	number = itos(id);
-	if (number == NULL)
-		return (NULL);
-	str = malloc(strlen(name) + strlen(number) + 1);
+	number = itos(id + 1);
 	i = -1;
 	while (name[++i])
-		str[i] = name[i];
+		sem_array[i] = name[i];
 	j = -1;
 	while (number[++j])
-		str[i++] = number[j];
-	str[i] = '\0';
+	{
+		sem_array[i] = number[j];
+		i++;
+	}
+	sem_array[i] = '\0';
 	free(number);
-	return (str);
 }
 
 char	*itos(int id)
@@ -59,8 +50,6 @@ char	*itos(int id)
 
 	len = int_len(id);
 	str = malloc(len + 1);
-	if (str == NULL)
-		return (NULL);
 	str[len] = '\0';
 	while (--len > 0)
 	{
@@ -83,3 +72,4 @@ int int_len(int id)
 	}
 	return (len);
 }
+

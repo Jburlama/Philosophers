@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/11 19:19:11 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:08:19 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ typedef struct s_data
 	size_t 		start_time;
 	t_args 		args;
 	t_philo		philo;
-	char		**philo_sem;
+	char		philo_sem_name[200][9];
+	sem_t		*philo_sem[200];
 	sem_t  		*forks;
 	sem_t  		*ready;
 	sem_t		*printf;
@@ -107,6 +108,8 @@ void	reaper_init(t_philo *philo);
 void	philo_init(t_data *data);
 void	data_init(int argc, char *argv[], t_data *data);
 void	data_fill(t_data *data);
+void	data_sem_unlink(t_data *data);
+void	data_sem_open(t_data *data);
 
 // check_arguments.c
 void	check_valid_args(int argc, char *argv[]);
@@ -130,7 +133,7 @@ void	printf_dark_gray(char *str, t_philo *philo, size_t time);
 
 // parce_sem.c
 void	parse_sem(t_data *data);
-char	*parse(char *name, int id);
+void	parse(char *sem_array, char *name, int id);
 char	*itos(int id);
 int		int_len(int id);
 

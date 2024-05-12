@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/11 19:27:07 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:14:24 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,8 @@ void	data_fill(t_data *data)
 	if (data->philo_pid == NULL)
 		panic("malloc failed for pid\n", data);
 	parse_sem(data);
-	sem_unlink("forks");
-	sem_unlink("ready");
-	sem_unlink("printf");
-	sem_unlink("kill");
+	data_sem_unlink(data);
+	data_sem_open(data);
 	data->forks = sem_open("forks", O_CREAT, S_IRUSR | S_IWUSR,
 					  data->args.num_philo);
 	if (data->forks == SEM_FAILED)
@@ -79,4 +77,32 @@ void	data_fill(t_data *data)
 	data->kill = sem_open("kill", O_CREAT, S_IRUSR | S_IWUSR, 1);
 	if (data->kill == SEM_FAILED)
 		panic("error calling sem_open for kill\n", data);
+}
+
+void	data_sem_open(t_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data->args.num_philo)
+	{
+		data->philo_sem[i] = sem_open(data->philo_sem_name[i],
+								O_CREAT, S_IRUSR | S_IWUSR, 1);
+		if (data->philo_sem[i] == SEM_FAILED)
+			panic("error calling sem_open for philo_sem\n", data);
+		i++;
+	}
+}
+
+void	data_sem_unlink(t_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data->args.num_philo)
+		sem_unlink(data->philo_sem_name[i++]);
+	sem_unlink("forks");
+	sem_unlink("ready");
+	sem_unlink("printf");
+	sem_unlink("kill");
 }
