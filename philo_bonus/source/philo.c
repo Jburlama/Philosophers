@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:02:13 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/12 16:47:46 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/12 19:14:00 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	philo_runtime(t_philo *philo)
 {
-	free(philo->data->philo_pid);
 	sem_wait(philo->data->ready);
 	philo->start_time = get_time();
 	philo->die_time = philo->start_time;
@@ -43,13 +42,11 @@ int	philo_eat(t_philo *philo)
 
 	if (philo_forks(philo, PICK) == -1)
 		return (-1);
-	if (check_philo_is_dead(philo))
-		return (-1);
 	time = get_time();
-	sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
-	philo->die_time = time;
-	sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 	sem_printf("is eating", philo, time - philo->start_time, EAT);
+	sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
+	philo->die_time = get_time();
+	sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 	while (get_time() - time < philo->data->args.time_to_eat)
 	{
 		if (check_philo_is_dead(philo))

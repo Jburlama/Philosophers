@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 18:58:36 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/12 16:29:52 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/12 19:12:15 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	parse_sem(t_data *data)
 		id++;
 	}
 }
+
 void	parse(char *sem_array, char *name, int id)
 {
 	char	*number;

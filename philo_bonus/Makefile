@@ -6,7 +6,7 @@
 #    By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/08 18:56:44 by Jburlama          #+#    #+#              #
-#    Updated: 2024/05/11 19:19:50 by Jburlama         ###   ########.fr        #
+#    Updated: 2024/05/12 18:47:13 by Jburlama         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ RESET = \033[0m
 
 NAME = philo_bonus
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread -g
 CFILES = main.c check_arguments.c data_init.c philo.c utils.c printf.c parse.c
 OBJS_DIR = ./objs/
 SRC_DIR = ./source/

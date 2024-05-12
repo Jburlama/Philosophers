@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/12 16:29:21 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/12 19:10:01 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,6 @@ void	data_init(int argc, char *argv[], t_data *data)
 
 void	data_fill(t_data *data)
 {
-	data->philo_pid = malloc(data->args.num_philo * sizeof(*data->philo_pid));
-	if (data->philo_pid == NULL)
-		panic("malloc failed for pid\n", data);
 	parse_sem(data);
 	data_sem_unlink(data);
 	data_sem_open(data);

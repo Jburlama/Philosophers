@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:52:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/12 16:29:39 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/12 19:09:52 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,19 @@ int	main(int argc, char *argv[])
 	data_init(argc, argv, &data);
 	philo_init(&data);
 	monitoring(&data);
-	i = -1;
-	while (waitpid(-1, &wstatus, 0) > 0)
+	i = 0;
+	waitpid(-1, &wstatus, 0);
+	if (WIFEXITED(wstatus))
 	{
-		if (WIFEXITED(wstatus))
-		{
-			while (++i < data.args.num_philo)
-				kill(data.philo_pid[i], SIGINT);
-		}
+		while (i < data.args.num_philo)
+			kill(data.philo_pid[i++], SIGTERM);
 	}
+	i = 0;
+	while (i < data.args.num_philo)
+		sem_close(data.philo_sem[i++]);
 	sem_close(data.forks);
 	sem_close(data.ready);
-	free(data.philo_pid);
+	data_sem_unlink(&data);
 }
 
 void	monitoring(t_data *data)
@@ -61,11 +62,12 @@ void	*grim_reaper(void *arg)
 		if (get_time() - philo->die_time > philo->data->args.time_to_die)
 		{
 			philo->is_dead = true;
-			sem_printf("die", philo, get_time() - philo->die_time, DIE);
 			sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 			break ;
 		}
 		sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 	}
+	sem_wait(philo->data->kill);
+	sem_printf("die", philo, get_time() - philo->die_time, DIE);
 	return (NULL);
 }

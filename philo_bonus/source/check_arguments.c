@@ -50,8 +50,6 @@ void	erro_msg(char *err_msg)
 
 void	panic(char	*err_msg, t_data *data)
 {
-	if (data->philo_pid)
-		free(data->philo_pid);
 	if (data->forks)
 		sem_close(data->forks);
 	if (data->ready)
