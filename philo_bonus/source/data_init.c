@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/12 16:14:24 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:29:21 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	philo_init(t_data *data)
 
 	data->philo.data = data;
 	data->philo.is_dead = false;
-	i = -1;
-	while (++i < data->args.num_philo)
+	i = 0;
+	while (i < data->args.num_philo)
 	{
 		data->philo.philo_id = i + 1;
 		data->philo_pid[i] = fork();
@@ -32,6 +32,7 @@ void	philo_init(t_data *data)
 			exit(1);
 		if (data->philo_pid[i] == 0)
 			philo_runtime(&data->philo);
+		i++;
 	}
 }
 

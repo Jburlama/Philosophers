@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:02:13 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/11 18:59:33 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:35:28 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	philo_runtime(t_philo *philo)
 	philo->die_time = philo->start_time;
 	reaper_init(philo);
 	if (philo->philo_id % 2 == 0)
+	{
 		usleep(1e6);
+	}
 	while (42)
 	{
 		if (philo_eat(philo) == -1)
@@ -40,9 +42,9 @@ int	philo_eat(t_philo *philo)
 	if (check_philo_is_dead(philo))
 		return (-1);
 	time = get_time();
-	sem_wait(philo->data->kill);
+	sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
 	philo->die_time = time;
-	sem_post(philo->data->kill);
+	sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 	sem_printf("is eating", philo, time - philo->start_time, EAT);
 	while (get_time() - time < philo->data->args.time_to_eat)
 	{
@@ -90,12 +92,12 @@ int	philo_forks(t_philo *philo, int action)
 
 bool	check_philo_is_dead(t_philo *philo)
 {
-	sem_wait(philo->data->kill);
+	sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
 	if (philo->is_dead)
 	{
-		sem_post(philo->data->kill);
+		sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 		return (true);
 	}
-	sem_post(philo->data->kill);
+	sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 	return (false);
 }
