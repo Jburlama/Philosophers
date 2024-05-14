@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:02:13 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/14 18:53:42 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:06:36 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ void	philo_runtime(t_philo *philo)
 	reaper_init(philo);
 	if (philo->philo_id % 2 == 0)
 	{
-		usleep(1e4);
 		if (philo_think(philo) == -1)
 		{
 			close_semaphore(philo->data);
-			pthread_join(philo->reaper_tid, NULL);
 			pthread_join(philo->stop_tid, NULL);
+			pthread_join(philo->reaper_tid, NULL);
 			exit(0);
 		}
+		usleep(1e4);
 	}
 	while (42)
 	{
@@ -39,28 +39,26 @@ void	philo_runtime(t_philo *philo)
 			break ;
 	}
 	close_semaphore(philo->data);
-	pthread_join(philo->reaper_tid, NULL);
 	pthread_join(philo->stop_tid, NULL);
+	pthread_join(philo->reaper_tid, NULL);
 	exit(0);
 }
 
 int	philo_eat(t_philo *philo)
 {
+	size_t	time;
+
 	if (philo_forks(philo, PICK) == -1)
 		return (-1);
 	sem_printf("is eating", philo, EAT);
+	time = get_time();
 	sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
-	philo->die_time = get_time();
+	philo->die_time = time;
 	sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 	while (42)
 	{
-		sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
-		if (get_time() - philo->die_time < philo->data->args.time_to_eat)
-		{
-			sem_post(philo->data->philo_sem[philo->philo_id - 1]);
+		if (get_time() - time > philo->data->args.time_to_eat)
 			break ;
-		}
-		sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 		if (check_philo_is_dead(philo) || check_stop(philo))
 			return (-1);
 	}
@@ -72,19 +70,14 @@ int	philo_sleep(t_philo *philo)
 {
 	size_t	time;
 
-	sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
 	time = get_time();
-	sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 	sem_printf("is sleeping", philo, SLEEP);
 	while (42)
 	{
-		sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
-		if (get_time() - time < philo->data->args.time_to_sleep)
+		if (get_time() - time > philo->data->args.time_to_sleep)
 		{
-			sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 			break ;
 		}
-		sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 		if (check_philo_is_dead(philo) || check_stop(philo))
 			return (-1);
 	}

@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:52:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/14 18:53:31 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:04:08 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void	*grim_reaper(void *arg)
 		if (get_time() - philo->die_time > philo->data->args.time_to_die)
 		{
 			philo->is_dead = true;
+			sem_post(philo->data->stop);
 			sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 			sem_printf("die", philo, DIE);
-			sem_post(philo->data->stop);
 			break ;
 		}
 		sem_post(philo->data->philo_sem[philo->philo_id - 1]);
