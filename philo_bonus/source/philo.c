@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:02:13 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/14 19:06:36 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:26:27 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	philo_runtime(t_philo *philo)
 	{
 		if (philo_think(philo) == -1)
 		{
-			close_semaphore(philo->data);
 			pthread_join(philo->stop_tid, NULL);
 			pthread_join(philo->reaper_tid, NULL);
+			close_semaphore(philo->data);
 			exit(0);
 		}
 		usleep(1e4);
@@ -38,9 +38,9 @@ void	philo_runtime(t_philo *philo)
 		if (philo_think(philo) == -1)
 			break ;
 	}
-	close_semaphore(philo->data);
 	pthread_join(philo->stop_tid, NULL);
 	pthread_join(philo->reaper_tid, NULL);
+	close_semaphore(philo->data);
 	exit(0);
 }
 
@@ -75,9 +75,7 @@ int	philo_sleep(t_philo *philo)
 	while (42)
 	{
 		if (get_time() - time > philo->data->args.time_to_sleep)
-		{
 			break ;
-		}
 		if (check_philo_is_dead(philo) || check_stop(philo))
 			return (-1);
 	}
