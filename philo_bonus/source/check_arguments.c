@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:32:27 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/12 16:14:21 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:10:24 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ void	erro_msg(char *err_msg)
 
 void	panic(char	*err_msg, t_data *data)
 {
-	if (data->forks)
-		sem_close(data->forks);
-	if (data->ready)
-		sem_close(data->ready);
+	close_semaphore(data);
+	data_sem_unlink(data);
 	erro_msg(err_msg);
 }

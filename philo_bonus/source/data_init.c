@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:54:23 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/12 19:10:01 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:32:09 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,7 @@
 void	reaper_init(t_philo *philo)
 {
 	pthread_create(&philo->reaper_tid, NULL, grim_reaper, philo);
-}
-
-void	philo_init(t_data *data)
-{
-	size_t	i;
-
-	data->philo.data = data;
-	data->philo.is_dead = false;
-	i = 0;
-	while (i < data->args.num_philo)
-	{
-		data->philo.philo_id = i + 1;
-		data->philo_pid[i] = fork();
-		if (data->philo_pid[i] == -1)
-			exit(1);
-		if (data->philo_pid[i] == 0)
-			philo_runtime(&data->philo);
-		i++;
-	}
+	pthread_create(&philo->stop_tid, NULL, stop_all, philo);
 }
 
 void	data_init(int argc, char *argv[], t_data *data)
@@ -57,6 +39,26 @@ void	data_init(int argc, char *argv[], t_data *data)
 	data_fill(data);
 }
 
+void	philo_init(t_data *data)
+{
+	size_t	i;
+
+	data->philo.data = data;
+	data->philo.is_dead = false;
+	data->philo.stop = false;
+	i = 0;
+	while (i < data->args.num_philo)
+	{
+		data->philo.philo_id = i + 1;
+		data->philo_pid[i] = fork();
+		if (data->philo_pid[i] == -1)
+			panic("failed to cal fork\n", data);
+		if (data->philo_pid[i] == 0)
+			philo_runtime(&data->philo);
+		i++;
+	}
+}
+
 void	data_fill(t_data *data)
 {
 	parse_sem(data);
@@ -75,6 +77,9 @@ void	data_fill(t_data *data)
 	data->kill = sem_open("kill", O_CREAT, S_IRUSR | S_IWUSR, 1);
 	if (data->kill == SEM_FAILED)
 		panic("error calling sem_open for kill\n", data);
+	data->stop = sem_open("stop", O_CREAT, S_IRUSR | S_IWUSR, 0);
+	if (data->stop == SEM_FAILED)
+		panic("error callong sem_open for data->stop\n", data);
 }
 
 void	data_sem_open(t_data *data)
@@ -103,4 +108,5 @@ void	data_sem_unlink(t_data *data)
 	sem_unlink("ready");
 	sem_unlink("printf");
 	sem_unlink("kill");
+	sem_unlink("stop");
 }

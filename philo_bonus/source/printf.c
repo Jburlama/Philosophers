@@ -6,14 +6,19 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 16:52:46 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/11 19:24:39 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:43:19 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../philo.h"
 
-void	sem_printf(char *str, t_philo *philo, size_t time, int collor)
+void	sem_printf(char *str, t_philo *philo, int collor)
 {
+	size_t	time;
+
+	sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
+	time = get_time() - philo->start_time;
+	sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 	if (collor == LEFT_FORK)
 		printf_light_grey(str, philo, time);
 	else if (collor == RIGHT_FORK)

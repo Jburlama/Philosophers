@@ -6,7 +6,7 @@
 /*   By: Jburlama <jburlama@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:59:44 by Jburlama          #+#    #+#             */
-/*   Updated: 2024/05/12 19:10:09 by Jburlama         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:45:38 by Jburlama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,13 @@ typedef struct s_args
 
 typedef struct s_philo
 {
-	int		philo_id;
+	int			philo_id;
 	size_t		start_time;
 	size_t		die_time;
 	pthread_t	reaper_tid;
+	pthread_t	stop_tid;
 	bool 		is_dead;
+	bool		stop;
 	t_data		*data;
 }	t_philo;
 
@@ -89,6 +91,7 @@ typedef struct s_data
 	sem_t  		*ready;
 	sem_t		*printf;
 	sem_t		*kill;
+	sem_t		*stop;
 	pid_t 	 	philo_pid[200];
 	
 }	t_data;
@@ -96,12 +99,15 @@ typedef struct s_data
 
 void	monitoring(t_data *data);
 void	*grim_reaper(void *arg);
+void	*stop_all(void *arg);
+void	close_semaphore(t_data *data);
 
 // philo.c
 void	philo_runtime(t_philo *philo);
 int		philo_eat(t_philo *philo);
 int		philo_sleep(t_philo *philo);
 int		philo_forks(t_philo *philo, int action);
+bool	check_stop(t_philo *philo);
 bool	check_philo_is_dead(t_philo *philo);
 int		philo_think(t_philo *philo);
 
@@ -125,7 +131,7 @@ bool	is_digit(char c);
 int		ft_strlen(char *str);
 
 // printf.c
-void	sem_printf(char *str, t_philo *philo, size_t time, int collor);
+void	sem_printf(char *str, t_philo *philo, int collor);
 void	printf_yellow(char *str, t_philo *philo, size_t time);
 void	printf_blue(char *str, t_philo *philo, size_t time);
 void	printf_red(char *str, t_philo *philo, size_t time);
