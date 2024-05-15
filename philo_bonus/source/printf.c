@@ -31,6 +31,15 @@ void	sem_printf(char *str, t_philo *philo, int collor)
 		printf_blue(str, philo, time);
 	else if (collor == SLEEP)
 		printf_yellow(str, philo, time);
+	else if (collor == FULL)
+		printf_magenta(str, philo, time);
+}
+
+void	printf_magenta(char *str, t_philo *philo, size_t time)
+{
+	sem_wait(philo->data->printf);
+	printf(MAGENTA "%zu %i %s\n" RESET, time, philo->philo_id, str);
+	sem_post(philo->data->printf);
 }
 
 void	printf_yellow(char *str, t_philo *philo, size_t time)

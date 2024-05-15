@@ -16,6 +16,8 @@ void	reaper_init(t_philo *philo)
 {
 	pthread_create(&philo->reaper_tid, NULL, grim_reaper, philo);
 	pthread_create(&philo->stop_tid, NULL, stop_all, philo);
+	pthread_detach(philo->reaper_tid);
+	pthread_detach(philo->stop_tid);
 }
 
 void	data_init(int argc, char *argv[], t_data *data)
@@ -36,6 +38,8 @@ void	data_init(int argc, char *argv[], t_data *data)
 		data->args.times_must_eat = atos_t(argv[5]);
 	else
 		data->args.times_must_eat = -1;
+	if (data->args.times_must_eat == 0)
+		exit (0);
 	data_fill(data);
 }
 
@@ -45,7 +49,9 @@ void	philo_init(t_data *data)
 
 	data->philo.data = data;
 	data->philo.is_dead = false;
+	data->philo.is_full = false;
 	data->philo.stop = false;
+	data->philo.times_eaten = 0;
 	i = 0;
 	while (i < data->args.num_philo)
 	{

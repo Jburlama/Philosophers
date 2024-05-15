@@ -22,8 +22,6 @@ void	philo_runtime(t_philo *philo)
 	{
 		if (philo_think(philo) == -1)
 		{
-			pthread_join(philo->stop_tid, NULL);
-			pthread_join(philo->reaper_tid, NULL);
 			close_semaphore(philo->data);
 			exit(0);
 		}
@@ -38,8 +36,6 @@ void	philo_runtime(t_philo *philo)
 		if (philo_think(philo) == -1)
 			break ;
 	}
-	pthread_join(philo->stop_tid, NULL);
-	pthread_join(philo->reaper_tid, NULL);
 	close_semaphore(philo->data);
 	exit(0);
 }
@@ -63,6 +59,16 @@ int	philo_eat(t_philo *philo)
 			return (-1);
 	}
 	philo_forks(philo, DROP);
+	if (philo->data->args.times_must_eat != -1)
+		philo->times_eaten++;
+	if (philo->times_eaten == philo->data->args.times_must_eat)
+	{
+		sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
+		philo->is_full = true;
+		sem_post(philo->data->philo_sem[philo->philo_id - 1]);
+		sem_printf("is full", philo, FULL);
+		return (-1);
+	}
 	return (0);
 }
 
@@ -104,7 +110,7 @@ int	philo_forks(t_philo *philo, int action)
 bool	check_stop(t_philo *philo)
 {
 	sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
-	if (philo->stop)
+	if (philo->stop || philo->is_full)
 	{
 		sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 		return (true);
@@ -127,9 +133,6 @@ bool	check_philo_is_dead(t_philo *philo)
 
 int	philo_think(t_philo *philo)
 {
-	size_t	time;
-
-	time = get_time();
 	sem_printf("is thinking", philo, THINK);
 	if (check_philo_is_dead(philo) || check_stop(philo))
 		return (-1);

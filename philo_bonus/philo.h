@@ -71,11 +71,13 @@ typedef struct s_args
 typedef struct s_philo
 {
 	int			philo_id;
+	int			times_eaten;
 	size_t		start_time;
 	size_t		die_time;
 	pthread_t	reaper_tid;
 	pthread_t	stop_tid;
 	bool 		is_dead;
+	bool		is_full;
 	bool		stop;
 	t_data		*data;
 }	t_philo;
@@ -132,6 +134,7 @@ int		ft_strlen(char *str);
 
 // printf.c
 void	sem_printf(char *str, t_philo *philo, int collor);
+void	printf_magenta(char *str, t_philo *philo, size_t time);
 void	printf_yellow(char *str, t_philo *philo, size_t time);
 void	printf_blue(char *str, t_philo *philo, size_t time);
 void	printf_red(char *str, t_philo *philo, size_t time);

@@ -22,7 +22,8 @@ int	main(int argc, char *argv[])
 	data_init(argc, argv, &data);
 	philo_init(&data);
 	monitoring(&data);
-	waitpid(-1, &wstatus, 0);
+	while (waitpid(-1, &wstatus, 0) > 0)
+		;
 	close_semaphore(&data);
 	data_sem_unlink(&data);
 }
