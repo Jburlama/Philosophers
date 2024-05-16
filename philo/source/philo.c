@@ -42,7 +42,7 @@ void	*philo(void *arg)
 
 int	philo_eat(t_philo *philo)
 {
-	if (philo->philo_id == 1 && philo->is_last)
+	if (philo->data->args.philo_num == 1)
 		return (philo_one(philo));
 	if (philo->philo_id % 2 != 0)
 	{

@@ -37,9 +37,7 @@ int	philo_one(t_philo *philo)
 	while (42)
 	{
 		if (one_die(philo))
-		{
 			break ;
-		}
 	}
 	pthread_mutex_unlock(philo->left_fork);
 	return (-1);
@@ -56,8 +54,8 @@ void	monitoring(t_data *data)
 		pthread_mutex_lock(&data->mutex.global);
 		if (data->one_die)
 		{
-			mtx_printf_death("died", data);
 			pthread_mutex_unlock(&data->mutex.global);
+			mtx_printf_death("died", data);
 			break ;
 		}
 		pthread_mutex_unlock(&data->mutex.global);

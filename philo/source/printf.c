@@ -16,9 +16,9 @@ void	mtx_printf(char *str, t_philo *philo, int collor)
 {
 	size_t	time;
 
-	pthread_mutex_lock(&philo->data->mutex.printf);
+	pthread_mutex_lock(&philo->data->mutex.global);
 	time = get_time() - philo->data->start_time;
-	pthread_mutex_unlock(&philo->data->mutex.printf);
+	pthread_mutex_unlock(&philo->data->mutex.global);
 	if (collor == LEFT_FORK)
 		printf_light_gray(str, time, philo);
 	else if (collor == RIGHT_FORK)

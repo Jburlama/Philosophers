@@ -63,8 +63,8 @@ void	philos_init(t_data *data)
 		return ;
 	memset(data->philo, 0, sizeof(*data->philo));
 	reaper_init(data);
-	i = -1;
-	while (++i < data->args.philo_num)
+	i = 0;
+	while (i < data->args.philo_num)
 	{
 		data->philo[i].philo_id = i + 1;
 		data->philo[i].data = data;
@@ -80,6 +80,7 @@ void	philos_init(t_data *data)
 		else
 			data->philo[i].rigth_fork = &data->mutex.fork[i + 1];
 		pthread_create(&data->philo[i].tid, NULL, philo, &data->philo[i]);
+		i++;
 	}
 }
 
