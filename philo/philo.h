@@ -119,6 +119,7 @@ int		philo_think(t_philo *philo);
 // reaper.c
 void	*grim_reaper(void *arg);
 bool	is_full(t_philo *philo);
+void	philo_fill(t_data *data, size_t i);
 
 // philo.c
 void	*philo(void *arg);

@@ -66,21 +66,15 @@ void	philos_init(t_data *data)
 	i = 0;
 	while (i < data->args.philo_num)
 	{
-		data->philo[i].philo_id = i + 1;
-		data->philo[i].data = data;
-		data->philo[i].scythe = &data->mutex.scythe[i];
-		data->philo[i].mutex = &data->mutex;
-		data->philo[i].reaper = &data->reaper[i];
-		data->philo[i].left_fork = &data->mutex.fork[i];
+		philo_fill(data, i);
 		if (i == data->args.philo_num - 1)
 		{
 			data->philo[i].is_last = true;
 			data->philo[i].rigth_fork = &data->mutex.fork[0];
 		}
 		else
-			data->philo[i].rigth_fork = &data->mutex.fork[i + 1];
+			data->philo[i].rigth_fork = &data->mutex.fork[i];
 		pthread_create(&data->philo[i].tid, NULL, philo, &data->philo[i]);
-		i++;
 	}
 }
 

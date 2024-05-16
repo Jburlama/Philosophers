@@ -50,3 +50,13 @@ bool	is_full(t_philo *philo)
 	pthread_mutex_unlock(philo->scythe);
 	return (false);
 }
+
+void	philo_fill(t_data *data, size_t i)
+{
+	data->philo[i].philo_id = i + 1;
+	data->philo[i].data = data;
+	data->philo[i].scythe = &data->mutex.scythe[i];
+	data->philo[i].mutex = &data->mutex;
+	data->philo[i].reaper = &data->reaper[i];
+	data->philo[i].left_fork = &data->mutex.fork[i];
+}
