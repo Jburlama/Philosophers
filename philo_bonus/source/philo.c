@@ -51,12 +51,13 @@ int	philo_eat(t_philo *philo)
 	sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
 	philo->die_time = time;
 	sem_post(philo->data->philo_sem[philo->philo_id - 1]);
-	while (42)
+	while (get_time() - time < philo->data->args.time_to_eat)
 	{
-		if (get_time() - time > philo->data->args.time_to_eat)
-			break ;
-		if (check_philo_is_dead(philo) || check_stop(philo))
+		if (check_stop(philo))
+		{
+			philo_forks(philo, DROP);
 			return (-1);
+		}
 	}
 	philo_forks(philo, DROP);
 	if (philo->data->args.times_must_eat != -1)
@@ -78,11 +79,9 @@ int	philo_sleep(t_philo *philo)
 
 	time = get_time();
 	sem_printf("is sleeping", philo, SLEEP);
-	while (42)
+	while (get_time() - time < philo->data->args.time_to_sleep)
 	{
-		if (get_time() - time > philo->data->args.time_to_sleep)
-			break ;
-		if (check_philo_is_dead(philo) || check_stop(philo))
+		if (check_stop(philo))
 			return (-1);
 	}
 	return (0);
@@ -93,8 +92,11 @@ int	philo_forks(t_philo *philo, int action)
 	if (action == PICK)
 	{
 		sem_wait(philo->data->forks);
-		if (check_philo_is_dead(philo) || check_stop(philo))
+		if (check_stop(philo))
+		{
+			sem_post(philo->data->forks);
 			return (-1);
+		}
 		sem_printf("has taken a fork", philo, LEFT_FORK);
 		sem_wait(philo->data->forks);
 		sem_printf("has taken a fork", philo, RIGHT_FORK);
@@ -110,7 +112,7 @@ int	philo_forks(t_philo *philo, int action)
 bool	check_stop(t_philo *philo)
 {
 	sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
-	if (philo->stop || philo->is_full)
+	if (philo->is_full == true || philo->stop == true)
 	{
 		sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 		return (true);

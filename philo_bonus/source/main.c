@@ -15,14 +15,13 @@
 int	main(int argc, char *argv[])
 {
 	t_data	data;
-	int		wstatus;
 
 	memset(&data, 0, sizeof(data));
 	check_valid_args(argc, argv);
 	data_init(argc, argv, &data);
 	philo_init(&data);
 	monitoring(&data);
-	while (waitpid(-1, &wstatus, 0) > 0)
+	while (waitpid(-1, NULL, 0) > 0)
 		;
 	close_semaphore(&data);
 	data_sem_unlink(&data);
@@ -50,16 +49,16 @@ void	*grim_reaper(void *arg)
 		sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
 		if (get_time() - philo->die_time > philo->data->args.time_to_die)
 		{
-			philo->is_dead = true;
 			sem_post(philo->data->philo_sem[philo->philo_id - 1]);
-			sem_printf("die", philo, DIE);
-			sem_post(philo->data->stop);
 			break ;
 		}
 		sem_post(philo->data->philo_sem[philo->philo_id - 1]);
 		if (check_stop(philo))
 			return (NULL);
 	}
+	sem_wait(philo->data->printf_die);
+	sem_post(philo->data->stop);
+	sem_printf("die", philo, DIE);
 	return (NULL);
 }
 
@@ -71,8 +70,8 @@ void	*stop_all(void *arg)
 	sem_wait(philo->data->stop);
 	sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
 	philo->stop = true;
-	sem_post(philo->data->stop);
 	sem_post(philo->data->philo_sem[philo->philo_id - 1]);
+	sem_post(philo->data->stop);
 	return (NULL);
 }
 
@@ -81,11 +80,14 @@ void	close_semaphore(t_data *data)
 	size_t	i;
 
 	sem_close(data->stop);
-	sem_close(data->kill);
 	sem_close(data->printf);
+	sem_close(data->printf_die);
 	sem_close(data->ready);
 	sem_close(data->forks);
 	i = 0;
 	while (i < data->args.num_philo)
-		sem_close(data->philo_sem[i++]);
+	{
+		sem_close(data->philo_sem[i]);
+		i++;
+	}
 }

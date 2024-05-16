@@ -80,9 +80,9 @@ void	data_fill(t_data *data)
 	data->printf = sem_open("printf", O_CREAT, S_IRUSR | S_IWUSR, 1);
 	if (data->printf == SEM_FAILED)
 		panic("error calling sem_open for printf\n", data);
-	data->kill = sem_open("kill", O_CREAT, S_IRUSR | S_IWUSR, 1);
-	if (data->kill == SEM_FAILED)
-		panic("error calling sem_open for kill\n", data);
+	data->printf_die = sem_open("printf_die", O_CREAT, S_IRUSR | S_IWUSR, 1);
+	if (data->printf_die == SEM_FAILED)
+		panic("error calling sem_open for printf_die\n", data);
 	data->stop = sem_open("stop", O_CREAT, S_IRUSR | S_IWUSR, 0);
 	if (data->stop == SEM_FAILED)
 		panic("error callong sem_open for data->stop\n", data);
@@ -113,6 +113,6 @@ void	data_sem_unlink(t_data *data)
 	sem_unlink("forks");
 	sem_unlink("ready");
 	sem_unlink("printf");
-	sem_unlink("kill");
+	sem_unlink("printf_die");
 	sem_unlink("stop");
 }

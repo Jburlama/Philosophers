@@ -16,7 +16,7 @@ RESET = \033[0m
 
 NAME = philo_bonus
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g
+CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
 CFILES = main.c check_arguments.c data_init.c philo.c utils.c printf.c parse.c
 OBJS_DIR = ./objs/
 SRC_DIR = ./source/

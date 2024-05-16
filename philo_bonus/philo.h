@@ -92,6 +92,7 @@ typedef struct s_data
 	sem_t  		*forks;
 	sem_t  		*ready;
 	sem_t		*printf;
+	sem_t		*printf_die;
 	sem_t		*kill;
 	sem_t		*stop;
 	pid_t 	 	philo_pid[200];
