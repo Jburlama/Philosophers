@@ -73,8 +73,9 @@ void	philos_init(t_data *data)
 			data->philo[i].rigth_fork = &data->mutex.fork[0];
 		}
 		else
-			data->philo[i].rigth_fork = &data->mutex.fork[i];
+			data->philo[i].rigth_fork = &data->mutex.fork[i + 1];
 		pthread_create(&data->philo[i].tid, NULL, philo, &data->philo[i]);
+		i++;
 	}
 }
 

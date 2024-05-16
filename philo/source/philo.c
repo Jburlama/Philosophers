@@ -25,8 +25,8 @@ void	*philo(void *arg)
 	wait_for_monitoring(philo->data);
 	if (philo->philo_id % 2 == 0)
 	{
-		usleep(1e4);
 		mtx_printf("is thinking", philo, THINK);
+		usleep(1e4);
 	}
 	while (42)
 	{
