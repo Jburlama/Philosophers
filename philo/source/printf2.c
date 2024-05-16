@@ -28,9 +28,11 @@ void	printf_dark_gray(char *str, size_t time, t_philo *philo)
 
 void	mtx_printf_death(char *str, t_data *data)
 {
+	pthread_mutex_lock(&data->mutex.global);
 	pthread_mutex_lock(&data->mutex.printf);
 	printf(RED "%zu %zu %s\n" RESET, data->time_death, data->death_pid, str);
 	pthread_mutex_unlock(&data->mutex.printf);
+	pthread_mutex_unlock(&data->mutex.global);
 }
 
 void	printf_blue(char *str, size_t time, t_philo *philo)
