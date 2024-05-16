@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../philo.h"
+#include "../philo.h"
 
 void	sem_printf(char *str, t_philo *philo, int collor)
 {
@@ -46,40 +46,5 @@ void	printf_yellow(char *str, t_philo *philo, size_t time)
 {
 	sem_wait(philo->data->printf);
 	printf(YELLOW "%zu %i %s\n" RESET, time, philo->philo_id, str);
-	sem_post(philo->data->printf);
-}
-
-void	printf_blue(char *str, t_philo *philo, size_t time)
-{
-	sem_wait(philo->data->printf);
-	printf(BLUE "%zu %i %s\n" RESET, time, philo->philo_id, str);
-	sem_post(philo->data->printf);
-}
-
-void	printf_red(char *str, t_philo *philo, size_t time)
-{
-	sem_wait(philo->data->printf);
-	printf(RED "%zu %i %s\n" RESET, time, philo->philo_id, str);
-	sem_post(philo->data->printf);
-}
-
-void	printf_green(char *str, t_philo *philo, size_t time)
-{
-	sem_wait(philo->data->printf);
-	printf(GREEN "%zu %i %s\n" RESET, time, philo->philo_id, str);
-	sem_post(philo->data->printf);
-}
-
-void	printf_light_grey(char *str, t_philo *philo, size_t time)
-{
-	sem_wait(philo->data->printf);
-	printf(LIGHT_GRAY "%zu %i %s\n" RESET, time, philo->philo_id, str);
-	sem_post(philo->data->printf);
-}
-
-void	printf_dark_gray(char *str, t_philo *philo, size_t time)
-{
-	sem_wait(philo->data->printf);
-	printf(DARK_GRAY "%zu %i %s\n" RESET, time, philo->philo_id, str);
 	sem_post(philo->data->printf);
 }

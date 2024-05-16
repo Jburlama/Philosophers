@@ -17,7 +17,8 @@ RESET = \033[0m
 NAME = philo_bonus
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
-CFILES = main.c check_arguments.c data_init.c philo.c utils.c printf.c parse.c
+CFILES = main.c check_arguments.c data_init.c philo.c utils.c parse.c\
+		 threads.c philo_utils.c printf.c  printf2.c
 OBJS_DIR = ./objs/
 SRC_DIR = ./source/
 OBJS = ${addprefix ${OBJS_DIR}, ${CFILES:.c=.o}}

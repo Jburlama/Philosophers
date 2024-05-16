@@ -29,7 +29,7 @@ void	parse(char *sem_array, char *name, int id)
 	char	*number;
 	int		i;
 	int		j;
-	
+
 	number = itos(id + 1);
 	i = -1;
 	while (name[++i])
@@ -61,9 +61,9 @@ char	*itos(int id)
 	return (str);
 }
 
-int int_len(int id)
+int	int_len(int id)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (id > 0)
@@ -73,4 +73,3 @@ int int_len(int id)
 	}
 	return (len);
 }
-

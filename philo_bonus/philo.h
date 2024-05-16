@@ -56,8 +56,8 @@ enum e_action
 
 # define MAX_PHILO 200
 
-typedef struct s_data t_data;
-typedef struct s_philo t_philo;
+typedef struct s_data	t_data;
+typedef struct s_philo	t_philo;
 
 typedef struct s_args
 {
@@ -76,7 +76,7 @@ typedef struct s_philo
 	size_t		die_time;
 	pthread_t	reaper_tid;
 	pthread_t	stop_tid;
-	bool 		is_dead;
+	bool		is_dead;
 	bool		is_full;
 	bool		stop;
 	t_data		*data;
@@ -84,21 +84,19 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	size_t 		start_time;
-	t_args 		args;
+	size_t		start_time;
+	t_args		args;
 	t_philo		philo;
 	char		philo_sem_name[200][9];
 	sem_t		*philo_sem[200];
-	sem_t  		*forks;
-	sem_t  		*ready;
+	sem_t		*forks;
+	sem_t		*ready;
 	sem_t		*printf;
 	sem_t		*printf_die;
 	sem_t		*kill;
 	sem_t		*stop;
-	pid_t 	 	philo_pid[200];
-	
+	pid_t		philo_pid[200];
 }	t_data;
-
 
 void	monitoring(t_data *data);
 void	*grim_reaper(void *arg);
@@ -110,9 +108,13 @@ void	philo_runtime(t_philo *philo);
 int		philo_eat(t_philo *philo);
 int		philo_sleep(t_philo *philo);
 int		philo_forks(t_philo *philo, int action);
+int		philo_think(t_philo *philo);
+
+// philo_utils.c
+int		philo_check_is_full(t_philo *philo);
 bool	check_stop(t_philo *philo);
 bool	check_philo_is_dead(t_philo *philo);
-int		philo_think(t_philo *philo);
+int		one_philo(t_philo *philo);
 
 // data_init.c
 void	reaper_init(t_philo *philo);

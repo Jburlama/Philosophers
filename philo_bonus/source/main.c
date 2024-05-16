@@ -39,42 +39,6 @@ void	monitoring(t_data *data)
 	}
 }
 
-void	*grim_reaper(void *arg)
-{
-	t_philo		*philo;
-
-	philo = arg;
-	while (42)
-	{
-		sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
-		if (get_time() - philo->die_time > philo->data->args.time_to_die)
-		{
-			sem_post(philo->data->philo_sem[philo->philo_id - 1]);
-			break ;
-		}
-		sem_post(philo->data->philo_sem[philo->philo_id - 1]);
-		if (check_stop(philo))
-			return (NULL);
-	}
-	sem_wait(philo->data->printf_die);
-	sem_post(philo->data->stop);
-	sem_printf("die", philo, DIE);
-	return (NULL);
-}
-
-void	*stop_all(void *arg)
-{
-	t_philo	*philo;
-
-	philo = arg;
-	sem_wait(philo->data->stop);
-	sem_wait(philo->data->philo_sem[philo->philo_id - 1]);
-	philo->stop = true;
-	sem_post(philo->data->philo_sem[philo->philo_id - 1]);
-	sem_post(philo->data->stop);
-	return (NULL);
-}
-
 void	close_semaphore(t_data *data)
 {
 	size_t	i;

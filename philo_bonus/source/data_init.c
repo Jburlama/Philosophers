@@ -12,14 +12,6 @@
 
 #include "../philo.h"
 
-void	reaper_init(t_philo *philo)
-{
-	pthread_create(&philo->reaper_tid, NULL, grim_reaper, philo);
-	pthread_create(&philo->stop_tid, NULL, stop_all, philo);
-	pthread_detach(philo->reaper_tid);
-	pthread_detach(philo->stop_tid);
-}
-
 void	data_init(int argc, char *argv[], t_data *data)
 {
 	data->args.num_philo = atos_t(argv[1]);
@@ -71,7 +63,7 @@ void	data_fill(t_data *data)
 	data_sem_unlink(data);
 	data_sem_open(data);
 	data->forks = sem_open("forks", O_CREAT, S_IRUSR | S_IWUSR,
-					  data->args.num_philo);
+			data->args.num_philo);
 	if (data->forks == SEM_FAILED)
 		panic("error calling sem_open for forks\n", data);
 	data->ready = sem_open("ready", O_CREAT, S_IRUSR | S_IWUSR, 0);
@@ -96,7 +88,7 @@ void	data_sem_open(t_data *data)
 	while (i < data->args.num_philo)
 	{
 		data->philo_sem[i] = sem_open(data->philo_sem_name[i],
-								O_CREAT, S_IRUSR | S_IWUSR, 1);
+				O_CREAT, S_IRUSR | S_IWUSR, 1);
 		if (data->philo_sem[i] == SEM_FAILED)
 			panic("error calling sem_open for philo_sem\n", data);
 		i++;
