@@ -42,4 +42,9 @@ The last argument, times to eat, is optional.
 ### Exemplo
 ![Screenshot from 2024-05-19 20-38-34](https://github.com/Jburlama/Philosophers/assets/132925534/3480d95f-2f05-43bb-90a7-73ca074f873a)
 
+## BONUS
+> The bonus program takes the same arguments and it as to comply with the mandatory rules.
+- [X] All the forks are put in the middle of the table.
+- [X] They have no states in memory, but the number of available forks is represented by a semaphore.
+- [X] Each philosopher should be a process, but the main process should not be a philosopher.
 
