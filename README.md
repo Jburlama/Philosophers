@@ -39,3 +39,7 @@ The last argument, times to eat, is optional.
 | [arg4] | `time_to_sleep`                             | > 60|
 | [arg5] | `number_of_times_each_philosopher_must_eat` | > 0|
 
+### Exemplo
+![Screenshot from 2024-05-19 20-38-34](https://github.com/Jburlama/Philosophers/assets/132925534/3480d95f-2f05-43bb-90a7-73ca074f873a)
+
+
