@@ -18,7 +18,7 @@ For this project, I used the POSIX thread (pthread) API, which is a powerful and
 This C program provides a practical exploration of the dining philosophers problem. 
 
 Imagine a group of philosophers seated around a table, pondering and dining. each philosopher, represented as a thread, possesses only one fork (mutex) initially. To successfully eat, a philosopher requires access to two forks — one held by themselves and one by their neighboring philosopher. This setup necessitates the coordination of fork sharing among philosophers, ensuring that no deadlock occurs and that all philosophers have the opportunity to dine.
-- [Subject](https://github.com/jotavare/philosophers/blob/master/subject/en_subject_philosophers.pdf) `PDF`
+
 
 ### Usage
 
@@ -48,3 +48,10 @@ The last argument, times to eat, is optional.
 - [X] They have no states in memory, but the number of available forks is represented by a semaphore.
 - [X] Each philosopher should be a process, but the main process should not be a philosopher.
 
+----------------------------------------------------------------------
+
+**Philosophers** must conform to the [42 Norm](https://cdn.intra.42.fr/pdf/pdf/96987/en.norm.pdf).
+
+**Install** [norminette](https://github.com/42School/norminette).
+
+For more information about the project [subject](https://cdn.intra.42.fr/pdf/pdf/138384/en.subject.pdf)
