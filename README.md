@@ -1,4 +1,5 @@
-# Philosophers
+![image](https://github.com/user-attachments/assets/d28b5fa5-4f2f-4691-a975-a9abaac55998)
+
 
 ## Philosophers is a project from the 42 school written in C. It focuses on the fundamentals of threading processes.
 
