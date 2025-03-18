@@ -54,5 +54,3 @@ The last argument, times to eat, is optional.
 **Philosophers** must conform to the [42 Norm](https://cdn.intra.42.fr/pdf/pdf/96987/en.norm.pdf).
 
 **Install** [norminette](https://github.com/42School/norminette).
-
-For more information about the project [subject](https://cdn.intra.42.fr/pdf/pdf/138384/en.subject.pdf)
